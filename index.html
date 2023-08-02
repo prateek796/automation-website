@@ -202,7 +202,7 @@ _vwo_pc_custom = {
       </div>
     </div>
     <h3>Shadow dom with siblings</h3>
-    <div id="app"></div>
+    <!-- <div id="app"></div> -->
     
     <!-- three-blcok -->
     <div class="container my-5 py-2">
@@ -535,7 +535,7 @@ _vwo_pc_custom = {
        <script>
         setTimeout(() => {
           // Get the container element where you want to attach the Shadow DOM
-        const container = document.getElementById('app');
+        const container = document.createElement('div');
     
     // Create a Shadow DOM root
     const shadowRoot = container.attachShadow({ mode: 'open' });
@@ -560,6 +560,7 @@ _vwo_pc_custom = {
 
     // Append the comment node to the parent element outside the Shadow DOM
     container.appendChild(commentNode);
+    document.body.append(container);
         },10000);
         
       </script>
