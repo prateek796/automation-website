@@ -532,27 +532,27 @@ _vwo_pc_custom = {
     <script>
       AOS.init({});
     </script>
-     <script>
-      // Get the container element where you want to attach the Shadow DOM
-      const container = document.getElementById('app');
-  
-      // Create a Shadow DOM root
-      const shadowRoot = container.attachShadow({ mode: 'open' });
-  
-      // Create a parent element within the Shadow DOM
-      const parentElement = document.createElement('div');
-      parentElement.innerHTML = '<h2>This is a Shadow DOM element</h2>';
-      shadowRoot.appendChild(parentElement);
-  
-      // Create a sibling element within the Shadow DOM
-      const siblingElement = document.createElement('div');
-      siblingElement.innerHTML = '<p>This is a sibling element within the Shadow DOM</p>';
-      shadowRoot.appendChild(siblingElement);
-  
-      // Create another sibling element within the Shadow DOM
-      const anotherSiblingElement = document.createElement('div');
-      anotherSiblingElement.innerHTML = '<p>This is another sibling element within the Shadow DOM</p>';
-      shadowRoot.appendChild(anotherSiblingElement);
-    </script>
+       <script>
+        // Get the container element where you want to attach the Shadow DOM
+        const container = document.getElementById('app');
+    
+        // Create a Shadow DOM root
+        const shadowRoot = container.attachShadow({ mode: 'open' });
+    
+        // Create a parent element within the Shadow DOM
+        const parentElement = document.createElement('div');
+        parentElement.innerHTML = '<h2>This is a Shadow DOM element</h2>';
+        shadowRoot.appendChild(parentElement);
+    
+        // Create a sibling element within the Shadow DOM
+        const siblingElement = document.createElement('div');
+        siblingElement.innerHTML = '<p>This is a sibling element within the Shadow DOM</p>';
+        shadowRoot.appendChild(siblingElement);
+    
+        // Create another sibling element within the Shadow DOM
+        const anotherSiblingElement = document.createElement('div');
+        anotherSiblingElement.innerHTML = '<p>This is another sibling element within the Shadow DOM</p>';
+        shadowRoot.appendChild(anotherSiblingElement);
+      </script>
   </body>
 </html>
