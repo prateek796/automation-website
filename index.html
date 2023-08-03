@@ -201,7 +201,7 @@ _vwo_pc_custom = {
         >
       </div>
     </div>
-    <h3>Shadow dom with siblings</h3>
+    <h3 id="shadow">Shadow dom with siblings</h3>
     <!-- <div id="app"></div> -->
     
     <!-- three-blcok -->
@@ -560,7 +560,7 @@ _vwo_pc_custom = {
 
     // Append the comment node to the parent element outside the Shadow DOM
     container.appendChild(commentNode);
-    document.body.append(container);
+    document.getElementById('shadow').append(container);
         },10000);
         
       </script>
