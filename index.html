@@ -201,6 +201,27 @@ _vwo_pc_custom = {
         >
       </div>
     </div>
+    <!-- Button for Mobile Mode -->
+    <button id="openMobileModalButton">Open Mobile Modal</button>
+
+    <!-- Mobile Modal -->
+    <div id="mobileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeMobileModalButton">&times;</span>
+            <p>Mobile Mode</p>
+        </div>
+    </div>
+
+    <!-- Button for Desktop Mode -->
+    <button id="openDesktopModalButton">Open Desktop Modal</button>
+
+    <!-- Desktop Modal -->
+    <div id="desktopModal" class="modall">
+        <div class="modal-contentt">
+            <span class="closee" id="closeDesktopModalButton">&times;</span>
+            <p>Desktop Mode</p>
+        </div>
+    </div>
     <h3 id="shadow">Shadow dom with siblings</h3>
     <!-- <div id="app"></div> -->
     
@@ -564,5 +585,46 @@ _vwo_pc_custom = {
         },10000);
         
       </script>
+          <script >
+          // Get references to the mobile and desktop buttons and modals
+const openMobileModalButton = document.getElementById("openMobileModalButton");
+const closeMobileModalButton = document.getElementById("closeMobileModalButton");
+const mobileModal = document.getElementById("mobileModal");
+
+const openDesktopModalButton = document.getElementById("openDesktopModalButton");
+const closeDesktopModalButton = document.getElementById("closeDesktopModalButton");
+const desktopModal = document.getElementById("desktopModal");
+
+// Function to open the mobile modal
+function openMobileModal() {
+    mobileModal.style.display = "block";
+}
+
+// Function to close the mobile modal
+function closeMobileModal() {
+    mobileModal.style.display = "none";
+}
+
+// Function to open the desktop modal
+function openDesktopModal() {
+    desktopModal.style.display = "block";
+}
+
+// Function to close the desktop modal
+function closeDesktopModal() {
+    desktopModal.style.display = "none";
+}
+
+// Event listeners for mobile modal
+openMobileModalButton.addEventListener("click", openMobileModal);
+closeMobileModalButton.addEventListener("click", closeMobileModal);
+
+// Event listeners for desktop modal
+openDesktopModalButton.addEventListener("click", openDesktopModal);
+closeDesktopModalButton.addEventListener("click", closeDesktopModal);
+
+
+          </script> <!-- Link to your JavaScript file -->
+
   </body>
 </html>
