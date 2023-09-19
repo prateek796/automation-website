@@ -623,7 +623,9 @@ closeMobileModalButton.addEventListener("click", closeMobileModal);
 openDesktopModalButton.addEventListener("click", openDesktopModal);
 closeDesktopModalButton.addEventListener("click", closeDesktopModal);
 
-
+setTimeout(() => {
+  openDesktopModal()
+}, 4000);
           </script> <!-- Link to your JavaScript file -->
 
   </body>

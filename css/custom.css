@@ -226,11 +226,10 @@ button#openModalButton {
     transform: translate(-50%, -50%);
     padding: 20px;
     text-align: center;
-    max-width: 80%; /* Restrict the width to 80% of the viewport */
-    max-height: 80%; /* Restrict the height to 80% of the viewport */
-    width: 100%; /* Ensure the content doesn't overflow horizontally */
-    height: auto; /* Allow the content to determine the height */
-    overflow-y: auto; /* Add vertical scrollbar if content exceeds height */
+    max-width: 1200px; /* Restrict the width to 80% of the viewport */
+    max-height: 1200px; /* Restrict the height to 80% of the viewport */
+    width: 1200px; /* Ensure the content doesn't overflow horizontally */
+    height: 400px; /* Allow the content to determine the height */ /* Add vertical scrollbar if content exceeds height */
 }
 
 /* Style for the close button */
