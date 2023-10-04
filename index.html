@@ -253,6 +253,16 @@ _vwo_pc_custom = {
     </div>
     <h3 id="shadow">Shadow dom with siblings</h3>
     <!-- <div id="app"></div> -->
+  
+<form id="dynamic_form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" nls_id="name_field" onchange="changeFieldId(this);" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" nls_id="email_field" onchange="changeFieldId(this);" required>
+    <br>
+    <input type="submit" value="Submit">
+</form>
     
     <!-- three-blcok -->
     <div class="container my-5 py-2">
@@ -652,6 +662,17 @@ closeMobileModalButton.addEventListener("click", closeMobileModal);
 openDesktopModalButton.addEventListener("click", openDesktopModal);
 closeDesktopModalButton.addEventListener("click", closeDesktopModal);
           </script> <!-- Link to your JavaScript file -->
+<script>
+  function changeFieldId(field) {
+      // Generate a random ID
+      var newId = field.id + '_' + Math.floor(Math.random() * 1000);
 
+      // Change the field's ID
+      field.id = newId;
+
+      // Display the new field ID (optional)
+      console.log('Field ID changed to: ' + newId);
+  }
+</script>
   </body>
 </html>
