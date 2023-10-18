@@ -256,7 +256,7 @@ _vwo_pc_custom = {
   <h3>This form changes id dynamically but has name attribute</h3>
 <form id="dynamic_form">
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name"  onchange="changeFieldId(this);" required>
+    <input type="text" id="name" name=""  onchange="changeFieldId(this);" required>
     <br>
     <label for="email">Email:</label>
     <input type="email" id="email" name="email"  onchange="changeFieldId(this);" required>
@@ -274,9 +274,21 @@ _vwo_pc_custom = {
   <input type="submit" value="Submit">
 </form>
 <h3>This form is without name and id</h3>
+<select name="cars">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select>
+<select name="" >
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select>
 <form id="Simple_form">
   <label for="name">Name:</label>
-  <input type="text">
+  <input type="text" name="">
   <br>
   <label for="email">Email:</label>
   <input type="email">
