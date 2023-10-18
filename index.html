@@ -253,17 +253,36 @@ _vwo_pc_custom = {
     </div>
     <h3 id="shadow">Shadow dom with siblings</h3>
     <!-- <div id="app"></div> -->
-  
+  <h3>This form changes id dynamically but has name attribute</h3>
 <form id="dynamic_form">
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" nls_id="name_field" onchange="changeFieldId(this);" required>
+    <input type="text" id="name" name="name"  onchange="changeFieldId(this);" required>
     <br>
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" nls_id="email_field" onchange="changeFieldId(this);" required>
+    <input type="email" id="email" name="email"  onchange="changeFieldId(this);" required>
     <br>
     <input type="submit" value="Submit">
 </form>
-    
+<h3>This form changes id dynamically</h3>
+<form id="dynamic_form">
+  <label for="name">Name:</label>
+  <input type="text" id="name" onchange="changeFieldId(this);" required>
+  <br>
+  <label for="email">Email:</label>
+  <input type="email" id="email" onchange="changeFieldId(this);" required>
+  <br>
+  <input type="submit" value="Submit">
+</form>
+<h3>This form is without name and id</h3>
+<form id="Simple_form">
+  <label for="name">Name:</label>
+  <input type="text">
+  <br>
+  <label for="email">Email:</label>
+  <input type="email">
+  <br>
+  <input type="submit" value="Submit">
+</form>
     <!-- three-blcok -->
     <div class="container my-5 py-2">
       <form id="sample-form">
