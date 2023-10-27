@@ -1,0 +1,29 @@
+/* styles.css */
+
+/* Importing another CSS file */
+
+/* Styling for .custom-div */
+.custom-div {
+    background-color: #3498db;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px #888;
+}
+
+/* Using a background image */
+.custom-div {
+    background-image: url('../img/banner-bk\ copy.jpg');
+    background-size: cover;
+}
+
+/* Nested asset: Styling for a link inside .custom-div */
+.custom-div a {
+    color: #ff5733;
+    text-decoration: none;
+}
+
+/* Nested asset: Styling for a link when hovered */
+.custom-div a:hover {
+    text-decoration: underline;
+}
