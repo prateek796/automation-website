@@ -3,6 +3,7 @@
 /* Importing another CSS file */
 
 /* Styling for .custom-div */
+@import url('a1.css');
 .custom-div {
     background-color: #3498db;
     color: #fff;
