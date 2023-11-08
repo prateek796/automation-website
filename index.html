@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
   <head>
+    <style>
+      /* Basic styling for the paragraph */
+      .styled-paragraph {
+          font-size: 16px;
+          color: #333;
+      }
+  </style>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -259,6 +266,10 @@ _vwo_pc_custom = {
     </div>
     <h3 id="shadow">Shadow dom with siblings</h3>
     <!-- <div id="app"></div> -->
+    <div id="myDiv">
+      <p class="styled-paragraph">This is a paragraph with basic styling.</p>
+  </div>
+  <button id="addStylesButton">Add Additional Styles</button>
   <h3>This form changes id dynamically but has name attribute</h3>
 <form id="dynamic_form">
     <label for="name">Name:</label>
@@ -710,6 +721,34 @@ closeDesktopModalButton.addEventListener("click", closeDesktopModal);
       // Display the new field ID (optional)
       console.log('Field ID changed to: ' + newId);
   }
+</script>
+<script>
+  // Function to add additional styles to the paragraph
+  function addAdditionalStyles() {
+      // Get the stylesheet
+      const styleSheet = document.styleSheets[0]; // Index 0 refers to the first stylesheet in the document
+
+      // Define the additional style rules
+      const additionalStyles = `
+          .styled-paragraph {
+              font-weight: bold;
+              background-color: #ffcc00;
+          }
+      `;
+
+      // Add the additional styles using the insertRule method
+      if (styleSheet.insertRule) {
+          styleSheet.insertRule(additionalStyles, 0);
+      } else if (styleSheet.addRule) {
+          // For Internet Explorer support
+          styleSheet.addRule('.styled-paragraph', 'font-weight: bold');
+          styleSheet.addRule('.styled-paragraph', 'background-color: #ffcc00');
+      }
+  }
+
+  // Add event listener to the button
+  const addStylesButton = document.getElementById('addStylesButton');
+  addStylesButton.addEventListener('click', addAdditionalStyles);
 </script>
   </body>
 </html>
