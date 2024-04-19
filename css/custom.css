@@ -1,5 +1,6 @@
 /********** common setting **********/
 @import url('assets.css');
+@import url('./assets.css');
 @import url(./assets.css);
 h2 {
     font-size: 2.8rem !important;
