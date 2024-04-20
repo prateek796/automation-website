@@ -16,7 +16,12 @@
   background-image: url("../img/banner-bkcopy.jpg");
   background-size: cover;
 }
-
+.custom-divv {
+  background-image: url('../img/banner-bkcopy.jpg');
+  background-image: url(./img/banner-bkcopy.jpg);
+  background-image: url(banner-bkcopy.jpg);
+  background-size: cover;
+}
 /* Nested asset: Styling for a link inside .custom-div */
 .custom-div a {
   color: #ff5733;
