@@ -884,5 +884,38 @@
       const addStylesButton = document.getElementById("addStylesButton");
       addStylesButton.addEventListener("click", addAdditionalStyles);
     </script>
+    <!-- Custom Input Element -->
+    <custom-input> custom input</custom-input>
+
+    <script>
+        // Define the Custom Input Element
+        class CustomInputElement extends HTMLElement {
+            constructor() {
+                super();
+                // Attach shadow DOM
+                const shadow = this.attachShadow({ mode: 'open' });
+
+                // Create an input element
+                const input = document.createElement('input');
+                input.type = 'text';
+
+                // Append the input element to shadow DOM
+                shadow.appendChild(input);
+            }
+
+            // Getter for the value
+            get value() {
+                return this.shadowRoot.querySelector('input').value;
+            }
+
+            // Setter for the value
+            set value(val) {
+                this.shadowRoot.querySelector('input').value = val;
+            }
+        }
+
+        // Define the custom element
+        customElements.define('custom-input', CustomInputElement);
+    </script>
   </body>
 </html>
