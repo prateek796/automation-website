@@ -219,6 +219,18 @@ button#openModalButton {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
 }
+.box {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    margin: 50px auto;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+  }
+  
+  .animate {
+    transform: translateY(100px) rotate(45deg);
+    background-color: red;
+  }
 
 /* Style for the modal content */
 .modal-contentt {
