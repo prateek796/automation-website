@@ -938,13 +938,17 @@
   </body>
 
   <div class="box" id="box"></div>
-  <button id="animateBtn">Animate</button>
+  <button id="animateBtn1">Animate</button>
 
   <script>
     const button = document.getElementById('animateBtn');
+    const button1 = document.getElementById('animateBtn1');
 const box = document.getElementById('box');
 
 button.addEventListener('click', () => {
+    box.classList.toggle('animate');
+});
+button1.addEventListener('click', () => {
     box.classList.toggle('animate');
 });
 
