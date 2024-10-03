@@ -268,6 +268,7 @@
     
     <!-- Button for Mobile Mode -->
     <button id="openMobileModalButton">Open Mobile Modal</button>
+    <button id="animateBtn">Animate</button>
 
     <!-- Mobile Modal -->
     <div id="mobileModal" class="modal">
@@ -697,6 +698,7 @@
         </div>
       </div>
     </div>
+    
 
     <!-- AOS -->
      <script>
@@ -934,4 +936,17 @@
       
     <div contenteditable="true" style="border: 1px solid rgb(204, 204, 204); padding: 0.5em; min-height: 1.5em;"> </div>
   </body>
+
+  <div class="box" id="box"></div>
+  <button id="animateBtn">Animate</button>
+
+  <script>
+    const button = document.getElementById('animateBtn');
+const box = document.getElementById('box');
+
+button.addEventListener('click', () => {
+    box.classList.toggle('animate');
+});
+
+  </script>
 </html>

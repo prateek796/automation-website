@@ -173,6 +173,20 @@ a.cta_link {
   padding: 10px 0 10px;
 }
 
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  margin: 50px auto;
+  transition: transform 0.5s ease, background-color 0.5s ease;
+}
+
+.animate {
+  transform: translateY(100px) rotate(45deg);
+  background-color: red;
+}
+
+
 /* Styles for screens between 601px and 1024px wide (landscape-oriented tablets) */
 @media only screen and (min-width: 601px) and (max-width: 1600px) {
   .hover_bkgr_fricc_inner .pop-txt-prod span {
