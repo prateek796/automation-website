@@ -7,6 +7,46 @@
         font-size: 16px;
         color: #333;
       }
+      .body-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .scroll-section {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            width: 80%;
+            height: 80%;
+            overflow: hidden;
+        }
+
+        .scroll-box {
+            width: 300px;
+            height: 300px;
+            overflow: scroll;
+            background-color: #e0e0e0;
+            padding: 10px;
+            border: 1px solid #aaa;
+        }
+
+        .content {
+            height: 600px;
+            width: 600px;
+            background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+            text-align: center;
+            padding-top: 20px;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
     <meta charset="UTF-8" />
     <meta
@@ -230,6 +270,46 @@
       src="https://img.freepik.com/free-photo/isolated-happy-smiling-dog-white-background-portrait-4_1562-693.jpg"
       crossorigin="anonymous"
     />
+
+    <div class="body-div">
+
+      <section class="scroll-section">
+          <div class="scroll-box">
+              <div class="content">
+                  Scrollable Content 1<br><br>
+                  Lots of text and content here!<br><br>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>
+                  Nullam non urna in dolor consequat facilisis.<br>
+                  Pellentesque habitant morbi tristique senectus et netus.<br>
+                  Donec a eros a ante consectetur dapibus et sit amet risus.<br>
+                  <br>...<br><br>End of Content 1
+              </div>
+          </div>
+          <div class="scroll-box">
+              <div class="content">
+                  Scrollable Content 2<br><br>
+                  More text and content here!<br><br>
+                  Fusce sit amet libero eget elit egestas consequat.<br>
+                  Mauris at urna vehicula, fermentum odio at, faucibus velit.<br>
+                  Integer luctus tortor vitae mi vulputate bibendum.<br>
+                  Praesent bibendum libero eget felis dapibus consequat.<br>
+                  <br>...<br><br>End of Content 2
+              </div>
+          </div>
+          <div class="scroll-box">
+              <div class="content">
+                  Scrollable Content 3<br><br>
+                  Even more text and content here!<br><br>
+                  Vestibulum ante ipsum primis in faucibus orci luctus.<br>
+                  Etiam a elit sed velit facilisis consectetur.<br>
+                  Duis vitae turpis quis elit tempor dapibus.<br>
+                  Aliquam erat volutpat. In id velit ut dolor elementum.<br>
+                  <br>...<br><br>End of Content 3
+              </div>
+          </div>
+      </section>
+  
+    </div>
 
     <div class="custom-div">This is a styled div.</div>
     <div class="hover_bkgr_fricc">
