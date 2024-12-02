@@ -169,7 +169,22 @@
     <!-- Start VWO SmartCode -->
     <!-- <script referrerPolicy="no-referrer-when-downgrade" src="https://dev.visualwebsiteoptimizer.com/lib/8000017.js" id="vwoCode"></script>  -->
     <!-- End VWO SmartCode -->
-    
+    <script>
+      window.onload = function() {
+          // Generate a random number between 0 and 999
+          const randomNumber = Math.floor(Math.random() * 1000);
+          
+          // Format the number to be three digits
+          const formattedNumber = String(randomNumber).padStart(3, '0');
+          
+          // Set the new ID
+          const inputElement = document.getElementById('input-123');
+          inputElement.id = `input-${formattedNumber}`;
+          
+          // Log the new ID (optional)
+          console.log(`New input ID: ${inputElement.id}`);
+      };
+  </script>
   </head>
 
   <body>
@@ -227,6 +242,8 @@
         >
       </div>
     </div>
+
+    <input type="text" id="input-123" />
     <!-- Valid scenarios -->
     <div id="element1" class="validClass">Valid ID and Class</div>
 
