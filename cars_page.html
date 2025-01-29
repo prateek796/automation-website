@@ -294,5 +294,48 @@
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+        function preserveQueryParams(link) {
+            // Get all current URL parameters
+            const currentParams = new URLSearchParams(window.location.search);
+            const id = currentParams.get('id');
+            const isSync = window.location.href.includes('sync');
+            
+            if (id || isSync) {
+                // Get the href from the link
+                let href = link.getAttribute('href');
+                let newUrl = new URL(href, window.location.origin);
+                
+                // Preserve the ID if it exists
+                if (id) {
+                    newUrl.searchParams.set('id', id);
+                }
+                
+                // Preserve sync parameter if it exists
+                if (isSync) {
+                    newUrl.searchParams.set('sync', '');
+                }
+                
+                // Update the link's href and navigate
+                window.location.href = newUrl.toString();
+                return false;
+            }
+            return true;
+        }
+        
+        // Add event listeners to all navigation links when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find all navigation links
+            const navLinks = document.querySelectorAll('a[href$=".html"]');
+            
+            // Add the preserveQueryParams handler to each link
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    preserveQueryParams(this);
+                });
+            });
+        });
+        </script>
 </body>
 </html>
