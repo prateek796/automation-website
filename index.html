@@ -68,10 +68,24 @@
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- Start VWO Async SmartCode -->
     <script type="text/javascript" id="vwoCode">
+      // Function to get ID from URL
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get('id');
+        const isSync = window.location.href.includes('sync');
+        
+        // If URL has an ID parameter, use that
+        if (urlId) {
+          return urlId;
+        }
+        // Default ID if none specified
+        return '814397';
+      }
+
       if (window.location.href.includes('sync')) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://dev.visualwebsiteoptimizer.com/lib/814397.js';
+        script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
         script.id = 'vwoCode';
         script.referrerPolicy = 'no-referrer-when-downgrade';
         document.head.appendChild(script);
@@ -80,11 +94,9 @@
         anotherScript.type = 'text/javascript';
         anotherScript.src = 'path/to/your/other/script.js';
         document.head.appendChild(anotherScript);
-       
       } else {
-        
         window._vwo_code = window._vwo_code || (function() {
-          var account_id = location.search.split('id=')[1] ? location.search.split('id=')[1] : '814397',
+          var account_id = getVWOAccountId(),
               version = 1.5,
               settings_tolerance = 2000,
               library_tolerance = 2500,
@@ -188,6 +200,20 @@
   </head>
 
   <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
+            <div style="display: flex; gap: 15px; margin-left: auto;">
+                <a href="index.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Home</a>
+                <a href="cars_page.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Cars</a>
+                <a href="products.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Products</a>
+                <a href="services.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Services</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Add margin-top to prevent content from hiding under navbar -->
+    <div style="margin-top: 56px;"></div>
     <!-- banner -->
     <div
       class="jumbotron jumbotron-fluid"
@@ -1052,4 +1078,33 @@ button1.addEventListener('click', () => {
 });
 
   </script>
+  <script>
+function preserveQueryParams(link) {
+    // Get all current URL parameters
+    const currentParams = new URLSearchParams(window.location.search);
+    const id = currentParams.get('id');
+    const isSync = window.location.href.includes('sync');
+    
+    if (id || isSync) {
+        // Get the href from the link
+        let href = link.getAttribute('href');
+        let newUrl = new URL(href, window.location.origin);
+        
+        // Preserve the ID if it exists
+        if (id) {
+            newUrl.searchParams.set('id', id);
+        }
+        
+        // Preserve sync parameter if it exists
+        if (isSync) {
+            newUrl.searchParams.set('sync', '');
+        }
+        
+        // Update the link's href and navigate
+        window.location.href = newUrl.toString();
+        return false;
+    }
+    return true;
+}
+</script>
 </html>

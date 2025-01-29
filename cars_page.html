@@ -3,122 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Showcase</title>
+    <title>Cars - Atlas</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/custom.css" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        .car-image {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .car-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+        .section {
+            padding: 50px 0;
+            min-height: 300px;
         }
         .car-card {
-            background: #fff;
-            padding: 15px;
+            padding: 20px;
+            margin: 10px;
             border-radius: 8px;
+            transition: transform 0.3s;
+            background-color: #FFFFFF;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .car-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .categories {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 30px 0;
+        .car-card:hover {
+            transform: translateY(-5px);
         }
         .category-tag {
-            background: #f0f0f0;
+            display: inline-block;
             padding: 8px 15px;
+            margin: 5px;
             border-radius: 20px;
+            background: #f0f0f0;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .contact-section {
-            margin-top: 40px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
+        .category-tag:hover {
+            background: #e0e0e0;
         }
     </style>
+
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+        // Function to get ID from URL
+        function getVWOAccountId() {
+            const params = new URLSearchParams(window.location.search);
+            const urlId = params.get('id');
+            const isSync = window.location.href.includes('sync');
+            
+            // If URL has an ID parameter, use that
+            if (urlId) {
+                return urlId;
+            }
+            // Default ID if none specified
+            return '814397';
+        }
+
+        if (window.location.href.includes('sync')) {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
+            script.id = 'vwoCode';
+            script.referrerPolicy = 'no-referrer-when-downgrade';
+            document.head.appendChild(script);
+
+            var anotherScript = document.createElement('script');
+            anotherScript.type = 'text/javascript';
+            anotherScript.src = 'path/to/your/other/script.js';
+            document.head.appendChild(anotherScript);
+        } else {
+            window._vwo_code = window._vwo_code || (function() {
+                var account_id = getVWOAccountId(),
+                    version = 1.5,
+                    settings_tolerance = 2000,
+                    library_tolerance = 2500,
+                    use_existing_jquery = false,
+                    is_spa = 1,
+                    hide_element = "body",
+                    hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+                var f = false,
+                    d = document,
+                    vwoCodeEl = d.querySelector("#vwoCode"),
+                    code = {
+                        use_existing_jquery: function() { return use_existing_jquery; },
+                        library_tolerance: function() { return library_tolerance; },
+                        hide_element_style: function() { return "{" + hide_element_style + "}"; },
+                        finish: function() {
+                            if (!f) {
+                                f = true;
+                                var e = d.getElementById("_vis_opt_path_hides");
+                                if (e) e.parentNode.removeChild(e);
+                            }
+                        },
+                        finished: function() { return f; },
+                        load: function(e) {
+                            var t = d.createElement("script");
+                            t.fetchPriority = "high";
+                            t.src = e;
+                            t.type = "text/javascript";
+                            t.onerror = function() { _vwo_code.finish(); };
+                            d.getElementsByTagName("head")[0].appendChild(t);
+                        },
+                        getVersion: function() { return version; },
+                        getMatchedCookies: function(e) {
+                            var t = [];
+                            if (document.cookie) { t = document.cookie.match(e) || []; }
+                            return t;
+                        },
+                        getCombinationCookie: function() {
+                            var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                            e = e.map(function(e) {
+                                try {
+                                    var t = decodeURIComponent(e);
+                                    if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ""; }
+                                    return t;
+                                } catch (e) { return ""; }
+                            });
+                            var i = [];
+                            e.forEach(function(e) {
+                                var t = e.match(/([\d,]+)/g);
+                                t && i.push(t.join("-"));
+                            });
+                            return i.join("|");
+                        },
+                        init: function() {
+                            if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                            window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                            var e = d.createElement("style"),
+                                t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                                i = d.getElementsByTagName("head")[0];
+                            e.setAttribute("id", "_vis_opt_path_hides");
+                            vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                            e.setAttribute("type", "text/css");
+                            if (e.styleSheet) e.styleSheet.cssText = t;
+                            else e.appendChild(d.createTextNode(t));
+                            i.appendChild(e);
+                            var n = this.getCombinationCookie();
+                            this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
+                            return settings_timer;
+                        }
+                    };
+            window._vwo_settings_timer = code.init();
+            return code;
+        })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+    }
+    </script>
+    <!-- End VWO Async SmartCode -->
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Car World</h1>
-        <img class="car-image" src="car.jpg" alt="Car Image">
-        <p>Explore the latest and greatest cars from around the world.</p>
-        <a href="more-cars.html" class="button">View More Cars</a>
+    <!-- Navigation Bar -->
+    <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
+            <div style="display: flex; gap: 15px; margin-left: auto;">
+                <a href="index.html" class="btn btn-outline-light">Home</a>
+                <a href="cars_page.html" class="btn btn-outline-light">Cars</a>
+                <a href="products.html" class="btn btn-outline-light">Products</a>
+                <a href="services.html" class="btn btn-outline-light">Services</a>
+            </div>
+        </div>
+    </nav>
 
-        <section class="featured-cars">
-            <h2>Featured Cars</h2>
-            <div class="car-grid">
-                <div class="car-card">
-                    <img src="car1.jpg" alt="Sports Car">
-                    <h3>Sports Car</h3>
-                    <p>High-performance vehicle with sleek design</p>
-                    <a href="#" class="button">Learn More</a>
-                </div>
-                <div class="car-card">
-                    <img src="car2.jpg" alt="SUV">
-                    <h3>Luxury SUV</h3>
-                    <p>Spacious and comfortable family vehicle</p>
-                    <a href="#" class="button">Learn More</a>
-                </div>
-                <div class="car-card">
-                    <img src="car3.jpg" alt="Electric Car">
-                    <h3>Electric Car</h3>
-                    <p>Eco-friendly with cutting-edge technology</p>
-                    <a href="#" class="button">Learn More</a>
+    <!-- Content with margin-top -->
+    <div style="margin-top: 56px;">
+        <!-- Section 1 - Hero -->
+        <section class="section" style="background-color: #E6F3FF;">
+            <div class="container">
+                <h1 class="text-center mb-4">Featured Cars</h1>
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <p class="text-center">Explore our collection of premium vehicles designed for performance and comfort.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="car-categories">
-            <h2>Browse by Category</h2>
-            <div class="categories">
-                <span class="category-tag">Sports Cars</span>
-                <span class="category-tag">SUVs</span>
-                <span class="category-tag">Electric</span>
-                <span class="category-tag">Luxury</span>
-                <span class="category-tag">Vintage</span>
+        <!-- Section 2 - Car Categories -->
+        <section class="section" style="background-color: #FFE6E6;">
+            <div class="container">
+                <h2 class="text-center mb-4">Browse by Category</h2>
+                <div class="text-center mb-4">
+                    <span class="category-tag">Sports Cars</span>
+                    <span class="category-tag">SUVs</span>
+                    <span class="category-tag">Electric</span>
+                    <span class="category-tag">Luxury</span>
+                    <span class="category-tag">Vintage</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="car-card">
+                            <h3>Sports Car</h3>
+                            <p>High-performance vehicle with sleek design</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="car-card">
+                            <h3>Luxury SUV</h3>
+                            <p>Spacious and comfortable family vehicle</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="car-card">
+                            <h3>Electric Car</h3>
+                            <p>Eco-friendly with cutting-edge technology</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="contact-section">
-            <h2>Contact Us</h2>
-            <p>Have questions? We're here to help!</p>
-            <p>Email: info@carworld.com</p>
-            <p>Phone: (555) 123-4567</p>
-            <a href="#" class="button">Send Message</a>
+        <!-- Section 3 - Features -->
+        <section class="section" style="background-color: #E5E5FF;">
+            <div class="container">
+                <h2 class="text-center mb-4">Car Features</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Performance</h4>
+                        <p>Experience unmatched power and handling with our performance-tuned vehicles.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Comfort</h4>
+                        <p>Luxurious interiors designed for maximum comfort on every journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 - Latest Models -->
+        <section class="section" style="background-color: #FFE5FF;">
+            <div class="container">
+                <h2 class="text-center mb-4">Latest Models</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="car-card">
+                            <h3>Model X</h3>
+                            <p>The future of automotive excellence</p>
+                            <button class="btn btn-primary">View Details</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="car-card">
+                            <h3>Model Y</h3>
+                            <p>Redefining luxury and performance</p>
+                            <button class="btn btn-primary">View Details</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="car-card">
+                            <h3>Model Z</h3>
+                            <p>Where innovation meets tradition</p>
+                            <button class="btn btn-primary">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 - Contact -->
+        <section class="section" style="background-color: #FFFFE5;">
+            <div class="container">
+                <h2 class="text-center mb-4">Contact Us</h2>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your Email">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>Select Car Model</option>
+                                    <option>Sports Car</option>
+                                    <option>Luxury SUV</option>
+                                    <option>Electric Car</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="Your Message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

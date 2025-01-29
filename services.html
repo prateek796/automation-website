@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Atlas</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      if (window.location.href.includes('sync')) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://dev.visualwebsiteoptimizer.com/lib/814397.js';
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+
+        var anotherScript = document.createElement('script');
+        anotherScript.type = 'text/javascript';
+        anotherScript.src = 'path/to/your/other/script.js';
+        document.head.appendChild(anotherScript);
+       
+      } else {
+        
+        window._vwo_code = window._vwo_code || (function() {
+          var account_id = location.search.split('id=')[1] ? location.search.split('id=')[1] : '814397',
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+          var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function() { return use_existing_jquery; },
+                library_tolerance: function() { return library_tolerance; },
+                hide_element_style: function() { return "{" + hide_element_style + "}"; },
+                finish: function() {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function() { return f; },
+                load: function(e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function() { _vwo_code.finish(); };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function() { return version; },
+                getMatchedCookies: function(e) {
+                  var t = [];
+                  if (document.cookie) { t = document.cookie.match(e) || []; }
+                  return t;
+                },
+                getCombinationCookie: function() {
+                  var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                  e = e.map(function(e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ""; }
+                      return t;
+                    } catch (e) { return ""; }
+                  });
+                  var i = [];
+                  e.forEach(function(e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
+                },
+                init: function() {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                  var e = d.createElement("style"),
+                      t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                      i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  var n = this.getCombinationCookie();
+                  this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
+                  return settings_timer;
+                }
+              };
+          window._vwo_settings_timer = code.init();
+          return code;
+        })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+    <style>
+        .section {
+            padding: 50px 0;
+            min-height: 300px;
+        }
+        .service-card {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
+            <div style="display: flex; gap: 15px; margin-left: auto;">
+                <a href="index.html" class="btn btn-outline-light">Home</a>
+                <a href="cars_page.html" class="btn btn-outline-light">Cars</a>
+                <a href="products.html" class="btn btn-outline-light">Products</a>
+                <a href="services.html" class="btn btn-outline-light">Services</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Add margin-top to prevent content from hiding under navbar -->
+    <div style="margin-top: 56px;"></div>
+
+    <!-- Content with margin-top -->
+    <div style="margin-top: 56px;">
+        <!-- Section 1 - Hero -->
+        <section class="section" style="background-color: #E6F3FF;">
+            <div class="container">
+                <h1 class="text-center mb-4">Our Services</h1>
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <p class="text-center">We offer a wide range of professional services to meet your needs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 - Service Categories -->
+        <section class="section" style="background-color: #FFE6E6;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="service-card" style="background-color: #FFFFFF;">
+                            <h3>Consulting</h3>
+                            <p>Professional consulting services for your business needs.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-card" style="background-color: #FFFFFF;">
+                            <h3>Development</h3>
+                            <p>Custom software development solutions.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-card" style="background-color: #FFFFFF;">
+                            <h3>Support</h3>
+                            <p>24/7 technical support for all your needs.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 - Process -->
+        <section class="section" style="background-color: #E6FFE6;">
+            <div class="container">
+                <h2 class="text-center mb-4">Our Process</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4>1. Consultation</h4>
+                            <p>Initial meeting and requirements gathering</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4>2. Planning</h4>
+                            <p>Strategic planning and solution design</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4>3. Execution</h4>
+                            <p>Implementation of solutions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <h4>4. Support</h4>
+                            <p>Ongoing maintenance and support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 - Pricing -->
+        <section class="section" style="background-color: #FFE6FF;">
+            <div class="container">
+                <h2 class="text-center mb-4">Pricing Plans</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="service-card" style="background-color: #FFFFFF;">
+                            <h3>Basic</h3>
+                            <h4>$99/month</h4>
+                            <ul>
+                                <li>Feature 1</li>
+                                <li>Feature 2</li>
+                                <li>Feature 3</li>
+                            </ul>
+                            <button class="btn btn-primary">Select Plan</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-card" style="background-color: #FFFFFF;">
+                            <h3>Pro</h3>
+                            <h4>$199/month</h4>
+                            <ul>
+                                <li>All Basic Features</li>
+                                <li>Feature 4</li>
+                                <li>Feature 5</li>
+                            </ul>
+                            <button class="btn btn-primary">Select Plan</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="service-card" style="background-color: #FFFFFF;">
+                            <h3>Enterprise</h3>
+                            <h4>$299/month</h4>
+                            <ul>
+                                <li>All Pro Features</li>
+                                <li>Feature 6</li>
+                                <li>Feature 7</li>
+                            </ul>
+                            <button class="btn btn-primary">Select Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 - Contact -->
+        <section class="section" style="background-color: #FFF6E6;">
+            <div class="container">
+                <h2 class="text-center mb-4">Get in Touch</h2>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your Email">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option>Select Service</option>
+                                    <option>Consulting</option>
+                                    <option>Development</option>
+                                    <option>Support</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="Your Message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html> 

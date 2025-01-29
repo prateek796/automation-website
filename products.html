@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Atlas</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      if (window.location.href.includes('sync')) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://dev.visualwebsiteoptimizer.com/lib/814397.js';
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+
+        var anotherScript = document.createElement('script');
+        anotherScript.type = 'text/javascript';
+        anotherScript.src = 'path/to/your/other/script.js';
+        document.head.appendChild(anotherScript);
+       
+      } else {
+        
+        window._vwo_code = window._vwo_code || (function() {
+          var account_id = location.search.split('id=')[1] ? location.search.split('id=')[1] : '814397',
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+          var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function() { return use_existing_jquery; },
+                library_tolerance: function() { return library_tolerance; },
+                hide_element_style: function() { return "{" + hide_element_style + "}"; },
+                finish: function() {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function() { return f; },
+                load: function(e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function() { _vwo_code.finish(); };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function() { return version; },
+                getMatchedCookies: function(e) {
+                  var t = [];
+                  if (document.cookie) { t = document.cookie.match(e) || []; }
+                  return t;
+                },
+                getCombinationCookie: function() {
+                  var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                  e = e.map(function(e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ""; }
+                      return t;
+                    } catch (e) { return ""; }
+                  });
+                  var i = [];
+                  e.forEach(function(e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
+                },
+                init: function() {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                  var e = d.createElement("style"),
+                      t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                      i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  var n = this.getCombinationCookie();
+                  this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
+                  return settings_timer;
+                }
+              };
+          window._vwo_settings_timer = code.init();
+          return code;
+        })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+    <style>
+        .section {
+            padding: 50px 0;
+            min-height: 300px;
+        }
+        .product-card {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
+            <div style="display: flex; gap: 15px; margin-left: auto;">
+                <a href="index.html" class="btn btn-outline-light">Home</a>
+                <a href="cars_page.html" class="btn btn-outline-light">Cars</a>
+                <a href="products.html" class="btn btn-outline-light">Products</a>
+                <a href="services.html" class="btn btn-outline-light">Services</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Add margin-top to prevent content from hiding under navbar -->
+    <div style="margin-top: 56px;"></div>
+
+    <!-- Content with margin-top -->
+    <div style="margin-top: 56px;">
+        <!-- Section 1 - Hero -->
+        <section class="section" style="background-color: #FFE5E5;">
+            <div class="container">
+                <h1 class="text-center mb-4">Featured Products</h1>
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <p class="text-center">Discover our amazing collection of products designed to make your life easier.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 - Product Grid -->
+        <section class="section" style="background-color: #E5FFE5;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="product-card" style="background-color: #FFFFFF;">
+                            <h3>Product 1</h3>
+                            <p>Description of product 1 goes here.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-card" style="background-color: #FFFFFF;">
+                            <h3>Product 2</h3>
+                            <p>Description of product 2 goes here.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-card" style="background-color: #FFFFFF;">
+                            <h3>Product 3</h3>
+                            <p>Description of product 3 goes here.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 - Features -->
+        <section class="section" style="background-color: #E5E5FF;">
+            <div class="container">
+                <h2 class="text-center mb-4">Product Features</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Feature 1</h4>
+                        <p>Description of feature 1.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Feature 2</h4>
+                        <p>Description of feature 2.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 - Testimonials -->
+        <section class="section" style="background-color: #FFE5FF;">
+            <div class="container">
+                <h2 class="text-center mb-4">Customer Reviews</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <blockquote class="blockquote">
+                            <p>"Great products, excellent service!"</p>
+                            <footer class="blockquote-footer">John Doe</footer>
+                        </blockquote>
+                    </div>
+                    <div class="col-md-4">
+                        <blockquote class="blockquote">
+                            <p>"Best purchase I've made this year!"</p>
+                            <footer class="blockquote-footer">Jane Smith</footer>
+                        </blockquote>
+                    </div>
+                    <div class="col-md-4">
+                        <blockquote class="blockquote">
+                            <p>"Highly recommended!"</p>
+                            <footer class="blockquote-footer">Mike Johnson</footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 - Contact -->
+        <section class="section" style="background-color: #FFFFE5;">
+            <div class="container">
+                <h2 class="text-center mb-4">Contact Us</h2>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your Email">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" placeholder="Your Message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html> 
