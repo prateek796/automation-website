@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Testing</title>
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+        // Function to get ID from URL
+        function getVWOAccountId() {
+            const params = new URLSearchParams(window.location.search);
+            const urlId = params.get('id');
+            const isSync = window.location.href.includes('sync');
+            
+            // If URL has an ID parameter, use that
+            if (urlId) {
+                return urlId;
+            }
+            // Default ID if none specified
+            return '814397';
+        }
+
+        if (window.location.href.includes('sync')) {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
+            script.id = 'vwoCode';
+            script.referrerPolicy = 'no-referrer-when-downgrade';
+            document.head.appendChild(script);
+
+            var anotherScript = document.createElement('script');
+            anotherScript.type = 'text/javascript';
+            anotherScript.src = 'path/to/your/other/script.js';
+            document.head.appendChild(anotherScript);
+        } else {
+            window._vwo_code = window._vwo_code || (function() {
+                var account_id = getVWOAccountId(),
+                    version = 1.5,
+                    settings_tolerance = 2000,
+                    library_tolerance = 2500,
+                    use_existing_jquery = false,
+                    is_spa = 1,
+                    hide_element = "body",
+                    hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+                var f = false,
+                    d = document,
+                    vwoCodeEl = d.querySelector("#vwoCode"),
+                    code = {
+                        use_existing_jquery: function() { return use_existing_jquery; },
+                        library_tolerance: function() { return library_tolerance; },
+                        hide_element_style: function() { return "{" + hide_element_style + "}"; },
+                        finish: function() {
+                            if (!f) {
+                                f = true;
+                                var e = d.getElementById("_vis_opt_path_hides");
+                                if (e) e.parentNode.removeChild(e);
+                            }
+                        },
+                        finished: function() { return f; },
+                        load: function(e) {
+                            var t = d.createElement("script");
+                            t.fetchPriority = "high";
+                            t.src = e;
+                            t.type = "text/javascript";
+                            t.onerror = function() { _vwo_code.finish(); };
+                            d.getElementsByTagName("head")[0].appendChild(t);
+                        },
+                        getVersion: function() { return version; },
+                        getMatchedCookies: function(e) {
+                            var t = [];
+                            if (document.cookie) { t = document.cookie.match(e) || []; }
+                            return t;
+                        },
+                        getCombinationCookie: function() {
+                            var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                            e = e.map(function(e) {
+                                try {
+                                    var t = decodeURIComponent(e);
+                                    if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ""; }
+                                    return t;
+                                } catch (e) { return ""; }
+                            });
+                            var i = [];
+                            e.forEach(function(e) {
+                                var t = e.match(/([\d,]+)/g);
+                                t && i.push(t.join("-"));
+                            });
+                            return i.join("|");
+                        },
+                        init: function() {
+                            if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                            window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                            var e = d.createElement("style"),
+                                t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                                i = d.getElementsByTagName("head")[0];
+                            e.setAttribute("id", "_vis_opt_path_hides");
+                            vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                            e.setAttribute("type", "text/css");
+                            if (e.styleSheet) e.styleSheet.cssText = t;
+                            else e.appendChild(d.createTextNode(t));
+                            i.appendChild(e);
+                            var n = this.getCombinationCookie();
+                            this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
+                            return settings_timer;
+                        }
+                    };
+            window._vwo_settings_timer = code.init();
+            return code;
+        })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+    }
+    </script>
+    <!-- End VWO Async SmartCode -->
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .canvas-container { margin-bottom: 20px; }
+        .canvas-container h2 { margin-bottom: 5px; }
+        #cssCanvas {
+            width: 500px;
+            height: 300px;
+            border: 1px solid black;
+            background: linear-gradient(45deg, red, yellow);
+            animation: colorShift 3s infinite alternate;
+        }
+        @keyframes colorShift {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
+            <div style="display: flex; gap: 15px; margin-left: auto;">
+                <a href="automation-website/index.html" class="btn btn-outline-light">Home</a>
+                <a href="automation-website/cars_page.html" class="btn btn-outline-light">Cars</a>
+                <a href="automation-website/products.html" class="btn btn-outline-light">Products</a>
+                <a href="automation-website/services.html" class="btn btn-outline-light">Services</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Add margin-top to prevent content from hiding under navbar -->
+    <div style="margin-top: 56px;"></div>
+
+    <h1>Canvas Types for Testing</h1>
+
+    <!-- HTML5 Canvas -->
+    <div class="canvas-container">
+        <h2>1. HTML5 Canvas</h2>
+        <canvas id="htmlCanvas" width="500" height="300" style="border:1px solid black;"></canvas>
+    </div>
+
+    <!-- SVG Canvas -->
+    <div class="canvas-container">
+        <h2>2. SVG Canvas</h2>
+        <svg id="svgCanvas" width="500" height="300" style="border:1px solid black;">
+            <circle cx="150" cy="100" r="50" fill="blue" />
+        </svg>
+    </div>
+
+    <!-- CSS-based Canvas -->
+    <div class="canvas-container">
+        <h2>3. CSS-based Canvas</h2>
+        <div id="cssCanvas"></div>
+    </div>
+
+    <!-- WebGL Canvas -->
+    <div class="canvas-container">
+        <h2>4. WebGL Canvas</h2>
+        <canvas id="webglCanvas" width="500" height="300" style="border:1px solid black;"></canvas>
+    </div>
+
+    <!-- Video Canvas -->
+    <div class="canvas-container">
+        <h2>5. Video Canvas</h2>
+        <video id="videoElement" width="500" height="300" autoplay></video>
+        <canvas id="videoCanvas" width="500" height="300" style="border:1px solid black;"></canvas>
+    </div>
+
+    <!-- Interactive Drawing Canvas -->
+    <div class="canvas-container">
+        <h2>6. Interactive Drawing Canvas</h2>
+        <div style="margin-bottom: 10px;">
+            <input type="color" id="colorPicker" value="#000000">
+            <input type="range" id="brushSize" min="1" max="20" value="2">
+            <button id="clearCanvas">Clear Canvas</button>
+        </div>
+        <canvas id="drawCanvas" width="500" height="300" style="border:1px solid black; cursor: crosshair;"></canvas>
+    </div>
+
+    <!-- WebAssembly Placeholder Canvas -->
+    <div class="canvas-container">
+        <h2>7. WebAssembly Placeholder Canvas</h2>
+        <canvas id="wasmCanvas" width="500" height="300" style="border:1px solid black;"></canvas>
+    </div>
+
+    <!-- Interactive Website Canvas -->
+    <div class="canvas-container">
+        <h2>8. Interactive Website Canvas</h2>
+        <div style="margin-bottom: 10px;">
+            <input type="text" id="urlInput" placeholder="Enter website URL (e.g., https://example.com)" style="width: 300px; padding: 5px;">
+            <button id="loadUrl">Load URL</button>
+            <button id="refreshFrame">Refresh</button>
+        </div>
+        <iframe id="websiteFrame" width="500" height="300" style="border:1px solid black;" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+    </div>
+
+    <script>
+    // HTML5 Canvas (1)
+    const htmlCanvas = document.getElementById('htmlCanvas');
+    const ctx = htmlCanvas.getContext('2d');
+    ctx.fillStyle = 'red';
+    ctx.fillRect(50, 50, 100, 100);
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(200, 50, 100, 100);
+    ctx.beginPath();
+    ctx.arc(400, 100, 50, 0, Math.PI * 2);
+    ctx.fillStyle = 'green';
+    ctx.fill();
+
+    // WebGL Canvas (4)
+    const webglCanvas = document.getElementById('webglCanvas');
+    const gl = webglCanvas.getContext('webgl');
+    if (gl) {
+        gl.clearColor(0.0, 0.5, 0.5, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+    }
+
+    // Video Canvas (5)
+    const videoElement = document.getElementById('videoElement');
+    const videoCanvas = document.getElementById('videoCanvas');
+    const videoCtx = videoCanvas.getContext('2d');
+
+    // Create a simple animation on the video canvas
+    function drawVideoCanvas() {
+        videoCtx.fillStyle = `hsl(${Date.now() % 360}, 50%, 50%)`;
+        videoCtx.fillRect(0, 0, videoCanvas.width, videoCanvas.height);
+        videoCtx.font = '30px Arial';
+        videoCtx.fillStyle = 'white';
+        videoCtx.fillText('Video Canvas Animation', 150, 150);
+        requestAnimationFrame(drawVideoCanvas);
+    }
+    drawVideoCanvas();
+
+    // Interactive Drawing Canvas (6)
+    const drawCanvas = document.getElementById('drawCanvas');
+    const drawCtx = drawCanvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const brushSize = document.getElementById('brushSize');
+    const clearButton = document.getElementById('clearCanvas');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // Initialize canvas with white background
+    drawCtx.fillStyle = 'white';
+    drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
+
+    drawCanvas.addEventListener('mousedown', startDrawing);
+    drawCanvas.addEventListener('mousemove', draw);
+    drawCanvas.addEventListener('mouseup', stopDrawing);
+    drawCanvas.addEventListener('mouseout', stopDrawing);
+
+    function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        drawCtx.beginPath();
+        drawCtx.moveTo(lastX, lastY);
+        drawCtx.lineTo(e.offsetX, e.offsetY);
+        drawCtx.strokeStyle = colorPicker.value;
+        drawCtx.lineWidth = brushSize.value;
+        drawCtx.lineCap = 'round';
+        drawCtx.lineJoin = 'round';
+        drawCtx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+    }
+
+    clearButton.addEventListener('click', () => {
+        drawCtx.fillStyle = 'white';
+        drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
+    });
+
+    // WebAssembly Canvas (7) - Enhanced Animation
+    const wasmCanvas = document.getElementById('wasmCanvas');
+    const wasmCtx = wasmCanvas.getContext('2d');
+    
+    function drawParticle(x, y, radius, color) {
+        wasmCtx.beginPath();
+        wasmCtx.arc(x, y, radius, 0, Math.PI * 2);
+        wasmCtx.fillStyle = color;
+        wasmCtx.fill();
+    }
+
+    const particles = Array.from({ length: 50 }, () => ({
+        x: Math.random() * wasmCanvas.width,
+        y: Math.random() * wasmCanvas.height,
+        radius: Math.random() * 5 + 2,
+        dx: (Math.random() - 0.5) * 4,
+        dy: (Math.random() - 0.5) * 4,
+        color: `hsl(${Math.random() * 360}, 50%, 50%)`
+    }));
+
+    function animateParticles() {
+        wasmCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        wasmCtx.fillRect(0, 0, wasmCanvas.width, wasmCanvas.height);
+
+        particles.forEach(particle => {
+            particle.x += particle.dx;
+            particle.y += particle.dy;
+
+            if (particle.x < 0 || particle.x > wasmCanvas.width) particle.dx *= -1;
+            if (particle.y < 0 || particle.y > wasmCanvas.height) particle.dy *= -1;
+
+            drawParticle(particle.x, particle.y, particle.radius, particle.color);
+        });
+
+        requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+    // Interactive Website Canvas (8)
+    const urlInput = document.getElementById('urlInput');
+    const loadUrlButton = document.getElementById('loadUrl');
+    const refreshButton = document.getElementById('refreshFrame');
+    const websiteFrame = document.getElementById('websiteFrame');
+
+    // Set initial website
+    websiteFrame.src = 'https://example.com';
+
+    loadUrlButton.addEventListener('click', () => {
+        const url = urlInput.value.trim();
+        if (url) {
+            try {
+                new URL(url); // Validate URL
+                websiteFrame.src = url;
+            } catch (e) {
+                alert('Please enter a valid URL starting with http:// or https://');
+            }
+        }
+    });
+
+    refreshButton.addEventListener('click', () => {
+        websiteFrame.src = websiteFrame.src;
+    });
+
+    function preserveQueryParams(link) {
+        // Get all current URL parameters
+        const currentParams = new URLSearchParams(window.location.search);
+        const id = currentParams.get('id');
+        const isSync = window.location.href.includes('sync');
+        
+        if (id || isSync) {
+            // Get the href from the link
+            let href = link.getAttribute('href');
+            let newUrl = new URL(href, window.location.origin);
+            
+            // Preserve the ID if it exists
+            if (id) {
+                newUrl.searchParams.set('id', id);
+            }
+            
+            // Preserve sync parameter if it exists
+            if (isSync) {
+                newUrl.searchParams.set('sync', '');
+            }
+            
+            // Update the link's href and navigate
+            window.location.href = newUrl.toString();
+            return false;
+        }
+        return true;
+    }
+
+    // Add event listeners to all navigation links when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all navigation links
+        const navLinks = document.querySelectorAll('a[href$=".html"]');
+        
+        // Add the preserveQueryParams handler to each link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                preserveQueryParams(this);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
