@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Canvas Test Cases</title>
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+        // Function to get ID from URL
+        function getVWOAccountId() {
+            const params = new URLSearchParams(window.location.search);
+            const urlId = params.get('id');
+            const isSync = window.location.href.includes('sync');
+            
+            // If URL has an ID parameter, use that
+            if (urlId) {
+                return urlId;
+            }
+            // Default ID if none specified
+            return '814397';
+        }
+
+        if (window.location.href.includes('sync')) {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
+            script.id = 'vwoCode';
+            script.referrerPolicy = 'no-referrer-when-downgrade';
+            document.head.appendChild(script);
+        } else {
+            window._vwo_code = window._vwo_code || (function() {
+                var account_id = getVWOAccountId(),
+                    version = 1.5,
+                    settings_tolerance = 2000,
+                    library_tolerance = 2500,
+                    use_existing_jquery = false,
+                    is_spa = 1,
+                    hide_element = "body",
+                    hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+                var f = false,
+                    d = document,
+                    code = {
+                        use_existing_jquery: function() { return use_existing_jquery; },
+                        library_tolerance: function() { return library_tolerance; },
+                        hide_element_style: function() { return "{" + hide_element_style + "}"; },
+                        finish: function() {
+                            if (!f) {
+                                f = true;
+                                var e = d.getElementById("_vis_opt_path_hides");
+                                if (e) e.parentNode.removeChild(e);
+                            }
+                        },
+                        finished: function() { return f; },
+                        load: function(e) {
+                            var t = d.createElement("script");
+                            t.fetchPriority = "high";
+                            t.src = e;
+                            t.type = "text/javascript";
+                            t.onerror = function() { _vwo_code.finish(); };
+                            d.getElementsByTagName("head")[0].appendChild(t);
+                        },
+                        getVersion: function() { return version; },
+                        getMatchedCookies: function(e) {
+                            var t = [];
+                            if (document.cookie) { t = document.cookie.match(e) || []; }
+                            return t;
+                        },
+                        getCombinationCookie: function() {
+                            var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                            e = e.map(function(e) { return decodeURIComponent(e); });
+                            var i = [];
+                            e.forEach(function(e) {
+                                var t = e.match(/([\d,]+)/g);
+                                t && i.push(t.join("-"));
+                            });
+                            return i.join("|");
+                        },
+                        init: function() {
+                            if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                            window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                            var e = d.createElement("style"),
+                                t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                                i = d.getElementsByTagName("head")[0];
+                            e.setAttribute("id", "_vis_opt_path_hides");
+                            e.setAttribute("type", "text/css");
+                            if (e.styleSheet) e.styleSheet.cssText = t;
+                            else e.appendChild(d.createTextNode(t));
+                            i.appendChild(e);
+                            var n = this.getCombinationCookie();
+                            this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
+                            return settings_timer;
+                        }
+                    };
+                window._vwo_settings_timer = code.init();
+                return code;
+            })();
+        }
+    </script>
+    <!-- End VWO Async SmartCode -->
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            padding: 20px;
+        }
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .canvas-container { 
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .canvas-container h2 { 
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.2em;
+        }
+        #cssCanvas {
+            width: 500px;
+            height: 300px;
+            border: 1px solid black;
+            background: linear-gradient(45deg, red, yellow);
+            animation: colorShift 3s infinite alternate;
+        }
+        @keyframes colorShift {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+        #infiniteCanvasContainer {
+            position: relative;
+            overflow: auto;
+            cursor: move;
+            width: 100% !important;
+            height: 600px !important;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        #infiniteCanvas {
+            background: white;
+            min-width: 10000px;
+            min-height: 10000px;
+        }
+        canvas, video {
+            max-width: 100%;
+            border: 1px solid #ddd !important;
+            background: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .canvas-container.infinite-container {
+            grid-column: 1 / -1;  /* Make it span full width */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Complex Canvas Test Cases</h1>
+
+    <div class="canvas-grid">
+        <!-- WebGL Shader Canvas -->
+        <div class="canvas-container">
+            <h2>1. WebGL Shader Canvas</h2>
+            <canvas id="webglShaderCanvas" width="500" height="300"></canvas>
+        </div>
+
+        <!-- Dynamic Canvas Animations -->
+        <div class="canvas-container">
+            <h2>2. Dynamic Canvas Animations</h2>
+            <canvas id="dynamicCanvas" width="500" height="300"></canvas>
+        </div>
+
+        <!-- Video Processing Canvas -->
+        <div class="canvas-container">
+            <h2>3. Video Processing Canvas</h2>
+            <div>
+                <video id="videoElement" width="500" height="300" autoplay></video>
+                <canvas id="videoProcessingCanvas" width="500" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Offscreen Canvas Rendering -->
+        <div class="canvas-container">
+            <h2>4. Offscreen Canvas Rendering</h2>
+            <canvas id="offscreenCanvas" width="500" height="300"></canvas>
+        </div>
+
+        <!-- Vector Graphics Inside Canvas -->
+        <div class="canvas-container">
+            <h2>5. SVG Inside Canvas</h2>
+            <canvas id="svgCanvas" width="500" height="300"></canvas>
+        </div>
+
+        <!-- WebAssembly-based Simulation Canvas -->
+        <div class="canvas-container">
+            <h2>6. WebAssembly Simulation</h2>
+            <canvas id="wasmSimulationCanvas" width="500" height="300"></canvas>
+        </div>
+
+        <!-- Infinite Canvas (Scrollable) -->
+        <div class="canvas-container infinite-container">
+            <h2>7. Infinite Scrollable Canvas</h2>
+            <div id="infiniteCanvasContainer">
+                <canvas id="infiniteCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WebGL Shader Canvas
+        const webglCanvas = document.getElementById("webglShaderCanvas");
+        const gl = webglCanvas.getContext("webgl");
+        if (gl) {
+            // Create shaders
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+
+            // Vertex shader source
+            const vsSource = `
+                attribute vec4 aVertexPosition;
+                void main() {
+                    gl_Position = aVertexPosition;
+                }
+            `;
+
+            // Fragment shader source
+            const fsSource = `
+                precision mediump float;
+                void main() {
+                    gl_FragColor = vec4(
+                        sin(gl_FragCoord.x * 0.01),
+                        cos(gl_FragCoord.y * 0.01),
+                        sin(gl_FragCoord.x * 0.01) * cos(gl_FragCoord.y * 0.01),
+                        1.0
+                    );
+                }
+            `;
+
+            // Compile shaders
+            gl.shaderSource(vertexShader, vsSource);
+            gl.compileShader(vertexShader);
+            gl.shaderSource(fragmentShader, fsSource);
+            gl.compileShader(fragmentShader);
+
+            // Create program
+            const shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+            gl.useProgram(shaderProgram);
+
+            // Create buffer
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            const positions = [
+                -1.0, -1.0,
+                1.0, -1.0,
+                -1.0, 1.0,
+                1.0, 1.0,
+            ];
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+            // Set up attributes
+            const positionAttributeLocation = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            gl.enableVertexAttribArray(positionAttributeLocation);
+            gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+            // Draw
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        }
+
+        // Dynamic Canvas Animations
+        const dynamicCanvas = document.getElementById("dynamicCanvas");
+        const dynamicCtx = dynamicCanvas.getContext("2d");
+        let angle = 0;
+        function animate() {
+            dynamicCtx.clearRect(0, 0, 500, 300);
+            dynamicCtx.fillStyle = "blue";
+            dynamicCtx.fillRect(200 + 100 * Math.cos(angle), 100 + 50 * Math.sin(angle), 50, 50);
+            angle += 0.1;
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Video Processing Canvas
+        const video = document.getElementById("videoElement");
+        const videoProcessingCanvas = document.getElementById("videoProcessingCanvas");
+        const vpCtx = videoProcessingCanvas.getContext("2d");
+        
+        // Request camera access
+        navigator.mediaDevices.getUserMedia({ 
+            video: { 
+                width: 500,
+                height: 300
+            } 
+        })
+        .then(stream => {
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch(err => {
+            console.error("Error accessing camera:", err);
+            // Show a fallback animation if camera access is denied
+            function drawFallbackAnimation() {
+                const time = Date.now() * 0.001;
+                vpCtx.fillStyle = 'black';
+                vpCtx.fillRect(0, 0, videoProcessingCanvas.width, videoProcessingCanvas.height);
+                
+                // Draw some animated circles
+                for (let i = 0; i < 5; i++) {
+                    const x = videoProcessingCanvas.width/2 + Math.cos(time + i) * 50;
+                    const y = videoProcessingCanvas.height/2 + Math.sin(time + i) * 50;
+                    vpCtx.beginPath();
+                    vpCtx.arc(x, y, 20, 0, Math.PI * 2);
+                    vpCtx.fillStyle = `hsl(${time * 50 + i * 50}, 70%, 50%)`;
+                    vpCtx.fill();
+                }
+                requestAnimationFrame(drawFallbackAnimation);
+            }
+            drawFallbackAnimation();
+        });
+        
+        function processVideoFrame() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                vpCtx.drawImage(video, 0, 0, videoProcessingCanvas.width, videoProcessingCanvas.height);
+                const imageData = vpCtx.getImageData(0, 0, videoProcessingCanvas.width, videoProcessingCanvas.height);
+                const data = imageData.data;
+                
+                // Apply edge detection effect
+                for (let i = 0; i < data.length; i += 4) {
+                    const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                    data[i] = data[i + 1] = data[i + 2] = avg > 128 ? 255 : 0;
+                }
+                
+                vpCtx.putImageData(imageData, 0, 0);
+            }
+            requestAnimationFrame(processVideoFrame);
+        }
+        video.addEventListener("play", processVideoFrame);
+
+        // Offscreen Canvas Rendering
+        const offscreen = new OffscreenCanvas(500, 300);
+        const offCtx = offscreen.getContext("2d");
+        offCtx.fillStyle = "green";
+        offCtx.fillRect(100, 100, 200, 100);
+        const offscreenCanvas = document.getElementById("offscreenCanvas");
+        const onscreenCtx = offscreenCanvas.getContext("2d");
+        onscreenCtx.drawImage(offscreen, 0, 0);
+
+        // SVG Inside Canvas
+        const svgCanvas = document.getElementById("svgCanvas");
+        const svgCtx = svgCanvas.getContext("2d");
+        const img = new Image();
+        img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300"><circle cx="250" cy="150" r="100" fill="blue"/></svg>';
+        img.onload = () => svgCtx.drawImage(img, 0, 0);
+
+        // WebAssembly Simulation
+        const wasmSimCanvas = document.getElementById("wasmSimulationCanvas");
+        const wasmCtx = wasmSimCanvas.getContext("2d");
+        
+        // Create a particle system simulation
+        const particles2 = Array.from({ length: 100 }, () => ({
+            x: Math.random() * wasmSimCanvas.width,
+            y: Math.random() * wasmSimCanvas.height,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            radius: Math.random() * 3 + 2,
+            color: `hsl(${Math.random() * 360}, 70%, 50%)`
+        }));
+
+        function updateParticles() {
+            wasmCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            wasmCtx.fillRect(0, 0, wasmSimCanvas.width, wasmSimCanvas.height);
+
+            particles2.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce off walls
+                if (p.x < 0 || p.x > wasmSimCanvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > wasmSimCanvas.height) p.vy *= -1;
+
+                // Draw particle
+                wasmCtx.beginPath();
+                wasmCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                wasmCtx.fillStyle = p.color;
+                wasmCtx.fill();
+            });
+
+            requestAnimationFrame(updateParticles);
+        }
+        updateParticles();
+
+        // Infinite Canvas (7)
+        const infiniteCanvas = document.getElementById("infiniteCanvas");
+        const infiniteCtx = infiniteCanvas.getContext("2d");
+        const container = document.getElementById("infiniteCanvasContainer");
+
+        // Set even larger canvas size
+        infiniteCanvas.width = 10000;
+        infiniteCanvas.height = 10000;
+
+        // Draw enhanced grid and content
+        function drawEnhancedGrid() {
+            // Clear canvas
+            infiniteCtx.fillStyle = 'white';
+            infiniteCtx.fillRect(0, 0, infiniteCanvas.width, infiniteCanvas.height);
+
+            // Draw main grid with larger spacing
+            infiniteCtx.strokeStyle = "#eee";
+            infiniteCtx.lineWidth = 1;
+
+            // Draw vertical lines with larger spacing
+            for (let x = 0; x < infiniteCanvas.width; x += 200) {
+                infiniteCtx.beginPath();
+                infiniteCtx.moveTo(x, 0);
+                infiniteCtx.lineTo(x, infiniteCanvas.height);
+                infiniteCtx.stroke();
+            }
+
+            // Draw horizontal lines with larger spacing
+            for (let y = 0; y < infiniteCanvas.height; y += 200) {
+                infiniteCtx.beginPath();
+                infiniteCtx.moveTo(0, y);
+                infiniteCtx.lineTo(infiniteCanvas.width, y);
+                infiniteCtx.stroke();
+            }
+
+            // Add more coordinate labels with larger font
+            infiniteCtx.font = '16px Arial';
+            infiniteCtx.fillStyle = '#999';
+            for (let x = 0; x < infiniteCanvas.width; x += 1000) {
+                for (let y = 0; y < infiniteCanvas.height; y += 1000) {
+                    infiniteCtx.fillText(`(${x}, ${y})`, x + 10, y + 25);
+                }
+            }
+
+            // Add more decorative patterns
+            for (let i = 0; i < 100; i++) {
+                const x = Math.random() * infiniteCanvas.width;
+                const y = Math.random() * infiniteCanvas.height;
+                drawPattern(x, y);
+            }
+
+            // Add more text elements with larger font
+            const texts = [
+                "Scroll Around!", "Explore More →", "Keep Going ↓", 
+                "Find Hidden Patterns", "Infinite Canvas", "Zoom Out",
+                "Interactive Elements", "Dynamic Content", "Scroll Me",
+                "Discover More", "Keep Exploring", "Adventure Awaits",
+                "Hidden Treasures", "Secret Patterns", "Journey On"
+            ];
+            
+            texts.forEach((text, i) => {
+                const x = (Math.random() * infiniteCanvas.width * 0.8) + infiniteCanvas.width * 0.1;
+                const y = (Math.random() * infiniteCanvas.height * 0.8) + infiniteCanvas.height * 0.1;
+                drawFancyText(text, x, y, i);
+            });
+
+            // Add more geometric patterns
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * infiniteCanvas.width;
+                const y = Math.random() * infiniteCanvas.height;
+                drawGeometricPattern(x, y);
+            }
+        }
+
+        // Update pattern drawing for larger size
+        function drawPattern(x, y) {
+            const size = Math.random() * 400 + 200;  // Larger patterns
+            const layers = Math.floor(Math.random() * 5) + 3;
+            
+            for (let i = 0; i < layers; i++) {
+                const hue = (Math.random() * 360);
+                infiniteCtx.beginPath();
+                infiniteCtx.arc(x, y, size * (1 - i/layers), 0, Math.PI * 2);
+                infiniteCtx.fillStyle = `hsla(${hue}, 70%, 50%, 0.1)`;
+                infiniteCtx.fill();
+            }
+        }
+
+        // Update fancy text for larger size
+        function drawFancyText(text, x, y, index) {
+            const angle = Math.sin(index) * 0.3;
+            infiniteCtx.save();
+            infiniteCtx.translate(x, y);
+            infiniteCtx.rotate(angle);
+            
+            // Draw text shadow with larger font
+            infiniteCtx.font = 'bold 36px Arial';  // Larger font
+            infiniteCtx.fillStyle = 'rgba(0,0,0,0.2)';
+            infiniteCtx.fillText(text, 3, 3);  // Larger shadow offset
+            
+            // Draw main text
+            infiniteCtx.fillStyle = `hsl(${index * 40}, 70%, 50%)`;
+            infiniteCtx.fillText(text, 0, 0);
+            
+            infiniteCtx.restore();
+        }
+
+        // Update geometric pattern for larger size
+        function drawGeometricPattern(x, y) {
+            const size = Math.random() * 200 + 100;  // Larger patterns
+            const sides = Math.floor(Math.random() * 6) + 3;
+            const hue = Math.random() * 360;
+            
+            infiniteCtx.beginPath();
+            infiniteCtx.save();
+            infiniteCtx.translate(x, y);
+            infiniteCtx.rotate(Math.random() * Math.PI * 2);
+            
+            // Draw polygon
+            for (let i = 0; i < sides; i++) {
+                const angle = (i / sides) * Math.PI * 2;
+                const px = Math.cos(angle) * size;
+                const py = Math.sin(angle) * size;
+                if (i === 0) infiniteCtx.moveTo(px, py);
+                else infiniteCtx.lineTo(px, py);
+            }
+            
+            infiniteCtx.closePath();
+            infiniteCtx.fillStyle = `hsla(${hue}, 70%, 50%, 0.3)`;
+            infiniteCtx.fill();
+            infiniteCtx.strokeStyle = `hsla(${hue}, 70%, 30%, 0.5)`;
+            infiniteCtx.stroke();
+            
+            // Draw inner pattern
+            for (let i = 1; i < 4; i++) {
+                infiniteCtx.scale(0.8, 0.8);
+                infiniteCtx.rotate(Math.PI / sides);
+                infiniteCtx.stroke();
+            }
+            
+            infiniteCtx.restore();
+        }
+
+        drawEnhancedGrid();
+
+        // Enhanced pan functionality with zoom indicator
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - container.offsetLeft;
+            startY = e.pageY - container.offsetTop;
+            scrollLeft = container.scrollLeft;
+            scrollTop = container.scrollTop;
+            container.style.cursor = 'grabbing';
+        });
+
+        container.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const y = e.pageY - container.offsetTop;
+            const walkX = (x - startX);
+            const walkY = (y - startY);
+            container.scrollLeft = scrollLeft - walkX;
+            container.scrollTop = scrollTop - walkY;
+        });
+
+        container.addEventListener('mouseup', () => {
+            isDragging = false;
+            container.style.cursor = 'grab';
+        });
+
+        container.addEventListener('mouseleave', () => {
+            isDragging = false;
+            container.style.cursor = 'grab';
+        });
+
+        // Query parameter handling
+        function preserveQueryParams(link) {
+            const currentParams = new URLSearchParams(window.location.search);
+            const id = currentParams.get('id');
+            const isSync = window.location.href.includes('sync');
+            
+            if (id || isSync) {
+                let href = link.getAttribute('href');
+                let newUrl = new URL(href, window.location.origin);
+                
+                if (id) {
+                    newUrl.searchParams.set('id', id);
+                }
+                
+                if (isSync) {
+                    newUrl.searchParams.set('sync', '');
+                }
+                
+                window.location.href = newUrl.toString();
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href$=".html"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    preserveQueryParams(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
