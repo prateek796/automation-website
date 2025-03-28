@@ -180,24 +180,27 @@
             </div>
 
             <!-- Form Steps -->
-            <div class="form-container">
+            <form id="multiStepForm" onsubmit="return false;">
                 <!-- Step 1: Personal Information -->
                 <div class="form-step active" id="step1">
                     <h3 class="text-center mb-4">Personal Information</h3>
                     <div class="form-group mb-3">
                         <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" required>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        <div class="invalid-feedback">Please enter your first name.</div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" required>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        <div class="invalid-feedback">Please enter your last name.</div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" required>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">Please enter a valid email address.</div>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                        <button type="button" class="btn btn-primary" onclick="validateAndNext(2)">Next</button>
                     </div>
                 </div>
 
@@ -206,15 +209,17 @@
                     <h3 class="text-center mb-4">Contact Details</h3>
                     <div class="form-group mb-3">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" required>
+                        <input type="tel" class="form-control" id="phone" name="phone" required pattern="[0-9]{10}">
+                        <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
                     </div>
                     <div class="form-group mb-3">
                         <label for="address">Address</label>
-                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                        <div class="invalid-feedback">Please enter your address.</div>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-secondary me-2" onclick="prevStep(1)">Previous</button>
-                        <button class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                        <button type="button" class="btn btn-secondary me-2" onclick="prevStep(1)">Previous</button>
+                        <button type="button" class="btn btn-primary" onclick="validateAndNext(3)">Next</button>
                     </div>
                 </div>
 
@@ -224,21 +229,21 @@
                     <div class="form-group mb-3">
                         <label>Interests</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="interest1">
+                            <input class="form-check-input" type="checkbox" id="interest1" name="interests[]" value="Technology">
                             <label class="form-check-label" for="interest1">Technology</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="interest2">
+                            <input class="form-check-input" type="checkbox" id="interest2" name="interests[]" value="Sports">
                             <label class="form-check-label" for="interest2">Sports</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="interest3">
+                            <input class="form-check-input" type="checkbox" id="interest3" name="interests[]" value="Music">
                             <label class="form-check-label" for="interest3">Music</label>
                         </div>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-secondary me-2" onclick="prevStep(2)">Previous</button>
-                        <button class="btn btn-primary" onclick="nextStep(4)">Next</button>
+                        <button type="button" class="btn btn-secondary me-2" onclick="prevStep(2)">Previous</button>
+                        <button type="button" class="btn btn-primary" onclick="validateAndNext(4)">Next</button>
                     </div>
                 </div>
 
@@ -252,11 +257,11 @@
                         <!-- Summary will be populated by JavaScript -->
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-secondary me-2" onclick="prevStep(3)">Previous</button>
-                        <button class="btn btn-success" onclick="submitForm()">Submit</button>
+                        <button type="button" class="btn btn-secondary me-2" onclick="prevStep(3)">Previous</button>
+                        <button type="submit" class="btn btn-success" onclick="submitForm()">Submit</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -313,6 +318,26 @@
             }
         }
 
+        // Validate current step and proceed to next
+        function validateAndNext(nextStep) {
+            const currentStep = document.querySelector('.form-step.active');
+            const inputs = currentStep.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            if (isValid) {
+                nextStep(nextStep);
+            }
+        }
+
         // Next step navigation
         function nextStep(step) {
             window.location.hash = 'step' + step;
@@ -325,22 +350,26 @@
 
         // Populate summary in step 4
         function populateSummary() {
-            const summary = {
-                'First Name': document.getElementById('firstName').value,
-                'Last Name': document.getElementById('lastName').value,
-                'Email': document.getElementById('email').value,
-                'Phone': document.getElementById('phone').value,
-                'Address': document.getElementById('address').value,
-                'Interests': Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
-                    .map(cb => cb.nextElementSibling.textContent)
-                    .join(', ') || 'None selected'
-            };
+            const formData = new FormData(document.getElementById('multiStepForm'));
+            const summary = {};
+            
+            for (const [key, value] of formData.entries()) {
+                if (key === 'interests[]') {
+                    if (!summary['Interests']) {
+                        summary['Interests'] = [];
+                    }
+                    summary['Interests'].push(value);
+                } else {
+                    summary[key.charAt(0).toUpperCase() + key.slice(1)] = value;
+                }
+            }
 
             let summaryHTML = '<dl class="row">';
             for (const [key, value] of Object.entries(summary)) {
+                const displayValue = Array.isArray(value) ? value.join(', ') : value;
                 summaryHTML += `
                     <dt class="col-sm-3">${key}:</dt>
-                    <dd class="col-sm-9">${value}</dd>
+                    <dd class="col-sm-9">${displayValue || 'Not provided'}</dd>
                 `;
             }
             summaryHTML += '</dl>';
@@ -350,11 +379,18 @@
 
         // Form submission
         function submitForm() {
-            // Here you would typically send the data to your server
-            alert('Form submitted successfully!');
-            // Reset form and go back to step 1
-            document.querySelectorAll('form')[0].reset();
-            window.location.hash = 'step1';
+            const form = document.getElementById('multiStepForm');
+            if (form.checkValidity()) {
+                const formData = new FormData(form);
+                // Here you would typically send the data to your server
+                console.log('Form data:', Object.fromEntries(formData));
+                alert('Form submitted successfully!');
+                form.reset();
+                window.location.hash = 'step1';
+            } else {
+                form.classList.add('was-validated');
+            }
+            return false;
         }
 
         // Listen for hash changes
@@ -398,6 +434,18 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     preserveQueryParams(this);
+                });
+            });
+        });
+
+        // Add input validation listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[required], textarea[required]');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.classList.remove('is-invalid');
+                    }
                 });
             });
         });
