@@ -131,6 +131,28 @@
         .service-card:hover {
             transform: translateY(-5px);
         }
+        /* Add styles for modal centering */
+        .modal {
+            display: none;
+        }
+        .modal.show {
+            display: block;
+        }
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1rem);
+        }
+        @media (min-width: 576px) {
+            .modal-dialog {
+                min-height: calc(100% - 3.5rem);
+            }
+        }
+        .modal-content {
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
@@ -184,7 +206,7 @@
         <!-- Position: Fixed Modal -->
         <div class="modal fade" id="fixedModal" tabindex="-1" aria-labelledby="fixedModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="fixedModalLabel">Fixed Position Modal</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -210,7 +232,7 @@
         <!-- Position: Absolute Modal -->
         <div class="modal fade" id="absoluteModal" tabindex="-1" aria-labelledby="absoluteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content" style="position: absolute; top: 20px; left: 20px;">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="absoluteModalLabel">Absolute Position Modal</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -233,7 +255,7 @@
         <!-- Position: Relative Modal -->
         <div class="modal fade" id="relativeModal" tabindex="-1" aria-labelledby="relativeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content" style="position: relative; top: 20px; left: 20px;">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="relativeModalLabel">Relative Position Modal</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -447,43 +469,48 @@
         </section>
     </div>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
+            crossorigin="anonymous"></script>
+
+    <!-- Custom Script -->
     <script>
+        // Initialize all modals
+        document.addEventListener('DOMContentLoaded', function() {
+            var myModals = [].slice.call(document.querySelectorAll('.modal'))
+            myModals.map(function(modal) {
+                return new bootstrap.Modal(modal);
+            });
+        });
+
+        // Preserve query parameters for navigation
         function preserveQueryParams(link) {
-            // Get all current URL parameters
             const currentParams = new URLSearchParams(window.location.search);
             const id = currentParams.get('id');
             const isSync = window.location.href.includes('sync');
             
             if (id || isSync) {
-                // Get the href from the link
                 let href = link.getAttribute('href');
                 let newUrl = new URL(href, window.location.origin);
                 
-                // Preserve the ID if it exists
                 if (id) {
                     newUrl.searchParams.set('id', id);
                 }
                 
-                // Preserve sync parameter if it exists
                 if (isSync) {
                     newUrl.searchParams.set('sync', '');
                 }
                 
-                // Update the link's href and navigate
                 window.location.href = newUrl.toString();
                 return false;
             }
             return true;
         }
-        
-        // Add event listeners to all navigation links when the page loads
+
+        // Add event listeners to navigation links
         document.addEventListener('DOMContentLoaded', function() {
-            // Find all navigation links
             const navLinks = document.querySelectorAll('a[href$=".html"]');
-            
-            // Add the preserveQueryParams handler to each link
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -491,6 +518,6 @@
                 });
             });
         });
-        </script>
+    </script>
 </body>
 </html> 
