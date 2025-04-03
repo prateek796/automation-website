@@ -158,10 +158,155 @@
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
                         <p class="text-center">We offer a wide range of professional services to meet your needs.</p>
+                        <!-- Modal Trigger Buttons -->
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#fixedModal">
+                                Fixed Position Modal
+                            </button>
+                            <button class="btn btn-secondary m-2" data-bs-toggle="modal" data-bs-target="#absoluteModal">
+                                Absolute Position Modal
+                            </button>
+                            <button class="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#relativeModal">
+                                Relative Position Modal
+                            </button>
+                            <button class="btn btn-info m-2" data-bs-toggle="modal" data-bs-target="#stickyModal">
+                                Sticky Position Modal
+                            </button>
+                            <button class="btn btn-warning m-2" data-bs-toggle="modal" data-bs-target="#staticModal">
+                                Static Position Modal
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Position: Fixed Modal -->
+        <div class="modal fade" id="fixedModal" tabindex="-1" aria-labelledby="fixedModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="fixedModalLabel">Fixed Position Modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This modal uses position: fixed. It stays in a fixed position relative to the viewport, even when scrolling.</p>
+                        <div style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                            <p>Scroll this content to see the fixed positioning in action.</p>
+                            <p>The modal stays fixed while you scroll this content.</p>
+                            <!-- Add more content to make it scrollable -->
+                            <p>Additional content...</p>
+                            <p>More content...</p>
+                            <p>Even more content...</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position: Absolute Modal -->
+        <div class="modal fade" id="absoluteModal" tabindex="-1" aria-labelledby="absoluteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="position: absolute; top: 20px; left: 20px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="absoluteModalLabel">Absolute Position Modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This modal uses position: absolute. It's positioned relative to its nearest positioned ancestor.</p>
+                        <div style="position: relative; height: 150px; border: 1px solid #ddd; padding: 10px;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f8f9fa; padding: 10px;">
+                                This box is absolutely positioned within its container
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position: Relative Modal -->
+        <div class="modal fade" id="relativeModal" tabindex="-1" aria-labelledby="relativeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="position: relative; top: 20px; left: 20px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="relativeModalLabel">Relative Position Modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This modal uses position: relative. It's positioned relative to its normal position.</p>
+                        <div style="height: 150px; border: 1px solid #ddd; padding: 10px;">
+                            <div style="position: relative; left: 20px; top: 20px; background: #f8f9fa; padding: 10px;">
+                                This box is relatively positioned
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position: Sticky Modal -->
+        <div class="modal fade" id="stickyModal" tabindex="-1" aria-labelledby="stickyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="stickyModalLabel">Sticky Position Modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This modal demonstrates position: sticky. Scroll the content below to see the sticky header in action.</p>
+                        <div style="height: 200px; overflow-y: auto; border: 1px solid #ddd;">
+                            <div style="position: sticky; top: 0; background: #f8f9fa; padding: 10px; z-index: 1;">
+                                This header stays sticky while scrolling
+                            </div>
+                            <div style="padding: 10px;">
+                                <p>Scroll this content...</p>
+                                <p>More content...</p>
+                                <p>Even more content...</p>
+                                <p>Keep scrolling...</p>
+                                <p>Almost there...</p>
+                                <p>More text to scroll...</p>
+                                <p>Final line.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position: Static Modal -->
+        <div class="modal fade" id="staticModal" tabindex="-1" aria-labelledby="staticModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="position: static;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticModalLabel">Static Position Modal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This modal uses position: static. This is the default positioning behavior.</p>
+                        <div style="height: 150px; border: 1px solid #ddd; padding: 10px;">
+                            <div style="position: static; background: #f8f9fa; padding: 10px;">
+                                This box has static positioning (default)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Section 2 - Service Categories -->
         <section class="section" style="background-color: #FFE6E6;">
