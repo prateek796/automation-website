@@ -232,6 +232,7 @@
                 input.id = config.id;
                 input.name = config.name;
                 input.required = true;
+                input.setAttribute('nls_fa_el_name', 'fa_' + config.name);
 
                 if (type === 'textarea') {
                     input.rows = 4;
@@ -264,7 +265,7 @@
                 const baseStyles = document.getElementById('baseStyles');
                 formFields.shadowRoot.appendChild(baseStyles.content.cloneNode(true));
 
-                // Create step 1 fields
+                // Create step 1 fields with nls_fa_el_name attributes
                 const fields = [
                     { type: 'text', config: { id: 'name', name: 'name', label: 'Full Name', feedback: 'Please enter your name.' } },
                     { type: 'email', config: { id: 'email', name: 'email', label: 'Email', feedback: 'Please enter a valid email address.' } },
@@ -292,7 +293,7 @@
                 const baseStyles = document.getElementById('baseStyles');
                 formFields.shadowRoot.appendChild(baseStyles.content.cloneNode(true));
 
-                // Create step 2 fields
+                // Create step 2 fields with nls_fa_el_name attributes
                 const fields = [
                     { type: 'text', config: { id: 'company', name: 'company', label: 'Company Name', feedback: 'Please enter your company name.' } },
                     { type: 'text', config: { id: 'jobTitle', name: 'jobTitle', label: 'Job Title', feedback: 'Please enter your job title.' } },
