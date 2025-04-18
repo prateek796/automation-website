@@ -145,7 +145,7 @@
         </div>
 
         <!-- Form in Light DOM -->
-        <form id="mainForm" class="needs-validation" novalidate>
+        <form id="mainForm" class="needs-validation" novalidate onsubmit="return false;">
             <!-- Form fields will be dynamically injected here -->
             <div id="formFieldsContainer"></div>
             
@@ -209,7 +209,14 @@
             }
 
             setupEventListeners() {
-                this.nextBtn.addEventListener('click', () => this.handleNextClick());
+                this.nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.handleNextClick();
+                });
+
+                document.getElementById('mainForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                });
             }
 
             createFormField(type, config) {
@@ -269,7 +276,10 @@
                     formFields.shadowRoot.appendChild(this.createFormField(field.type, field.config));
                 });
 
-                this.container.innerHTML = '';
+                // Clear container and append new fields
+                while (this.container.firstChild) {
+                    this.container.removeChild(this.container.firstChild);
+                }
                 this.container.appendChild(formFields);
                 this.addValidationListeners(formFields);
             }
@@ -307,15 +317,17 @@
                     formFields.shadowRoot.appendChild(this.createFormField(field.type, field.config));
                 });
 
-                this.container.innerHTML = '';
+                // Clear container and append new fields
+                while (this.container.firstChild) {
+                    this.container.removeChild(this.container.firstChild);
+                }
                 this.container.appendChild(formFields);
                 this.addValidationListeners(formFields);
 
-                // Change next button to submit
+                // Update button for submission
                 this.nextBtn.textContent = 'Submit';
                 this.nextBtn.classList.remove('btn-primary');
                 this.nextBtn.classList.add('btn-success');
-                this.nextBtn.type = 'submit';
             }
 
             addValidationListeners(formFields) {
@@ -362,11 +374,11 @@
                 if (!this.validateCurrentStep()) return;
 
                 if (this.currentStep === 1) {
-                    // Store step 1 data
+                    // Store step 1 data and move to step 2
                     this.formData = { ...this.formData, ...this.collectFormData() };
                     console.log('Step 1 data:', this.formData);
 
-                    // Update UI for step 2
+                    // Move to step 2
                     this.currentStep = 2;
                     this.progressBar.style.width = '100%';
                     this.progressBar.textContent = 'Step 2 of 2';
@@ -396,7 +408,6 @@
                     this.nextBtn.textContent = 'Next';
                     this.nextBtn.classList.remove('btn-success');
                     this.nextBtn.classList.add('btn-primary');
-                    this.nextBtn.type = 'button';
                     this.renderStep1();
                 }
             }
