@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shadow DOM Form with VWO - Atlas</title>
+    <title>Dynamic Shadow DOM Form - Atlas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
@@ -137,7 +137,7 @@
     </nav>
 
     <div class="container" style="margin-top: 80px;">
-        <h1 class="text-center mb-4">Shadow DOM Form with VWO Integration</h1>
+        <h1 class="text-center mb-4">Dynamic Shadow DOM Form</h1>
         
         <!-- Progress indicator -->
         <div class="progress mb-4" style="height: 30px;">
@@ -146,19 +146,17 @@
 
         <!-- Form in Light DOM -->
         <form id="mainForm" class="needs-validation" novalidate>
-            <!-- Custom elements that will contain Shadow DOM -->
-            <form-fields-step1></form-fields-step1>
-            <form-fields-step2 style="display: none;"></form-fields-step2>
+            <!-- Form fields will be dynamically injected here -->
+            <div id="formFieldsContainer"></div>
             
             <div class="text-center mt-4">
                 <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
-                <button type="submit" id="submitBtn" class="btn btn-success" style="display: none;">Submit</button>
             </div>
         </form>
     </div>
 
-    <!-- Template for Step 1 -->
-    <template id="formFieldsStep1Template">
+    <!-- Base styles template -->
+    <template id="baseStyles">
         <style>
             .form-group {
                 margin-bottom: 1rem;
@@ -195,253 +193,218 @@
                 display: block;
             }
         </style>
-        
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" required>
-            <div class="invalid-feedback">Please enter your name.</div>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            <div class="invalid-feedback">Please enter a valid email address.</div>
-        </div>
-
-        <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
-            <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
-        </div>
-
-        <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-            <div class="invalid-feedback">Please enter your message.</div>
-        </div>
-    </template>
-
-    <!-- Template for Step 2 -->
-    <template id="formFieldsStep2Template">
-        <style>
-            .form-group {
-                margin-bottom: 1rem;
-            }
-            label {
-                display: block;
-                margin-bottom: 0.5rem;
-                font-weight: 500;
-            }
-            input, select, textarea {
-                width: 100%;
-                padding: 0.375rem 0.75rem;
-                font-size: 1rem;
-                line-height: 1.5;
-                border: 1px solid #ced4da;
-                border-radius: 0.25rem;
-                transition: border-color 0.15s ease-in-out;
-            }
-            input:focus, select:focus, textarea:focus {
-                border-color: #86b7fe;
-                outline: 0;
-                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-            }
-            .invalid-feedback {
-                display: none;
-                color: #dc3545;
-                font-size: 0.875rem;
-                margin-top: 0.25rem;
-            }
-            .is-invalid {
-                border-color: #dc3545;
-            }
-            .is-invalid ~ .invalid-feedback {
-                display: block;
-            }
-        </style>
-        
-        <div class="form-group">
-            <label for="company">Company Name</label>
-            <input type="text" id="company" name="company" required>
-            <div class="invalid-feedback">Please enter your company name.</div>
-        </div>
-
-        <div class="form-group">
-            <label for="jobTitle">Job Title</label>
-            <input type="text" id="jobTitle" name="jobTitle" required>
-            <div class="invalid-feedback">Please enter your job title.</div>
-        </div>
-
-        <div class="form-group">
-            <label for="department">Department</label>
-            <select id="department" name="department" required>
-                <option value="">Select Department</option>
-                <option value="IT">IT</option>
-                <option value="HR">HR</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Sales">Sales</option>
-                <option value="Other">Other</option>
-            </select>
-            <div class="invalid-feedback">Please select your department.</div>
-        </div>
-
-        <div class="form-group">
-            <label for="experience">Years of Experience</label>
-            <input type="number" id="experience" name="experience" min="0" max="50" required>
-            <div class="invalid-feedback">Please enter valid years of experience (0-50).</div>
-        </div>
     </template>
 
     <script>
-        // Base class for form fields
-        class BaseFormFields extends HTMLElement {
-            constructor(templateId) {
-                super();
-                this.attachShadow({ mode: 'open' });
-                
-                const template = document.getElementById(templateId);
-                const templateContent = template.content.cloneNode(true);
-                
-                this.shadowRoot.appendChild(templateContent);
-                this.addValidationListeners();
+        class DynamicForm {
+            constructor() {
+                this.container = document.getElementById('formFieldsContainer');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.progressBar = document.querySelector('.progress-bar');
+                this.currentStep = 1;
+                this.formData = {};
+
+                this.setupEventListeners();
+                this.renderStep1();
             }
 
-            addValidationListeners() {
-                const inputs = this.shadowRoot.querySelectorAll('input, textarea, select');
+            setupEventListeners() {
+                this.nextBtn.addEventListener('click', () => this.handleNextClick());
+            }
+
+            createFormField(type, config) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'form-group';
+                
+                const label = document.createElement('label');
+                label.setAttribute('for', config.id);
+                label.textContent = config.label;
+                wrapper.appendChild(label);
+
+                const input = document.createElement(type === 'textarea' ? 'textarea' : 'input');
+                input.id = config.id;
+                input.name = config.name;
+                input.required = true;
+
+                if (type === 'textarea') {
+                    input.rows = 4;
+                } else if (type === 'select') {
+                    input.innerHTML = config.options.map(opt => 
+                        `<option value="${opt.value}">${opt.label}</option>`
+                    ).join('');
+                } else {
+                    input.type = type;
+                    if (config.pattern) input.pattern = config.pattern;
+                    if (config.min !== undefined) input.min = config.min;
+                    if (config.max !== undefined) input.max = config.max;
+                }
+
+                wrapper.appendChild(input);
+
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.textContent = config.feedback;
+                wrapper.appendChild(feedback);
+
+                return wrapper;
+            }
+
+            renderStep1() {
+                const formFields = document.createElement('form-fields');
+                formFields.attachShadow({ mode: 'open' });
+
+                // Add base styles
+                const baseStyles = document.getElementById('baseStyles');
+                formFields.shadowRoot.appendChild(baseStyles.content.cloneNode(true));
+
+                // Create step 1 fields
+                const fields = [
+                    { type: 'text', config: { id: 'name', name: 'name', label: 'Full Name', feedback: 'Please enter your name.' } },
+                    { type: 'email', config: { id: 'email', name: 'email', label: 'Email', feedback: 'Please enter a valid email address.' } },
+                    { type: 'tel', config: { id: 'phone', name: 'phone', label: 'Phone Number', pattern: '[0-9]{10}', feedback: 'Please enter a valid 10-digit phone number.' } },
+                    { type: 'textarea', config: { id: 'message', name: 'message', label: 'Message', feedback: 'Please enter your message.' } }
+                ];
+
+                fields.forEach(field => {
+                    formFields.shadowRoot.appendChild(this.createFormField(field.type, field.config));
+                });
+
+                this.container.innerHTML = '';
+                this.container.appendChild(formFields);
+                this.addValidationListeners(formFields);
+            }
+
+            renderStep2() {
+                const formFields = document.createElement('form-fields');
+                formFields.attachShadow({ mode: 'open' });
+
+                // Add base styles
+                const baseStyles = document.getElementById('baseStyles');
+                formFields.shadowRoot.appendChild(baseStyles.content.cloneNode(true));
+
+                // Create step 2 fields
+                const fields = [
+                    { type: 'text', config: { id: 'company', name: 'company', label: 'Company Name', feedback: 'Please enter your company name.' } },
+                    { type: 'text', config: { id: 'jobTitle', name: 'jobTitle', label: 'Job Title', feedback: 'Please enter your job title.' } },
+                    { type: 'select', config: { 
+                        id: 'department', 
+                        name: 'department', 
+                        label: 'Department',
+                        options: [
+                            { value: '', label: 'Select Department' },
+                            { value: 'IT', label: 'IT' },
+                            { value: 'HR', label: 'HR' },
+                            { value: 'Marketing', label: 'Marketing' },
+                            { value: 'Sales', label: 'Sales' },
+                            { value: 'Other', label: 'Other' }
+                        ],
+                        feedback: 'Please select your department.'
+                    }},
+                    { type: 'number', config: { id: 'experience', name: 'experience', label: 'Years of Experience', min: 0, max: 50, feedback: 'Please enter valid years of experience (0-50).' } }
+                ];
+
+                fields.forEach(field => {
+                    formFields.shadowRoot.appendChild(this.createFormField(field.type, field.config));
+                });
+
+                this.container.innerHTML = '';
+                this.container.appendChild(formFields);
+                this.addValidationListeners(formFields);
+
+                // Change next button to submit
+                this.nextBtn.textContent = 'Submit';
+                this.nextBtn.classList.remove('btn-primary');
+                this.nextBtn.classList.add('btn-success');
+                this.nextBtn.type = 'submit';
+            }
+
+            addValidationListeners(formFields) {
+                const inputs = formFields.shadowRoot.querySelectorAll('input, textarea, select');
                 inputs.forEach(input => {
                     input.addEventListener('input', () => {
-                        this.validateField(input);
-                    });
-
-                    input.addEventListener('invalid', (e) => {
-                        e.preventDefault();
-                        this.validateField(input);
+                        if (!input.checkValidity()) {
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.remove('is-invalid');
+                        }
                     });
                 });
             }
 
-            validateField(field) {
-                if (!field.checkValidity()) {
-                    field.classList.add('is-invalid');
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            }
-
-            validateAll() {
-                const inputs = this.shadowRoot.querySelectorAll('input, textarea, select');
+            validateCurrentStep() {
+                const formFields = this.container.querySelector('form-fields');
+                const inputs = formFields.shadowRoot.querySelectorAll('input, textarea, select');
                 let isValid = true;
-                
+
                 inputs.forEach(input => {
                     if (!input.checkValidity()) {
-                        isValid = false;
                         input.classList.add('is-invalid');
+                        isValid = false;
                     }
                 });
 
                 return isValid;
             }
 
-            getFormData() {
-                const formData = {};
-                const inputs = this.shadowRoot.querySelectorAll('input, textarea, select');
+            collectFormData() {
+                const formFields = this.container.querySelector('form-fields');
+                const inputs = formFields.shadowRoot.querySelectorAll('input, textarea, select');
+                const data = {};
+
                 inputs.forEach(input => {
-                    formData[input.name] = input.value;
+                    data[input.name] = input.value;
                 });
-                return formData;
+
+                return data;
             }
 
-            reset() {
-                const inputs = this.shadowRoot.querySelectorAll('input, textarea, select');
-                inputs.forEach(input => {
-                    input.value = '';
-                    input.classList.remove('is-invalid');
-                });
-            }
-        }
+            handleNextClick() {
+                if (!this.validateCurrentStep()) return;
 
-        // Step 1 form fields
-        class FormFieldsStep1 extends BaseFormFields {
-            constructor() {
-                super('formFieldsStep1Template');
-            }
-        }
-
-        // Step 2 form fields
-        class FormFieldsStep2 extends BaseFormFields {
-            constructor() {
-                super('formFieldsStep2Template');
-            }
-        }
-
-        // Register custom elements
-        customElements.define('form-fields-step1', FormFieldsStep1);
-        customElements.define('form-fields-step2', FormFieldsStep2);
-
-        // Form handling
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('mainForm');
-            const step1 = document.querySelector('form-fields-step1');
-            const step2 = document.querySelector('form-fields-step2');
-            const nextBtn = document.getElementById('nextBtn');
-            const submitBtn = document.getElementById('submitBtn');
-            const progressBar = document.querySelector('.progress-bar');
-            let currentStep = 1;
-
-            // Next button handler
-            nextBtn.addEventListener('click', () => {
-                if (step1.validateAll()) {
+                if (this.currentStep === 1) {
                     // Store step 1 data
-                    const step1Data = step1.getFormData();
-                    console.log('Step 1 data:', step1Data);
+                    this.formData = { ...this.formData, ...this.collectFormData() };
+                    console.log('Step 1 data:', this.formData);
 
-                    // Show step 2
-                    step1.style.display = 'none';
-                    step2.style.display = 'block';
-                    nextBtn.style.display = 'none';
-                    submitBtn.style.display = 'inline-block';
-                    progressBar.style.width = '100%';
-                    progressBar.textContent = 'Step 2 of 2';
-                    currentStep = 2;
+                    // Update UI for step 2
+                    this.currentStep = 2;
+                    this.progressBar.style.width = '100%';
+                    this.progressBar.textContent = 'Step 2 of 2';
+                    this.renderStep2();
 
-                    // Notify VWO about step change
+                    // Notify VWO
                     if (typeof window._vwo_code !== 'undefined') {
                         window._vwo_code.finish();
                     }
-                }
-            });
-
-            // Form submission
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                if (step2.validateAll()) {
-                    // Combine data from both steps
-                    const formData = {
-                        ...step1.getFormData(),
-                        ...step2.getFormData()
-                    };
-
-                    // Notify VWO about form submission
+                } else {
+                    // Handle form submission
+                    this.formData = { ...this.formData, ...this.collectFormData() };
+                    console.log('Form submitted:', this.formData);
+                    
+                    // Notify VWO
                     if (typeof window._vwo_code !== 'undefined') {
                         window._vwo_code.finish();
                     }
 
-                    console.log('Form submitted:', formData);
                     alert('Form submitted successfully!');
                     
-                    // Reset form and return to step 1
-                    step1.reset();
-                    step2.reset();
-                    step1.style.display = 'block';
-                    step2.style.display = 'none';
-                    nextBtn.style.display = 'inline-block';
-                    submitBtn.style.display = 'none';
-                    progressBar.style.width = '50%';
-                    progressBar.textContent = 'Step 1 of 2';
-                    currentStep = 1;
+                    // Reset form to step 1
+                    this.currentStep = 1;
+                    this.formData = {};
+                    this.progressBar.style.width = '50%';
+                    this.progressBar.textContent = 'Step 1 of 2';
+                    this.nextBtn.textContent = 'Next';
+                    this.nextBtn.classList.remove('btn-success');
+                    this.nextBtn.classList.add('btn-primary');
+                    this.nextBtn.type = 'button';
+                    this.renderStep1();
                 }
-            });
+            }
+        }
+
+        // Initialize form when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new DynamicForm();
         });
 
         // Preserve query parameters for navigation
