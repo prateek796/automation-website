@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Form</title>
+    <style>
+        .custom-field {
+            margin-bottom: 20px;
+        }
+        .input-style {
+            display: inline-block;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #f5f5f5;
+            cursor: pointer;
+        }
+        .checkbox-style {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #888;
+            border-radius: 3px;
+            vertical-align: middle;
+            margin-right: 8px;
+            background: #fff;
+        }
+        .label-text {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        <div class="custom-field">
+            <input type="text" id="name" name="name" style="display: none;">
+            <div class="input-style" id="nameDisplay">Name</div>
+        </div>
+        <div class="custom-field">
+            <input type="email" id="email" name="email" style="display: none;">
+            <div class="input-style" id="emailDisplay">Email</div>
+        </div>
+        <div class="custom-field">
+            <input type="radio" id="genderMale" name="gender" value="male" style="display: none;">
+            <input type="radio" id="genderFemale" name="gender" value="female" style="display: none;">
+            <div class="input-style" id="genderDisplay">Gender: Male / Female</div>
+        </div>
+        <div class="custom-field">
+            <input type="checkbox" id="terms" name="terms" style="display: none;">
+            <div class="checkbox-style" id="termsCheck"></div>
+            <span class="label-text">I agree to the terms</span>
+        </div>
+        <div class="custom-field">
+            <input type="submit" value="Submit" style="display: none;">
+            <div class="input-style" id="submitDisplay">Submit</div>
+        </div>
+    </form>
+</body>
+</html>

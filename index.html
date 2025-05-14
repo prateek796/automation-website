@@ -1018,6 +1018,91 @@
         // Define the custom element
         customElements.define('custom-input', CustomInputElement);
     </script>
+    <button id="attachShadowBtn">Attach Shadow DOM</button>
+
+    <script>
+        document.getElementById('attachShadowBtn').addEventListener('click', function() {
+            // Create the host element
+            const host = document.createElement('div');
+            host.id = 'shadowHost';
+            document.body.appendChild(host);
+            
+            // Create shadow root
+            const shadowRoot = host.attachShadow({mode: 'open'});
+            
+            // Create content for shadow DOM
+            const wrapper = document.createElement('div');
+            wrapper.style.padding = '20px';
+            wrapper.style.border = '2px solid #ccc';
+            wrapper.style.margin = '10px';
+            
+            // Create multiple divs with content
+            const div1 = document.createElement('div');
+            div1.textContent = 'Shadow Content 1';
+            div1.style.marginBottom = '10px';
+            
+            const div2 = document.createElement('div');
+            div2.textContent = 'Shadow Content 2';
+            div2.style.marginBottom = '10px';
+            
+            const div3 = document.createElement('div');
+            div3.textContent = 'Shadow Content 3';
+            div3.style.marginBottom = '10px';
+            
+            const div4 = document.createElement('div');
+            div4.textContent = 'Shadow Content 4';
+            
+            // Append all divs to wrapper
+            wrapper.appendChild(div1);
+            wrapper.appendChild(div2);
+            wrapper.appendChild(div3);
+            wrapper.appendChild(div4);
+            
+            // Append wrapper to shadow root
+            shadowRoot.appendChild(wrapper);
+        });
+    </script>
+    <div id="existingDiv">This is a pre-existing div with some content</div>
+    <button id="attachShadowToExisting">Attach Shadow DOM to Existing Div</button>
+
+    <script>
+        document.getElementById('attachShadowToExisting').addEventListener('click', function() {
+            // Get the existing div
+            const existingHost = document.getElementById('existingDiv');
+            
+            // Create shadow root
+            const shadowRoot = existingHost.attachShadow({mode: 'open'});
+            
+            // Create content for shadow DOM
+            const wrapper = document.createElement('div');
+            wrapper.style.padding = '20px';
+            wrapper.style.border = '2px solid #ccc';
+            wrapper.style.margin = '10px';
+            
+            // Create content div
+            const contentDiv = document.createElement('div');
+            contentDiv.textContent = 'This content is now in the shadow DOM!';
+            contentDiv.style.color = '#333';
+            contentDiv.style.fontSize = '16px';
+            
+            // Add some styling to demonstrate shadow DOM encapsulation
+            const style = document.createElement('style');
+            style.textContent = `
+                div {
+                    background-color: #f5f5f5;
+                    border-radius: 5px;
+                }
+            `;
+            
+            // Append elements to wrapper
+            wrapper.appendChild(style);
+            wrapper.appendChild(contentDiv);
+            
+            // Append wrapper to shadow root
+            shadowRoot.appendChild(wrapper);
+        });
+    </script>
+
     <h3>ANONYMIZATION CASES</h3>
     <div style="display: flex; flex-direction: column;">
       <input type="submit" value="Submit">
