@@ -150,6 +150,28 @@
       padding: 2px 8px;
       display: inline-block;
     }
+    .sim-btn {
+      margin-left: 10px;
+      padding: 2px 10px;
+      font-size: 13px;
+      border-radius: 4px;
+      border: 1px solid #888;
+      background: #e6f7ff;
+      cursor: pointer;
+    }
+    .log-area {
+      margin-top: 30px;
+      background: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 12px 18px;
+      font-size: 15px;
+      max-width: 700px;
+      min-height: 60px;
+      color: #333;
+      font-family: monospace;
+      white-space: pre-line;
+    }
     #case-1 { background: #2ecc40; }
     #case-2 { background: #ff4136; }
     #case-3 { background: #ff851b; }
@@ -159,8 +181,8 @@
     #case-7 { background: #39cccc; }
     #case-8 { background: #3d9970; }
     .hidden { display: none !important; }
-    .shrinking { transition: width 0.5s, height 0.5s; width: 0 !important; height: 0 !important; }
-    .fading { transition: opacity 0.5s; opacity: 0 !important; }
+    .shrinking { transition: width var(--transition-duration), height var(--transition-duration); width: 0 !important; height: 0 !important; }
+    .fading { transition: opacity var(--transition-duration); opacity: 0 !important; }
     .instant-hide { display: none !important; }
     .vis-hidden { visibility: hidden !important; }
     .instant-opacity { opacity: 0 !important; }
@@ -171,18 +193,24 @@
 <body>
 
   <h2>Dead Click Visibility Testing</h2>
-  <p>Click on any box to check if it's considered <strong>visible</strong> or a <strong>dead click</strong>. Each box will animate/hide within 500ms. Click again during the transition to test dead click logic. Use Reset to restore all boxes.</p>
+  <p>Click on any box to check if it's considered <strong>visible</strong> or a <strong>dead click</strong>. Each box will animate/hide within <span id="transition-label">2s</span>. Click again during the transition to test dead click logic. Use Reset to restore all boxes. Use 'Simulate Transition Click' to programmatically click during transition.</p>
   <button class="reset-btn" onclick="resetAll()">Reset All</button>
-  <div id="case-1" class="test-box">Case 1: Fade Out (opacity transition)<span class="result-message" id="msg-1"></span></div>
-  <div id="case-2" class="test-box">Case 2: Shrink (width/height transition)<span class="result-message" id="msg-2"></span></div>
-  <div id="case-3" class="test-box">Case 3: Fade then Hide (opacity then display:none)<span class="result-message" id="msg-3"></span></div>
-  <div id="case-4" class="test-box">Case 4: Instantly Hide (display:none)<span class="result-message" id="msg-4"></span></div>
-  <div id="case-5" class="test-box">Case 5: Instantly Opacity 0<span class="result-message" id="msg-5"></span></div>
-  <div id="case-6" class="test-box">Case 6: Instantly Visibility Hidden<span class="result-message" id="msg-6"></span></div>
-  <div id="case-7" class="test-box">Case 7: Instantly Shrink (width/height 0)<span class="result-message" id="msg-7"></span></div>
-  <div id="case-8" class="test-box">Case 8: Normal (never hides)<span class="result-message" id="msg-8"></span></div>
+  <div id="case-1" class="test-box">Case 1: Fade Out (opacity transition)<span class="result-message" id="msg-1"></span><button class="sim-btn" onclick="simulateTransitionClick(1, event)">Simulate Transition Click</button></div>
+  <div id="case-2" class="test-box">Case 2: Shrink (width/height transition)<span class="result-message" id="msg-2"></span><button class="sim-btn" onclick="simulateTransitionClick(2, event)">Simulate Transition Click</button></div>
+  <div id="case-3" class="test-box">Case 3: Fade then Hide (opacity then display:none)<span class="result-message" id="msg-3"></span><button class="sim-btn" onclick="simulateTransitionClick(3, event)">Simulate Transition Click</button></div>
+  <div id="case-4" class="test-box">Case 4: Instantly Hide (display:none)<span class="result-message" id="msg-4"></span><button class="sim-btn" onclick="simulateTransitionClick(4, event)">Simulate Transition Click</button></div>
+  <div id="case-5" class="test-box">Case 5: Instantly Opacity 0<span class="result-message" id="msg-5"></span><button class="sim-btn" onclick="simulateTransitionClick(5, event)">Simulate Transition Click</button></div>
+  <div id="case-6" class="test-box">Case 6: Instantly Visibility Hidden<span class="result-message" id="msg-6"></span><button class="sim-btn" onclick="simulateTransitionClick(6, event)">Simulate Transition Click</button></div>
+  <div id="case-7" class="test-box">Case 7: Instantly Shrink (width/height 0)<span class="result-message" id="msg-7"></span><button class="sim-btn" onclick="simulateTransitionClick(7, event)">Simulate Transition Click</button></div>
+  <div id="case-8" class="test-box">Case 8: Normal (never hides)<span class="result-message" id="msg-8"></span><button class="sim-btn" onclick="simulateTransitionClick(8, event)">Simulate Transition Click</button></div>
+  <div class="log-area" id="log-area"></div>
 
   <script>
+    // Set transition duration for all transitions (change here for 500ms/2s)
+    const TRANSITION_DURATION = 2000; // ms (set to 500 for production)
+    document.documentElement.style.setProperty('--transition-duration', TRANSITION_DURATION + 'ms');
+    document.getElementById('transition-label').textContent = (TRANSITION_DURATION/1000) + 's';
+
     const deadClickUtils = {
       isNodeVisible(node) {
         if (!node || !(node instanceof HTMLElement)) {
@@ -217,11 +245,18 @@
       8: { normal: true }
     };
 
-    function showResult(caseNum, visible) {
+    function log(msg) {
+      const logArea = document.getElementById('log-area');
+      logArea.textContent += msg + '\n';
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    function showResult(caseNum, visible, timing) {
       const msg = document.getElementById('msg-' + caseNum);
-      msg.textContent = visible ? 'Not Dead (Visible)' : 'Dead Click';
+      msg.textContent = (visible ? 'Not Dead (Visible)' : 'Dead Click') + (timing ? ' [' + timing + ']' : '');
       msg.style.color = visible ? 'green' : 'red';
-      setTimeout(() => { msg.textContent = ''; }, 1200);
+      setTimeout(() => { msg.textContent = ''; }, 1800);
+      log(`Case ${caseNum} | ${timing || 'Manual'} | ${visible ? 'Not Dead (Visible)' : 'Dead Click'}`);
     }
 
     function resetAll() {
@@ -236,20 +271,21 @@
         box.style.display = 'flex';
         state[i] = {};
       }
+      document.getElementById('log-area').textContent = '';
     }
 
-    function handleBoxClick(e) {
-      const el = e.currentTarget;
+    function handleBoxClick(e, timing) {
+      const el = e.currentTarget || e;
       const id = el.id;
       const caseNum = parseInt(id.split('-')[1], 10);
       const visible = deadClickUtils.isNodeVisible(el);
-      showResult(caseNum, visible);
+      showResult(caseNum, visible, timing);
       // Animate/hide based on case
       switch (caseNum) {
         case 1: // Fade out (opacity transition)
           if (!state[1].fading) {
             el.classList.add('fading');
-            el.style.transition = 'opacity 0.5s';
+            el.style.transition = `opacity ${TRANSITION_DURATION}ms`;
             state[1].fading = true;
             setTimeout(() => {
               el.style.opacity = '0';
@@ -259,7 +295,7 @@
         case 2: // Shrink (width/height transition)
           if (!state[2].shrinking) {
             el.classList.add('shrinking');
-            el.style.transition = 'width 0.5s, height 0.5s';
+            el.style.transition = `width ${TRANSITION_DURATION}ms, height ${TRANSITION_DURATION}ms`;
             state[2].shrinking = true;
             setTimeout(() => {
               el.style.width = '0';
@@ -270,7 +306,7 @@
         case 3: // Fade then hide (opacity then display:none)
           if (!state[3].fading && !state[3].hidden) {
             el.classList.add('fading');
-            el.style.transition = 'opacity 0.5s';
+            el.style.transition = `opacity ${TRANSITION_DURATION}ms`;
             state[3].fading = true;
             setTimeout(() => {
               el.style.opacity = '0';
@@ -278,7 +314,7 @@
                 el.classList.remove('fading');
                 el.classList.add('hidden');
                 state[3].hidden = true;
-              }, 500);
+              }, TRANSITION_DURATION);
             }, 10);
           }
           break;
@@ -313,6 +349,32 @@
         case 8: // Normal, never hides
           // No action
           break;
+      }
+    }
+
+    function simulateTransitionClick(caseNum, event) {
+      event.stopPropagation();
+      const el = document.getElementById('case-' + caseNum);
+      // Start the transition if not already started
+      if (caseNum === 1 && !state[1].fading) {
+        handleBoxClick({ currentTarget: el }, 'Manual');
+        setTimeout(() => {
+          // Simulate click during transition (midway)
+          showResult(caseNum, deadClickUtils.isNodeVisible(el), 'During Transition');
+        }, TRANSITION_DURATION / 2);
+      } else if (caseNum === 2 && !state[2].shrinking) {
+        handleBoxClick({ currentTarget: el }, 'Manual');
+        setTimeout(() => {
+          showResult(caseNum, deadClickUtils.isNodeVisible(el), 'During Transition');
+        }, TRANSITION_DURATION / 2);
+      } else if (caseNum === 3 && !state[3].fading && !state[3].hidden) {
+        handleBoxClick({ currentTarget: el }, 'Manual');
+        setTimeout(() => {
+          showResult(caseNum, deadClickUtils.isNodeVisible(el), 'During Transition');
+        }, TRANSITION_DURATION / 2);
+      } else {
+        // For instant cases or already transitioned, just show current state
+        showResult(caseNum, deadClickUtils.isNodeVisible(el), 'After Transition');
       }
     }
 
