@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dead Click Visibility Test</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .test-box {
+      width: 150px;
+      height: 50px;
+      margin: 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    #case-1 { background: green; transition: all 1s; opacity: 0; width: 0; height: 0; visibility: visible; display: block; }
+    #case-2 { background: red; transition: opacity 1s; display: none; visibility: visible; }
+    #case-3 { background: orange; transition: none; opacity: 0; visibility: visible; display: block; }
+    #case-4 { background: blue; transition: none; opacity: 1; visibility: visible; display: block; }
+    #case-5 { background: purple; transition: ''; opacity: 0; display: block; visibility: visible; }
+  </style>
+</head>
+<body>
+
+  <h2>Dead Click Visibility Testing</h2>
+  <p>Click on any box to check if it's considered <strong>visible</strong> or a <strong>dead click</strong>.</p>
+
+  <div id="case-1" class="test-box">Case 1: Transitioning, Visible</div>
+  <div id="case-2" class="test-box">Case 2: Transitioning, Display None</div>
+  <div id="case-3" class="test-box">Case 3: Not Transitioning, Opacity 0</div>
+  <div id="case-4" class="test-box">Case 4: Fully Visible</div>
+  <div id="case-5" class="test-box">Case 5: Transition Empty, Opacity 0</div>
+
+  <script>
+    const deadClickUtils = {
+      isNodeVisible(node) {
+        if (!node || !(node instanceof HTMLElement)) {
+          return false;
+        }
+
+        const computedStyle = window.getComputedStyle(node);
+        const boundingClientRect = node.getBoundingClientRect();
+
+        const isTransitioning =
+          computedStyle?.transition !== 'none' && computedStyle?.transition !== '';
+
+        if (isTransitioning) {
+          return !(computedStyle.display === 'none' || computedStyle.visibility === 'hidden');
+        }
+
+        return !(
+          computedStyle.display === 'none' ||
+          computedStyle.visibility === 'hidden' ||
+          computedStyle.opacity === '0' ||
+          boundingClientRect.width <= 0 ||
+          boundingClientRect.height <= 0
+        );
+      }
+    };
+
+    function logClickResult(e) {
+      const el = e.currentTarget;
+      const id = el.id;
+      const visible = deadClickUtils.isNodeVisible(el);
+      const rect = el.getBoundingClientRect();
+      const computedStyle = window.getComputedStyle(el);
+
+      console.group(`Clicked: ${id}`);
+      console.log("Visible (according to isNodeVisible):", visible);
+      console.log("Dead Click:", visible ? "No" : "Yes");
+      console.log("Display:", computedStyle.display);
+      console.log("Visibility:", computedStyle.visibility);
+      console.log("Opacity:", computedStyle.opacity);
+      console.log("Transition:", computedStyle.transition);
+      console.log("Bounding Box:", { width: rect.width, height: rect.height });
+      console.groupEnd();
+    }
+
+    document.querySelectorAll(".test-box").forEach(el => {
+      el.addEventListener("click", logClickResult);
+    });
+  </script>
+</body>
+</html> 
