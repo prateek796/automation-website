@@ -2,145 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dead Click Visibility Test</title>
-  <!-- Start VWO Async SmartCode -->
-  <script type="text/javascript" id="vwoCode">
-    // Function to get ID from URL
-    function getVWOAccountId() {
-      const params = new URLSearchParams(window.location.search);
-      const urlId = params.get('id');
-      const isSync = window.location.href.includes('sync');
-      // If URL has an ID parameter, use that
-      if (urlId) {
-        return urlId;
-      }
-      // Default ID if none specified
-      return '814397';
-    }
-    if (window.location.href.includes('sync')) {
-      var script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
-      script.id = 'vwoCode';
-      script.referrerPolicy = 'no-referrer-when-downgrade';
-      document.head.appendChild(script);
-      var anotherScript = document.createElement('script');
-      anotherScript.type = 'text/javascript';
-      anotherScript.src = 'path/to/your/other/script.js';
-      document.head.appendChild(anotherScript);
-    } else {
-      window._vwo_code = window._vwo_code || (function() {
-        var account_id = getVWOAccountId(),
-            version = 1.5,
-            settings_tolerance = 2000,
-            library_tolerance = 2500,
-            use_existing_jquery = false,
-            is_spa = 1,
-            hide_element = "body",
-            hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
-        var f = false,
-            d = document,
-            vwoCodeEl = d.querySelector("#vwoCode"),
-            code = {
-              use_existing_jquery: function() { return use_existing_jquery; },
-              library_tolerance: function() { return library_tolerance; },
-              hide_element_style: function() { return "{" + hide_element_style + "}"; },
-              finish: function() {
-                if (!f) {
-                  f = true;
-                  var e = d.getElementById("_vis_opt_path_hides");
-                  if (e) e.parentNode.removeChild(e);
-                }
-              },
-              finished: function() { return f; },
-              load: function(e) {
-                var t = d.createElement("script");
-                t.fetchPriority = "high";
-                t.src = e;
-                t.type = "text/javascript";
-                t.onerror = function() { _vwo_code.finish(); };
-                d.getElementsByTagName("head")[0].appendChild(t);
-              },
-              getVersion: function() { return version; },
-              getMatchedCookies: function(e) {
-                var t = [];
-                if (document.cookie) { t = document.cookie.match(e) || []; }
-                return t;
-              },
-              getCombinationCookie: function() {
-                var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
-                e = e.map(function(e) {
-                  try {
-                    var t = decodeURIComponent(e);
-                    if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ""; }
-                    return t;
-                  } catch (e) { return ""; }
-                });
-                var i = [];
-                e.forEach(function(e) {
-                  var t = e.match(/([\d,]+)/g);
-                  t && i.push(t.join("-"));
-                });
-                return i.join("|");
-              },
-              init: function() {
-                if (d.URL.indexOf("__vwo_disable__") > -1) return;
-                window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
-                var e = d.createElement("style"),
-                    t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
-                    i = d.getElementsByTagName("head")[0];
-                e.setAttribute("id", "_vis_opt_path_hides");
-                vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
-                e.setAttribute("type", "text/css");
-                if (e.styleSheet) e.styleSheet.cssText = t;
-                else e.appendChild(d.createTextNode(t));
-                i.appendChild(e);
-                var n = this.getCombinationCookie();
-                this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
-                return settings_timer;
-              }
-            };
-        window._vwo_settings_timer = code.init();
-        return code;
-      })();
-      _vwo_pc_custom = { a: 100, t: 100 };
-      var jsVar = 1;
-      var jaVar = "false";
-      document.cookie = "firstName=abc";
-    }
-  </script>
-  <!-- End VWO Async SmartCode -->
+  <title>Dead Click Visibility Test - Robust Harness</title>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-    }
+    body { font-family: sans-serif; padding: 20px; }
+    .test-case { display: flex; align-items: center; margin-bottom: 18px; }
     .test-box {
-      width: 150px;
-      height: 50px;
-      margin: 10px;
-      color: white;
+      min-width: 180px;
+      min-height: 40px;
+      margin-right: 18px;
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       border-radius: 6px;
-      border: 2px dashed #222;
+      border: 2px solid #222;
       outline: 2px solid #ff0;
-      min-width: 150px;
-      min-height: 50px;
-      box-sizing: border-box;
-      position: relative;
-      z-index: 1;
       font-weight: bold;
-      font-size: 16px;
-      transition: none;
-      opacity: 1;
-      visibility: visible;
+      font-size: 15px;
+      cursor: pointer;
+      box-sizing: border-box;
       background: #888;
+      transition: none;
     }
     .result-message {
-      margin-left: 15px;
+      min-width: 120px;
       font-size: 14px;
       font-weight: normal;
       color: #222;
@@ -148,69 +33,44 @@
       border: 1px solid #ffe58f;
       border-radius: 4px;
       padding: 2px 8px;
+      margin-left: 10px;
       display: inline-block;
     }
-    .sim-btn {
-      margin-left: 10px;
-      padding: 2px 10px;
-      font-size: 13px;
-      border-radius: 4px;
-      border: 1px solid #888;
-      background: #e6f7ff;
-      cursor: pointer;
-    }
-    .log-area {
-      margin-top: 30px;
-      background: #f7f7f7;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 12px 18px;
-      font-size: 15px;
-      max-width: 700px;
-      min-height: 60px;
-      color: #333;
-      font-family: monospace;
-      white-space: pre-line;
-    }
-    #case-1 { background: #2ecc40; }
-    #case-2 { background: #ff4136; }
-    #case-3 { background: #ff851b; }
-    #case-4 { background: #0074d9; }
-    #case-5 { background: #b10dc9; }
-    #case-6 { background: #111; }
-    #case-7 { background: #39cccc; }
-    #case-8 { background: #3d9970; }
-    .hidden { display: none !important; }
-    .shrinking { transition: width var(--transition-duration), height var(--transition-duration); width: 0 !important; height: 0 !important; }
-    .fading { transition: opacity var(--transition-duration); opacity: 0 !important; }
-    .instant-hide { display: none !important; }
-    .vis-hidden { visibility: hidden !important; }
-    .instant-opacity { opacity: 0 !important; }
-    .instant-shrink { width: 0 !important; height: 0 !important; }
-    .reset-btn { margin: 20px 0; padding: 8px 18px; font-size: 16px; border-radius: 6px; border: 1px solid #888; background: #f5f5f5; cursor: pointer; }
+    .test-label { min-width: 220px; font-size: 14px; color: #333; }
+    .sim-btn { margin-left: 10px; padding: 2px 10px; font-size: 13px; border-radius: 4px; border: 1px solid #888; background: #e6f7ff; cursor: pointer; }
+    .test-box.case1 { background: #2ecc40; }
+    .test-box.case2 { background: #ff4136; }
+    .test-box.case3 { background: #ff851b; }
+    .test-box.case4 { background: #0074d9; }
+    .test-box.case5 { background: #b10dc9; }
+    .test-box.case6 { background: #111; }
+    .test-box.case7 { background: #39cccc; }
+    .test-box.case8 { background: #3d9970; }
+    .test-box.case9, .test-box.case10 { background: #aaa; color: #333; cursor: default; }
+    .log-area { margin-top: 30px; background: #f7f7f7; border: 1px solid #ccc; border-radius: 6px; padding: 12px 18px; font-size: 15px; max-width: 700px; min-height: 60px; color: #333; font-family: monospace; white-space: pre-line; }
   </style>
 </head>
 <body>
+  <h2>Dead Click Visibility Test Harness</h2>
+  <p>Click any box to test <code>deadClickUtils.isNodeVisible</code> logic. Console and UI will show all details. <br>Cases 9/10 are simulated via buttons.</p>
 
-  <h2>Dead Click Visibility Testing</h2>
-  <p>Click on any box to check if it's considered <strong>visible</strong> or a <strong>dead click</strong>. Each box will animate/hide within <span id="transition-label">2s</span>. Click again during the transition to test dead click logic. Use Reset to restore all boxes. Use 'Simulate Transition Click' to programmatically click during transition.</p>
-  <button class="reset-btn" onclick="resetAll()">Reset All</button>
-  <div id="case-1" class="test-box">Case 1: Fade Out (opacity transition)<span class="result-message" id="msg-1"></span><button class="sim-btn" onclick="simulateTransitionClick(1, event)">Simulate Transition Click</button></div>
-  <div id="case-2" class="test-box">Case 2: Shrink (width/height transition)<span class="result-message" id="msg-2"></span><button class="sim-btn" onclick="simulateTransitionClick(2, event)">Simulate Transition Click</button></div>
-  <div id="case-3" class="test-box">Case 3: Fade then Hide (opacity then display:none)<span class="result-message" id="msg-3"></span><button class="sim-btn" onclick="simulateTransitionClick(3, event)">Simulate Transition Click</button></div>
-  <div id="case-4" class="test-box">Case 4: Instantly Hide (display:none)<span class="result-message" id="msg-4"></span><button class="sim-btn" onclick="simulateTransitionClick(4, event)">Simulate Transition Click</button></div>
-  <div id="case-5" class="test-box">Case 5: Instantly Opacity 0<span class="result-message" id="msg-5"></span><button class="sim-btn" onclick="simulateTransitionClick(5, event)">Simulate Transition Click</button></div>
-  <div id="case-6" class="test-box">Case 6: Instantly Visibility Hidden<span class="result-message" id="msg-6"></span><button class="sim-btn" onclick="simulateTransitionClick(6, event)">Simulate Transition Click</button></div>
-  <div id="case-7" class="test-box">Case 7: Instantly Shrink (width/height 0)<span class="result-message" id="msg-7"></span><button class="sim-btn" onclick="simulateTransitionClick(7, event)">Simulate Transition Click</button></div>
-  <div id="case-8" class="test-box">Case 8: Normal (never hides)<span class="result-message" id="msg-8"></span><button class="sim-btn" onclick="simulateTransitionClick(8, event)">Simulate Transition Click</button></div>
+  <div id="test-cases">
+    <div class="test-case"><div id="case-1" class="test-box case1">Case 1</div><span class="test-label">Transitioning, display & visibility valid, opacity/size 0</span><span class="result-message" id="msg-1"></span></div>
+    <div class="test-case"><div id="case-2" class="test-box case2">Case 2</div><span class="test-label">Transitioning, display: none</span><span class="result-message" id="msg-2"></span></div>
+    <div class="test-case"><div id="case-3" class="test-box case3">Case 3</div><span class="test-label">Transitioning, visibility: hidden</span><span class="result-message" id="msg-3"></span></div>
+    <div class="test-case"><div id="case-4" class="test-box case4">Case 4</div><span class="test-label">Not transitioning, fully visible</span><span class="result-message" id="msg-4"></span></div>
+    <div class="test-case"><div id="case-5" class="test-box case5">Case 5</div><span class="test-label">Not transitioning, opacity: 0</span><span class="result-message" id="msg-5"></span></div>
+    <div class="test-case"><div id="case-6" class="test-box case6">Case 6</div><span class="test-label">Not transitioning, width/height: 0</span><span class="result-message" id="msg-6"></span></div>
+    <div class="test-case"><div id="case-7" class="test-box case7">Case 7</div><span class="test-label">Empty transition, opacity: 0</span><span class="result-message" id="msg-7"></span></div>
+    <div class="test-case"><div id="case-8" class="test-box case8">Case 8</div><span class="test-label">Transitioning on unrelated property, all good</span><span class="result-message" id="msg-8"></span></div>
+    <div class="test-case"><button class="sim-btn" onclick="testCase9()">Test Case 9</button><span class="test-label">Not an HTMLElement (text node)</span><span class="result-message" id="msg-9"></span></div>
+    <div class="test-case"><button class="sim-btn" onclick="testCase10()">Test Case 10</button><span class="test-label">Node is null/undefined</span><span class="result-message" id="msg-10"></span></div>
+  </div>
+
   <div class="log-area" id="log-area"></div>
 
   <script>
-    // Set transition duration for all transitions (change here for 500ms/2s)
-    const TRANSITION_DURATION = 2000; // ms (set to 500 for production)
-    document.documentElement.style.setProperty('--transition-duration', TRANSITION_DURATION + 'ms');
-    document.getElementById('transition-label').textContent = (TRANSITION_DURATION/1000) + 's';
-
+    // --- Utility ---
     const deadClickUtils = {
       isNodeVisible(node) {
         if (!node || !(node instanceof HTMLElement)) {
@@ -218,8 +78,7 @@
         }
         const computedStyle = window.getComputedStyle(node);
         const boundingClientRect = node.getBoundingClientRect();
-        const isTransitioning =
-          computedStyle?.transition !== 'none' && computedStyle?.transition !== '';
+        const isTransitioning = computedStyle?.transition !== 'none' && computedStyle?.transition !== '';
         if (isTransitioning) {
           return !(computedStyle.display === 'none' || computedStyle.visibility === 'hidden');
         }
@@ -233,154 +92,119 @@
       }
     };
 
-    // Track state for each case
-    const state = {
-      1: { fading: false },
-      2: { shrinking: false },
-      3: { fading: false, hidden: false },
-      4: { hidden: false },
-      5: { instantOpacity: false },
-      6: { visHidden: false },
-      7: { instantShrink: false },
-      8: { normal: true }
-    };
+    // --- Styles for each case ---
+    function applyTestCaseStyles() {
+      // Case 1: Transitioning, display & visibility valid, opacity/size 0
+      Object.assign(document.getElementById('case-1').style, {
+        transition: 'all 1s', display: 'block', visibility: 'visible', opacity: '0', width: '0px', height: '0px'
+      });
+      // Case 2: Transitioning, display: none
+      Object.assign(document.getElementById('case-2').style, {
+        transition: 'opacity 1s', display: 'none', visibility: 'visible', opacity: '1', width: '100px', height: '40px'
+      });
+      // Case 3: Transitioning, visibility: hidden
+      Object.assign(document.getElementById('case-3').style, {
+        transition: 'opacity 1s', display: 'block', visibility: 'hidden', opacity: '1', width: '100px', height: '40px'
+      });
+      // Case 4: Not transitioning, fully visible
+      Object.assign(document.getElementById('case-4').style, {
+        transition: 'none', display: 'block', visibility: 'visible', opacity: '1', width: '100px', height: '100px'
+      });
+      // Case 5: Not transitioning, opacity: 0
+      Object.assign(document.getElementById('case-5').style, {
+        transition: 'none', display: 'block', visibility: 'visible', opacity: '0', width: '100px', height: '40px'
+      });
+      // Case 6: Not transitioning, width/height: 0
+      Object.assign(document.getElementById('case-6').style, {
+        transition: 'none', display: 'block', visibility: 'visible', opacity: '1', width: '0px', height: '0px'
+      });
+      // Case 7: Empty transition, opacity: 0
+      Object.assign(document.getElementById('case-7').style, {
+        transition: '', display: 'block', visibility: 'visible', opacity: '0', width: '100px', height: '40px'
+      });
+      // Case 8: Transitioning on unrelated property, all good
+      Object.assign(document.getElementById('case-8').style, {
+        transition: 'background 1s', display: 'block', visibility: 'visible', opacity: '0', width: '100px', height: '40px'
+      });
+    }
+    applyTestCaseStyles();
 
+    // --- Logging ---
     function log(msg) {
       const logArea = document.getElementById('log-area');
       logArea.textContent += msg + '\n';
       logArea.scrollTop = logArea.scrollHeight;
     }
-
-    function showResult(caseNum, visible, timing) {
-      const msg = document.getElementById('msg-' + caseNum);
-      msg.textContent = (visible ? 'Not Dead (Visible)' : 'Dead Click') + (timing ? ' [' + timing + ']' : '');
-      msg.style.color = visible ? 'green' : 'red';
-      setTimeout(() => { msg.textContent = ''; }, 1800);
-      log(`Case ${caseNum} | ${timing || 'Manual'} | ${visible ? 'Not Dead (Visible)' : 'Dead Click'}`);
-    }
-
-    function resetAll() {
-      for (let i = 1; i <= 8; i++) {
-        const box = document.getElementById('case-' + i);
-        box.className = 'test-box';
-        box.style.transition = '';
-        box.style.opacity = '1';
-        box.style.width = '150px';
-        box.style.height = '50px';
-        box.style.visibility = 'visible';
-        box.style.display = 'flex';
-        state[i] = {};
+    function clearResults() {
+      for (let i = 1; i <= 10; i++) {
+        document.getElementById('msg-' + i).textContent = '';
       }
       document.getElementById('log-area').textContent = '';
     }
 
-    function handleBoxClick(e, timing) {
-      const el = e.currentTarget || e;
-      const id = el.id;
-      const caseNum = parseInt(id.split('-')[1], 10);
-      const visible = deadClickUtils.isNodeVisible(el);
-      showResult(caseNum, visible, timing);
-      // Animate/hide based on case
-      switch (caseNum) {
-        case 1: // Fade out (opacity transition)
-          if (!state[1].fading) {
-            el.classList.add('fading');
-            el.style.transition = `opacity ${TRANSITION_DURATION}ms`;
-            state[1].fading = true;
-            setTimeout(() => {
-              el.style.opacity = '0';
-            }, 10);
-          }
-          break;
-        case 2: // Shrink (width/height transition)
-          if (!state[2].shrinking) {
-            el.classList.add('shrinking');
-            el.style.transition = `width ${TRANSITION_DURATION}ms, height ${TRANSITION_DURATION}ms`;
-            state[2].shrinking = true;
-            setTimeout(() => {
-              el.style.width = '0';
-              el.style.height = '0';
-            }, 10);
-          }
-          break;
-        case 3: // Fade then hide (opacity then display:none)
-          if (!state[3].fading && !state[3].hidden) {
-            el.classList.add('fading');
-            el.style.transition = `opacity ${TRANSITION_DURATION}ms`;
-            state[3].fading = true;
-            setTimeout(() => {
-              el.style.opacity = '0';
-              setTimeout(() => {
-                el.classList.remove('fading');
-                el.classList.add('hidden');
-                state[3].hidden = true;
-              }, TRANSITION_DURATION);
-            }, 10);
-          }
-          break;
-        case 4: // Instantly hide (display:none)
-          if (!state[4].hidden) {
-            el.classList.add('instant-hide');
-            state[4].hidden = true;
-          }
-          break;
-        case 5: // Instantly opacity 0
-          if (!state[5].instantOpacity) {
-            el.classList.add('instant-opacity');
-            el.style.opacity = '0';
-            state[5].instantOpacity = true;
-          }
-          break;
-        case 6: // Instantly visibility hidden
-          if (!state[6].visHidden) {
-            el.classList.add('vis-hidden');
-            el.style.visibility = 'hidden';
-            state[6].visHidden = true;
-          }
-          break;
-        case 7: // Instantly shrink (width/height 0)
-          if (!state[7].instantShrink) {
-            el.classList.add('instant-shrink');
-            el.style.width = '0';
-            el.style.height = '0';
-            state[7].instantShrink = true;
-          }
-          break;
-        case 8: // Normal, never hides
-          // No action
-          break;
-      }
+    // --- Click Handler ---
+    function handleBoxClick(e, caseNum) {
+      const el = e.currentTarget;
+      const computedStyle = window.getComputedStyle(el);
+      const boundingClientRect = el.getBoundingClientRect();
+      const isTransitioning = computedStyle.transition !== 'none' && computedStyle.transition !== '';
+      const isVisible = deadClickUtils.isNodeVisible(el);
+      const deadClick = !isVisible;
+      // Log to console.group
+      console.group(`Case ${caseNum} Clicked`);
+      console.log('Element:', el);
+      console.log('Is transitioning:', isTransitioning);
+      console.log('display:', computedStyle.display);
+      console.log('visibility:', computedStyle.visibility);
+      console.log('opacity:', computedStyle.opacity);
+      console.log('transition:', computedStyle.transition);
+      console.log('width:', computedStyle.width);
+      console.log('height:', computedStyle.height);
+      console.log('isNodeVisible:', isVisible);
+      console.log('Dead click:', deadClick);
+      console.groupEnd();
+      // Show result in UI
+      const msg = document.getElementById('msg-' + caseNum);
+      msg.textContent = (isVisible ? 'Visible (Not Dead)' : 'Dead Click');
+      msg.style.color = isVisible ? 'green' : 'red';
+      // Log to log area
+      log(`Case ${caseNum}: isTransitioning=${isTransitioning}, display=${computedStyle.display}, visibility=${computedStyle.visibility}, opacity=${computedStyle.opacity}, transition=${computedStyle.transition}, width=${computedStyle.width}, height=${computedStyle.height}, isNodeVisible=${isVisible}, DeadClick=${deadClick}`);
     }
 
-    function simulateTransitionClick(caseNum, event) {
-      event.stopPropagation();
-      const el = document.getElementById('case-' + caseNum);
-      // Start the transition if not already started
-      if (caseNum === 1 && !state[1].fading) {
-        handleBoxClick({ currentTarget: el }, 'Manual');
-        setTimeout(() => {
-          // Simulate click during transition (midway)
-          showResult(caseNum, deadClickUtils.isNodeVisible(el), 'During Transition');
-        }, TRANSITION_DURATION / 2);
-      } else if (caseNum === 2 && !state[2].shrinking) {
-        handleBoxClick({ currentTarget: el }, 'Manual');
-        setTimeout(() => {
-          showResult(caseNum, deadClickUtils.isNodeVisible(el), 'During Transition');
-        }, TRANSITION_DURATION / 2);
-      } else if (caseNum === 3 && !state[3].fading && !state[3].hidden) {
-        handleBoxClick({ currentTarget: el }, 'Manual');
-        setTimeout(() => {
-          showResult(caseNum, deadClickUtils.isNodeVisible(el), 'During Transition');
-        }, TRANSITION_DURATION / 2);
-      } else {
-        // For instant cases or already transitioned, just show current state
-        showResult(caseNum, deadClickUtils.isNodeVisible(el), 'After Transition');
-      }
+    // --- Attach click handlers ---
+    for (let i = 1; i <= 8; i++) {
+      document.getElementById('case-' + i).addEventListener('click', e => handleBoxClick(e, i));
     }
 
-    document.querySelectorAll('.test-box').forEach(el => {
-      el.addEventListener('click', handleBoxClick);
-    });
+    // --- Case 9: Not an HTMLElement (text node) ---
+    function testCase9() {
+      const textNode = document.createTextNode('not-an-element');
+      const isVisible = deadClickUtils.isNodeVisible(textNode);
+      const deadClick = !isVisible;
+      console.group('Case 9: Not an HTMLElement (text node)');
+      console.log('Node:', textNode);
+      console.log('isNodeVisible:', isVisible);
+      console.log('Dead click:', deadClick);
+      console.groupEnd();
+      const msg = document.getElementById('msg-9');
+      msg.textContent = (isVisible ? 'Visible (Not Dead)' : 'Dead Click');
+      msg.style.color = isVisible ? 'green' : 'red';
+      log(`Case 9: Not an HTMLElement (text node), isNodeVisible=${isVisible}, DeadClick=${deadClick}`);
+    }
+    // --- Case 10: Node is null/undefined ---
+    function testCase10() {
+      const isVisible = deadClickUtils.isNodeVisible(null);
+      const deadClick = !isVisible;
+      console.group('Case 10: Node is null/undefined');
+      console.log('Node:', null);
+      console.log('isNodeVisible:', isVisible);
+      console.log('Dead click:', deadClick);
+      console.groupEnd();
+      const msg = document.getElementById('msg-10');
+      msg.textContent = (isVisible ? 'Visible (Not Dead)' : 'Dead Click');
+      msg.style.color = isVisible ? 'green' : 'red';
+      log(`Case 10: Node is null/undefined, isNodeVisible=${isVisible}, DeadClick=${deadClick}`);
+    }
   </script>
 </body>
 </html> 
