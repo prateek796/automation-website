@@ -132,24 +132,55 @@
       box-sizing: border-box;
       position: relative;
       z-index: 1;
+      font-weight: bold;
+      font-size: 16px;
+      transition: none;
+      opacity: 1;
+      visibility: visible;
+      background: #888;
     }
-    #case-1 { background: green; transition: all 1s; opacity: 0; width: 0; height: 0; visibility: visible; display: block; }
-    #case-2 { background: red; transition: opacity 1s; display: none; visibility: visible; }
-    #case-3 { background: orange; transition: none; opacity: 0; visibility: visible; display: block; }
-    #case-4 { background: blue; transition: none; opacity: 1; visibility: visible; display: block; }
-    #case-5 { background: purple; transition: ''; opacity: 0; display: block; visibility: visible; }
+    .result-message {
+      margin-left: 15px;
+      font-size: 14px;
+      font-weight: normal;
+      color: #222;
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 4px;
+      padding: 2px 8px;
+      display: inline-block;
+    }
+    #case-1 { background: #2ecc40; }
+    #case-2 { background: #ff4136; }
+    #case-3 { background: #ff851b; }
+    #case-4 { background: #0074d9; }
+    #case-5 { background: #b10dc9; }
+    #case-6 { background: #111; }
+    #case-7 { background: #39cccc; }
+    #case-8 { background: #3d9970; }
+    .hidden { display: none !important; }
+    .shrinking { transition: width 0.5s, height 0.5s; width: 0 !important; height: 0 !important; }
+    .fading { transition: opacity 0.5s; opacity: 0 !important; }
+    .instant-hide { display: none !important; }
+    .vis-hidden { visibility: hidden !important; }
+    .instant-opacity { opacity: 0 !important; }
+    .instant-shrink { width: 0 !important; height: 0 !important; }
+    .reset-btn { margin: 20px 0; padding: 8px 18px; font-size: 16px; border-radius: 6px; border: 1px solid #888; background: #f5f5f5; cursor: pointer; }
   </style>
 </head>
 <body>
 
   <h2>Dead Click Visibility Testing</h2>
-  <p>Click on any box to check if it's considered <strong>visible</strong> or a <strong>dead click</strong>.</p>
-
-  <div id="case-1" class="test-box">Case 1: Transitioning, Visible</div>
-  <div id="case-2" class="test-box">Case 2: Transitioning, Display None</div>
-  <div id="case-3" class="test-box">Case 3: Not Transitioning, Opacity 0</div>
-  <div id="case-4" class="test-box">Case 4: Fully Visible</div>
-  <div id="case-5" class="test-box">Case 5: Transition Empty, Opacity 0</div>
+  <p>Click on any box to check if it's considered <strong>visible</strong> or a <strong>dead click</strong>. Each box will animate/hide within 500ms. Click again during the transition to test dead click logic. Use Reset to restore all boxes.</p>
+  <button class="reset-btn" onclick="resetAll()">Reset All</button>
+  <div id="case-1" class="test-box">Case 1: Fade Out (opacity transition)<span class="result-message" id="msg-1"></span></div>
+  <div id="case-2" class="test-box">Case 2: Shrink (width/height transition)<span class="result-message" id="msg-2"></span></div>
+  <div id="case-3" class="test-box">Case 3: Fade then Hide (opacity then display:none)<span class="result-message" id="msg-3"></span></div>
+  <div id="case-4" class="test-box">Case 4: Instantly Hide (display:none)<span class="result-message" id="msg-4"></span></div>
+  <div id="case-5" class="test-box">Case 5: Instantly Opacity 0<span class="result-message" id="msg-5"></span></div>
+  <div id="case-6" class="test-box">Case 6: Instantly Visibility Hidden<span class="result-message" id="msg-6"></span></div>
+  <div id="case-7" class="test-box">Case 7: Instantly Shrink (width/height 0)<span class="result-message" id="msg-7"></span></div>
+  <div id="case-8" class="test-box">Case 8: Normal (never hides)<span class="result-message" id="msg-8"></span></div>
 
   <script>
     const deadClickUtils = {
@@ -157,17 +188,13 @@
         if (!node || !(node instanceof HTMLElement)) {
           return false;
         }
-
         const computedStyle = window.getComputedStyle(node);
         const boundingClientRect = node.getBoundingClientRect();
-
         const isTransitioning =
           computedStyle?.transition !== 'none' && computedStyle?.transition !== '';
-
         if (isTransitioning) {
           return !(computedStyle.display === 'none' || computedStyle.visibility === 'hidden');
         }
-
         return !(
           computedStyle.display === 'none' ||
           computedStyle.visibility === 'hidden' ||
@@ -178,26 +205,119 @@
       }
     };
 
-    function logClickResult(e) {
-      const el = e.currentTarget;
-      const id = el.id;
-      const visible = deadClickUtils.isNodeVisible(el);
-      const rect = el.getBoundingClientRect();
-      const computedStyle = window.getComputedStyle(el);
+    // Track state for each case
+    const state = {
+      1: { fading: false },
+      2: { shrinking: false },
+      3: { fading: false, hidden: false },
+      4: { hidden: false },
+      5: { instantOpacity: false },
+      6: { visHidden: false },
+      7: { instantShrink: false },
+      8: { normal: true }
+    };
 
-      console.group(`Clicked: ${id}`);
-      console.log("Visible (according to isNodeVisible):", visible);
-      console.log("Dead Click:", visible ? "No" : "Yes");
-      console.log("Display:", computedStyle.display);
-      console.log("Visibility:", computedStyle.visibility);
-      console.log("Opacity:", computedStyle.opacity);
-      console.log("Transition:", computedStyle.transition);
-      console.log("Bounding Box:", { width: rect.width, height: rect.height });
-      console.groupEnd();
+    function showResult(caseNum, visible) {
+      const msg = document.getElementById('msg-' + caseNum);
+      msg.textContent = visible ? 'Not Dead (Visible)' : 'Dead Click';
+      msg.style.color = visible ? 'green' : 'red';
+      setTimeout(() => { msg.textContent = ''; }, 1200);
     }
 
-    document.querySelectorAll(".test-box").forEach(el => {
-      el.addEventListener("click", logClickResult);
+    function resetAll() {
+      for (let i = 1; i <= 8; i++) {
+        const box = document.getElementById('case-' + i);
+        box.className = 'test-box';
+        box.style.transition = '';
+        box.style.opacity = '1';
+        box.style.width = '150px';
+        box.style.height = '50px';
+        box.style.visibility = 'visible';
+        box.style.display = 'flex';
+        state[i] = {};
+      }
+    }
+
+    function handleBoxClick(e) {
+      const el = e.currentTarget;
+      const id = el.id;
+      const caseNum = parseInt(id.split('-')[1], 10);
+      const visible = deadClickUtils.isNodeVisible(el);
+      showResult(caseNum, visible);
+      // Animate/hide based on case
+      switch (caseNum) {
+        case 1: // Fade out (opacity transition)
+          if (!state[1].fading) {
+            el.classList.add('fading');
+            el.style.transition = 'opacity 0.5s';
+            state[1].fading = true;
+            setTimeout(() => {
+              el.style.opacity = '0';
+            }, 10);
+          }
+          break;
+        case 2: // Shrink (width/height transition)
+          if (!state[2].shrinking) {
+            el.classList.add('shrinking');
+            el.style.transition = 'width 0.5s, height 0.5s';
+            state[2].shrinking = true;
+            setTimeout(() => {
+              el.style.width = '0';
+              el.style.height = '0';
+            }, 10);
+          }
+          break;
+        case 3: // Fade then hide (opacity then display:none)
+          if (!state[3].fading && !state[3].hidden) {
+            el.classList.add('fading');
+            el.style.transition = 'opacity 0.5s';
+            state[3].fading = true;
+            setTimeout(() => {
+              el.style.opacity = '0';
+              setTimeout(() => {
+                el.classList.remove('fading');
+                el.classList.add('hidden');
+                state[3].hidden = true;
+              }, 500);
+            }, 10);
+          }
+          break;
+        case 4: // Instantly hide (display:none)
+          if (!state[4].hidden) {
+            el.classList.add('instant-hide');
+            state[4].hidden = true;
+          }
+          break;
+        case 5: // Instantly opacity 0
+          if (!state[5].instantOpacity) {
+            el.classList.add('instant-opacity');
+            el.style.opacity = '0';
+            state[5].instantOpacity = true;
+          }
+          break;
+        case 6: // Instantly visibility hidden
+          if (!state[6].visHidden) {
+            el.classList.add('vis-hidden');
+            el.style.visibility = 'hidden';
+            state[6].visHidden = true;
+          }
+          break;
+        case 7: // Instantly shrink (width/height 0)
+          if (!state[7].instantShrink) {
+            el.classList.add('instant-shrink');
+            el.style.width = '0';
+            el.style.height = '0';
+            state[7].instantShrink = true;
+          }
+          break;
+        case 8: // Normal, never hides
+          // No action
+          break;
+      }
+    }
+
+    document.querySelectorAll('.test-box').forEach(el => {
+      el.addEventListener('click', handleBoxClick);
     });
   </script>
 </body>
