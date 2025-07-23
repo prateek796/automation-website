@@ -159,16 +159,16 @@
   <p>Click any box to test <code>deadClickUtils.isNodeVisible</code> logic. Console and UI will show all details. <br>Cases 9/10 are simulated via buttons.</p>
 
   <div id="test-cases">
-    <div class="test-case"><div id="case-1" class="test-box case1">Case 1</div><span class="test-label">Transitioning, display & visibility valid, opacity/size 0</span><span class="result-message" id="msg-1"></span></div>
-    <div class="test-case"><div id="case-2" class="test-box case2">Case 2</div><span class="test-label">Transitioning, display: none</span><span class="result-message" id="msg-2"></span></div>
-    <div class="test-case"><div id="case-3" class="test-box case3">Case 3</div><span class="test-label">Transitioning, visibility: hidden</span><span class="result-message" id="msg-3"></span></div>
-    <div class="test-case"><div id="case-4" class="test-box case4">Case 4</div><span class="test-label">Not transitioning, fully visible</span><span class="result-message" id="msg-4"></span></div>
-    <div class="test-case"><div id="case-5" class="test-box case5">Case 5</div><span class="test-label">Not transitioning, opacity: 0</span><span class="result-message" id="msg-5"></span></div>
-    <div class="test-case"><div id="case-6" class="test-box case6">Case 6</div><span class="test-label">Not transitioning, width/height: 0</span><span class="result-message" id="msg-6"></span></div>
-    <div class="test-case"><div id="case-7" class="test-box case7">Case 7</div><span class="test-label">Empty transition, opacity: 0</span><span class="result-message" id="msg-7"></span></div>
-    <div class="test-case"><div id="case-8" class="test-box case8">Case 8</div><span class="test-label">Transitioning on unrelated property, all good</span><span class="result-message" id="msg-8"></span></div>
-    <div class="test-case"><button class="sim-btn" onclick="testCase9()">Test Case 9</button><span class="test-label">Not an HTMLElement (text node)</span><span class="result-message" id="msg-9"></span></div>
-    <div class="test-case"><button class="sim-btn" onclick="testCase10()">Test Case 10</button><span class="test-label">Node is null/undefined</span><span class="result-message" id="msg-10"></span></div>
+    <div class="test-case"><div id="case-1" class="test-box case1">Case 1</div><span class="test-label">Transitioning, display & visibility valid, opacity/size 0</span></div>
+    <div class="test-case"><div id="case-2" class="test-box case2">Case 2</div><span class="test-label">Transitioning, display: none</span></div>
+    <div class="test-case"><div id="case-3" class="test-box case3">Case 3</div><span class="test-label">Transitioning, visibility: hidden</span></div>
+    <div class="test-case"><div id="case-4" class="test-box case4">Case 4</div><span class="test-label">Not transitioning, fully visible</span></div>
+    <div class="test-case"><div id="case-5" class="test-box case5">Case 5</div><span class="test-label">Not transitioning, opacity: 0</span></div>
+    <div class="test-case"><div id="case-6" class="test-box case6">Case 6</div><span class="test-label">Not transitioning, width/height: 0</span></div>
+    <div class="test-case"><div id="case-7" class="test-box case7">Case 7</div><span class="test-label">Empty transition, opacity: 0</span></div>
+    <div class="test-case"><div id="case-8" class="test-box case8">Case 8</div><span class="test-label">Transitioning on unrelated property, all good</span></div>
+    <div class="test-case"><button class="sim-btn" onclick="testCase9()">Test Case 9</button><span class="test-label">Not an HTMLElement (text node)</span></div>
+    <div class="test-case"><button class="sim-btn" onclick="testCase10()">Test Case 10</button><span class="test-label">Node is null/undefined</span></div>
   </div>
 
   <div class="log-area" id="log-area"></div>
@@ -233,19 +233,6 @@
     }
     applyTestCaseStyles();
 
-    // --- Logging ---
-    function log(msg) {
-      const logArea = document.getElementById('log-area');
-      logArea.textContent += msg + '\n';
-      logArea.scrollTop = logArea.scrollHeight;
-    }
-    function clearResults() {
-      for (let i = 1; i <= 10; i++) {
-        document.getElementById('msg-' + i).textContent = '';
-      }
-      document.getElementById('log-area').textContent = '';
-    }
-
     // --- Click Handler ---
     function handleBoxClick(e, caseNum) {
       const el = e.currentTarget;
@@ -267,12 +254,6 @@
       console.log('isNodeVisible:', isVisible);
       console.log('Dead click:', deadClick);
       console.groupEnd();
-      // Show result in UI
-      const msg = document.getElementById('msg-' + caseNum);
-      msg.textContent = (isVisible ? 'Visible (Not Dead)' : 'Dead Click');
-      msg.style.color = isVisible ? 'green' : 'red';
-      // Log to log area
-      log(`Case ${caseNum}: isTransitioning=${isTransitioning}, display=${computedStyle.display}, visibility=${computedStyle.visibility}, opacity=${computedStyle.opacity}, transition=${computedStyle.transition}, width=${computedStyle.width}, height=${computedStyle.height}, isNodeVisible=${isVisible}, DeadClick=${deadClick}`);
     }
 
     // --- Attach click handlers ---
@@ -290,10 +271,6 @@
       console.log('isNodeVisible:', isVisible);
       console.log('Dead click:', deadClick);
       console.groupEnd();
-      const msg = document.getElementById('msg-9');
-      msg.textContent = (isVisible ? 'Visible (Not Dead)' : 'Dead Click');
-      msg.style.color = isVisible ? 'green' : 'red';
-      log(`Case 9: Not an HTMLElement (text node), isNodeVisible=${isVisible}, DeadClick=${deadClick}`);
     }
     // --- Case 10: Node is null/undefined ---
     function testCase10() {
@@ -304,10 +281,6 @@
       console.log('isNodeVisible:', isVisible);
       console.log('Dead click:', deadClick);
       console.groupEnd();
-      const msg = document.getElementById('msg-10');
-      msg.textContent = (isVisible ? 'Visible (Not Dead)' : 'Dead Click');
-      msg.style.color = isVisible ? 'green' : 'red';
-      log(`Case 10: Node is null/undefined, isNodeVisible=${isVisible}, DeadClick=${deadClick}`);
     }
   </script>
 </body>
