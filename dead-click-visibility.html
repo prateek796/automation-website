@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dead Click Visibility Test - Robust Harness</title>
+  <title>Dead Click Visibility Test - Transition Testing</title>
   <!-- Start VWO Async SmartCode -->
   <script type="text/javascript" id="vwoCode">
     function getVWOAccountId() {
@@ -109,39 +109,29 @@
   <!-- End VWO Async SmartCode -->
   <style>
     body { font-family: sans-serif; padding: 20px; }
-    .test-case { display: flex; align-items: center; margin-bottom: 18px; }
+    .test-case { display: flex; align-items: center; margin-bottom: 20px; }
     .test-box {
-      min-width: 180px;
-      min-height: 40px;
-      margin-right: 18px;
+      width: 150px;
+      height: 50px;
+      margin-right: 15px;
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 6px;
       border: 2px solid #222;
-      outline: 2px solid #ff0;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       box-sizing: border-box;
       background: #888;
-      transition: none;
+      transition: all 0.5s ease;
+      opacity: 1;
+      visibility: visible;
+      display: flex;
     }
-    .result-message {
-      min-width: 120px;
-      font-size: 14px;
-      font-weight: normal;
-      color: #222;
-      background: #fffbe6;
-      border: 1px solid #ffe58f;
-      border-radius: 4px;
-      padding: 2px 8px;
-      margin-left: 10px;
-      display: inline-block;
-    }
-    .test-label { min-width: 220px; font-size: 14px; color: #333; }
-    .sim-btn { margin-left: 10px; padding: 2px 10px; font-size: 13px; border-radius: 4px; border: 1px solid #888; background: #e6f7ff; cursor: pointer; }
+    .test-label { min-width: 200px; font-size: 14px; color: #333; }
+    .action-btn { margin-left: 10px; padding: 4px 12px; font-size: 12px; border-radius: 4px; border: 1px solid #888; background: #e6f7ff; cursor: pointer; }
     .test-box.case1 { background: #2ecc40; }
     .test-box.case2 { background: #ff4136; }
     .test-box.case3 { background: #ff851b; }
@@ -150,31 +140,70 @@
     .test-box.case6 { background: #111; }
     .test-box.case7 { background: #39cccc; }
     .test-box.case8 { background: #3d9970; }
-    .test-box.case9, .test-box.case10 { background: #aaa; color: #333; cursor: default; }
-    .log-area { margin-top: 30px; background: #f7f7f7; border: 1px solid #ccc; border-radius: 6px; padding: 12px 18px; font-size: 15px; max-width: 700px; min-height: 60px; color: #333; font-family: monospace; white-space: pre-line; }
+    .test-box.case9 { background: #aaa; }
+    .test-box.case10 { background: #666; }
   </style>
 </head>
 <body>
-  <h2>Dead Click Visibility Test Harness</h2>
-  <p>Click any box to test <code>deadClickUtils.isNodeVisible</code> logic. Console and UI will show all details. <br>Cases 9/10 are simulated via buttons.</p>
+  <h2>Dead Click Visibility Test - Transition Testing</h2>
+  <p>All boxes are visible initially. Click boxes to trigger transitions and test dead click logic during transitions.</p>
 
   <div id="test-cases">
-    <div class="test-case"><div id="case-1" class="test-box case1">Case 1</div><span class="test-label">Transitioning, display & visibility valid, opacity/size 0</span></div>
-    <div class="test-case"><div id="case-2" class="test-box case2">Case 2</div><span class="test-label">Transitioning, display: none</span></div>
-    <div class="test-case"><div id="case-3" class="test-box case3">Case 3</div><span class="test-label">Transitioning, visibility: hidden</span></div>
-    <div class="test-case"><div id="case-4" class="test-box case4">Case 4</div><span class="test-label">Not transitioning, fully visible</span></div>
-    <div class="test-case"><div id="case-5" class="test-box case5">Case 5</div><span class="test-label">Not transitioning, opacity: 0</span></div>
-    <div class="test-case"><div id="case-6" class="test-box case6">Case 6</div><span class="test-label">Not transitioning, width/height: 0</span></div>
-    <div class="test-case"><div id="case-7" class="test-box case7">Case 7</div><span class="test-label">Empty transition, opacity: 0</span></div>
-    <div class="test-case"><div id="case-8" class="test-box case8">Case 8</div><span class="test-label">Transitioning on unrelated property, all good</span></div>
-    <div class="test-case"><button class="sim-btn" onclick="testCase9()">Test Case 9</button><span class="test-label">Not an HTMLElement (text node)</span></div>
-    <div class="test-case"><button class="sim-btn" onclick="testCase10()">Test Case 10</button><span class="test-label">Node is null/undefined</span></div>
+    <div class="test-case">
+      <div id="case-1" class="test-box case1">Case 1</div>
+      <span class="test-label">Fade out (opacity transition)</span>
+      <button class="action-btn" onclick="testDuringTransition(1)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-2" class="test-box case2">Case 2</div>
+      <span class="test-label">Shrink (width/height transition)</span>
+      <button class="action-btn" onclick="testDuringTransition(2)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-3" class="test-box case3">Case 3</div>
+      <span class="test-label">Fade then hide (opacity then display:none)</span>
+      <button class="action-btn" onclick="testDuringTransition(3)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-4" class="test-box case4">Case 4</div>
+      <span class="test-label">Instantly hide (display:none)</span>
+      <button class="action-btn" onclick="testDuringTransition(4)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-5" class="test-box case5">Case 5</div>
+      <span class="test-label">Instantly opacity 0</span>
+      <button class="action-btn" onclick="testDuringTransition(5)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-6" class="test-box case6">Case 6</div>
+      <span class="test-label">Instantly visibility hidden</span>
+      <button class="action-btn" onclick="testDuringTransition(6)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-7" class="test-box case7">Case 7</div>
+      <span class="test-label">Instantly shrink (width/height 0)</span>
+      <button class="action-btn" onclick="testDuringTransition(7)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-8" class="test-box case8">Case 8</div>
+      <span class="test-label">Normal (never hides)</span>
+      <button class="action-btn" onclick="testDuringTransition(8)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-9" class="test-box case9">Case 9</div>
+      <span class="test-label">Transitioning on background only</span>
+      <button class="action-btn" onclick="testDuringTransition(9)">Test During</button>
+    </div>
+    <div class="test-case">
+      <div id="case-10" class="test-box case10">Case 10</div>
+      <span class="test-label">Empty transition, opacity 0</span>
+      <button class="action-btn" onclick="testDuringTransition(10)">Test During</button>
+    </div>
   </div>
 
-  <div class="log-area" id="log-area"></div>
+  <button onclick="resetAll()" style="margin-top: 20px; padding: 8px 16px; font-size: 14px; border-radius: 4px; border: 1px solid #888; background: #f5f5f5; cursor: pointer;">Reset All</button>
 
   <script>
-    // --- Utility ---
     const deadClickUtils = {
       isNodeVisible(node) {
         if (!node || !(node instanceof HTMLElement)) {
@@ -196,53 +225,85 @@
       }
     };
 
-    // --- Styles for each case ---
-    function applyTestCaseStyles() {
-      // Case 1: Transitioning, display & visibility valid, opacity/size 0
-      Object.assign(document.getElementById('case-1').style, {
-        transition: 'all 1s', display: 'block', visibility: 'visible', opacity: '0', width: '0px', height: '0px'
-      });
-      // Case 2: Transitioning, display: none
-      Object.assign(document.getElementById('case-2').style, {
-        transition: 'opacity 1s', display: 'none', visibility: 'visible', opacity: '1', width: '100px', height: '40px'
-      });
-      // Case 3: Transitioning, visibility: hidden
-      Object.assign(document.getElementById('case-3').style, {
-        transition: 'opacity 1s', display: 'block', visibility: 'hidden', opacity: '1', width: '100px', height: '40px'
-      });
-      // Case 4: Not transitioning, fully visible
-      Object.assign(document.getElementById('case-4').style, {
-        transition: 'none', display: 'block', visibility: 'visible', opacity: '1', width: '100px', height: '100px'
-      });
-      // Case 5: Not transitioning, opacity: 0
-      Object.assign(document.getElementById('case-5').style, {
-        transition: 'none', display: 'block', visibility: 'visible', opacity: '0', width: '100px', height: '40px'
-      });
-      // Case 6: Not transitioning, width/height: 0
-      Object.assign(document.getElementById('case-6').style, {
-        transition: 'none', display: 'block', visibility: 'visible', opacity: '1', width: '0px', height: '0px'
-      });
-      // Case 7: Empty transition, opacity: 0
-      Object.assign(document.getElementById('case-7').style, {
-        transition: '', display: 'block', visibility: 'visible', opacity: '0', width: '100px', height: '40px'
-      });
-      // Case 8: Transitioning on unrelated property, all good
-      Object.assign(document.getElementById('case-8').style, {
-        transition: 'background 1s', display: 'block', visibility: 'visible', opacity: '0', width: '100px', height: '40px'
-      });
-    }
-    applyTestCaseStyles();
+    // Track transition states
+    const transitionStates = {};
 
-    // --- Click Handler ---
+    function resetAll() {
+      for (let i = 1; i <= 10; i++) {
+        const box = document.getElementById('case-' + i);
+        box.style.transition = 'all 0.5s ease';
+        box.style.opacity = '1';
+        box.style.width = '150px';
+        box.style.height = '50px';
+        box.style.visibility = 'visible';
+        box.style.display = 'flex';
+        box.style.background = '';
+        transitionStates[i] = false;
+      }
+    }
+
     function handleBoxClick(e, caseNum) {
       const el = e.currentTarget;
+      if (transitionStates[caseNum]) return; // Already transitioning
+      
+      transitionStates[caseNum] = true;
+      
+      switch (caseNum) {
+        case 1: // Fade out
+          el.style.transition = 'opacity 2s ease';
+          setTimeout(() => { el.style.opacity = '0'; }, 10);
+          break;
+        case 2: // Shrink
+          el.style.transition = 'width 2s ease, height 2s ease';
+          setTimeout(() => { 
+            el.style.width = '0px'; 
+            el.style.height = '0px'; 
+          }, 10);
+          break;
+        case 3: // Fade then hide
+          el.style.transition = 'opacity 2s ease';
+          setTimeout(() => { 
+            el.style.opacity = '0';
+            setTimeout(() => {
+              el.style.display = 'none';
+            }, 2000);
+          }, 10);
+          break;
+        case 4: // Instantly hide
+          el.style.display = 'none';
+          break;
+        case 5: // Instantly opacity 0
+          el.style.opacity = '0';
+          break;
+        case 6: // Instantly visibility hidden
+          el.style.visibility = 'hidden';
+          break;
+        case 7: // Instantly shrink
+          el.style.width = '0px';
+          el.style.height = '0px';
+          break;
+        case 8: // Normal - no change
+          break;
+        case 9: // Background transition only
+          el.style.transition = 'background 2s ease';
+          setTimeout(() => { el.style.background = '#ff0000'; }, 10);
+          break;
+        case 10: // Empty transition
+          el.style.transition = '';
+          el.style.opacity = '0';
+          break;
+      }
+    }
+
+    function testDuringTransition(caseNum) {
+      const el = document.getElementById('case-' + caseNum);
       const computedStyle = window.getComputedStyle(el);
       const boundingClientRect = el.getBoundingClientRect();
       const isTransitioning = computedStyle.transition !== 'none' && computedStyle.transition !== '';
       const isVisible = deadClickUtils.isNodeVisible(el);
       const deadClick = !isVisible;
-      // Log to console.group
-      console.group(`Case ${caseNum} Clicked`);
+      
+      console.group(`Case ${caseNum} - Testing During Transition`);
       console.log('Element:', el);
       console.log('Is transitioning:', isTransitioning);
       console.log('display:', computedStyle.display);
@@ -256,32 +317,13 @@
       console.groupEnd();
     }
 
-    // --- Attach click handlers ---
-    for (let i = 1; i <= 8; i++) {
+    // Attach click handlers
+    for (let i = 1; i <= 10; i++) {
       document.getElementById('case-' + i).addEventListener('click', e => handleBoxClick(e, i));
     }
 
-    // --- Case 9: Not an HTMLElement (text node) ---
-    function testCase9() {
-      const textNode = document.createTextNode('not-an-element');
-      const isVisible = deadClickUtils.isNodeVisible(textNode);
-      const deadClick = !isVisible;
-      console.group('Case 9: Not an HTMLElement (text node)');
-      console.log('Node:', textNode);
-      console.log('isNodeVisible:', isVisible);
-      console.log('Dead click:', deadClick);
-      console.groupEnd();
-    }
-    // --- Case 10: Node is null/undefined ---
-    function testCase10() {
-      const isVisible = deadClickUtils.isNodeVisible(null);
-      const deadClick = !isVisible;
-      console.group('Case 10: Node is null/undefined');
-      console.log('Node:', null);
-      console.log('isNodeVisible:', isVisible);
-      console.log('Dead click:', deadClick);
-      console.groupEnd();
-    }
+    // Initialize
+    resetAll();
   </script>
 </body>
 </html> 
