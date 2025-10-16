@@ -118,6 +118,107 @@
     }
     </script>
     <!-- End VWO Async SmartCode -->
+
+    <!-- SPA VWO Smart Code -->
+    <script type="text/javascript" id="spaVwoCode">
+        // SPA-specific VWO configuration
+        function getSPAVWOAccountId() {
+            const params = new URLSearchParams(window.location.search);
+            const urlId = params.get('id');
+            const isSync = window.location.href.includes('sync');
+            
+            if (urlId) {
+                return urlId;
+            }
+            return '814397';
+        }
+
+        // SPA VWO initialization
+        function initializeSPAVWO() {
+            if (window.location.hash === '#spa') {
+                window._vwo_code_spa = window._vwo_code_spa || (function() {
+                    var account_id = getSPAVWOAccountId(),
+                        version = 1.5,
+                        settings_tolerance = 2000,
+                        library_tolerance = 2500,
+                        use_existing_jquery = false,
+                        is_spa = 1,
+                        hide_element = "body",
+                        hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+                    var f = false,
+                        d = document,
+                        vwoCodeEl = d.querySelector("#spaVwoCode"),
+                        code = {
+                            use_existing_jquery: function() { return use_existing_jquery; },
+                            library_tolerance: function() { return library_tolerance; },
+                            hide_element_style: function() { return "{" + hide_element_style + "}"; },
+                            finish: function() {
+                                if (!f) {
+                                    f = true;
+                                    var e = d.getElementById("_vis_opt_path_hides_spa");
+                                    if (e) e.parentNode.removeChild(e);
+                                }
+                            },
+                            finished: function() { return f; },
+                            load: function(e) {
+                                var t = d.createElement("script");
+                                t.fetchPriority = "high";
+                                t.src = e;
+                                t.type = "text/javascript";
+                                t.onerror = function() { _vwo_code_spa.finish(); };
+                                d.getElementsByTagName("head")[0].appendChild(t);
+                            },
+                            getVersion: function() { return version; },
+                            getMatchedCookies: function(e) {
+                                var t = [];
+                                if (document.cookie) { t = document.cookie.match(e) || []; }
+                                return t;
+                            },
+                            getCombinationCookie: function() {
+                                var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                                e = e.map(function(e) {
+                                    try {
+                                        var t = decodeURIComponent(e);
+                                        if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ""; }
+                                        return t;
+                                    } catch (e) { return ""; }
+                                });
+                                var i = [];
+                                e.forEach(function(e) {
+                                    var t = e.match(/([\d,]+)/g);
+                                    t && i.push(t.join("-"));
+                                });
+                                return i.join("|");
+                            },
+                            init: function() {
+                                if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                                window.settings_timer_spa = setTimeout(function() { _vwo_code_spa.finish(); }, settings_tolerance);
+                                var e = d.createElement("style"),
+                                    t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                                    i = d.getElementsByTagName("head")[0];
+                                e.setAttribute("id", "_vis_opt_path_hides_spa");
+                                vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                                e.setAttribute("type", "text/css");
+                                if (e.styleSheet) e.styleSheet.cssText = t;
+                                else e.appendChild(d.createTextNode(t));
+                                i.appendChild(e);
+                                var n = this.getCombinationCookie();
+                                this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version + (n ? "&c=" + n : ""));
+                                return settings_timer_spa;
+                            }
+                        };
+                    window._vwo_settings_timer_spa = code.init();
+                    return code;
+                })();
+                _vwo_pc_custom_spa = { a: 100, t: 100 };
+                var jsVar_spa = 1;
+                var jaVar_spa = "false";
+                document.cookie = "firstName=abc_spa";
+                var _vis_opt_url_spa = "https://spa-navigation-page.com";
+            }
+        }
+    </script>
     <style>
         .section {
             padding: 50px 0;
@@ -153,6 +254,21 @@
             margin: auto;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        }
+        /* SPA Navigation Styles */
+        .spa-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        .spa-content-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .spa-content-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #spa-content {
+            min-height: 400px;
         }
     </style>
 </head>
@@ -197,6 +313,9 @@
                             </button>
                             <button class="btn btn-warning m-2" data-bs-toggle="modal" data-bs-target="#staticModal">
                                 Static Position Modal
+                            </button>
+                            <button class="btn btn-dark m-2" onclick="navigateToSPA()">
+                                SPA Navigation
                             </button>
                         </div>
                     </div>
@@ -468,6 +587,34 @@
                 </div>
             </div>
         </section>
+
+        <!-- SPA Content Section -->
+        <section id="spa-content" class="section" style="background-color: #F0F8FF; display: none;">
+            <div class="container">
+                <h1 class="text-center mb-4">SPA Navigation Page</h1>
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <p class="text-center">This is a Single Page Application navigation. The URL has changed without a page reload!</p>
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary m-2" onclick="goBackToServices()">
+                                Back to Services
+                            </button>
+                            <button class="btn btn-success m-2" onclick="showSPAInfo()">
+                                Show SPA Info
+                            </button>
+                        </div>
+                        <div id="spa-info" class="mt-4" style="display: none;">
+                            <div class="alert alert-info">
+                                <h4>SPA Information</h4>
+                                <p><strong>Current URL:</strong> <span id="current-url"></span></p>
+                                <p><strong>VWO Account ID:</strong> <span id="vwo-account-id"></span></p>
+                                <p><strong>_vis_opt_url:</strong> <span id="vis-opt-url"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- Iframe with VWO Smart Code -->
@@ -650,6 +797,91 @@
                     preserveQueryParams(this);
                 });
             });
+        });
+
+        // SPA Navigation Functions
+        function navigateToSPA() {
+            // Hide all existing sections
+            const allSections = document.querySelectorAll('.section');
+            allSections.forEach(section => {
+                if (section.id !== 'spa-content') {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Show SPA content
+            const spaContent = document.getElementById('spa-content');
+            spaContent.style.display = 'block';
+            spaContent.classList.add('spa-transition', 'spa-content-visible');
+            
+            // Change URL without page reload
+            const currentUrl = new URL(window.location);
+            currentUrl.hash = 'spa';
+            window.history.pushState({page: 'spa'}, '', currentUrl.toString());
+            
+            // Initialize SPA VWO
+            initializeSPAVWO();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function goBackToServices() {
+            // Hide SPA content
+            const spaContent = document.getElementById('spa-content');
+            spaContent.style.display = 'none';
+            spaContent.classList.remove('spa-content-visible');
+            
+            // Show all other sections
+            const allSections = document.querySelectorAll('.section');
+            allSections.forEach(section => {
+                if (section.id !== 'spa-content') {
+                    section.style.display = 'block';
+                }
+            });
+            
+            // Change URL back
+            const currentUrl = new URL(window.location);
+            currentUrl.hash = '';
+            window.history.pushState({page: 'services'}, '', currentUrl.toString());
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function showSPAInfo() {
+            const spaInfo = document.getElementById('spa-info');
+            const currentUrl = document.getElementById('current-url');
+            const vwoAccountId = document.getElementById('vwo-account-id');
+            const visOptUrl = document.getElementById('vis-opt-url');
+            
+            // Update info display
+            currentUrl.textContent = window.location.href;
+            vwoAccountId.textContent = getSPAVWOAccountId();
+            visOptUrl.textContent = window._vis_opt_url_spa || 'Not initialized';
+            
+            // Show/hide info
+            if (spaInfo.style.display === 'none') {
+                spaInfo.style.display = 'block';
+            } else {
+                spaInfo.style.display = 'none';
+            }
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function(event) {
+            if (window.location.hash === '#spa') {
+                navigateToSPA();
+            } else {
+                goBackToServices();
+            }
+        });
+
+        // Check if page loads with SPA hash
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash === '#spa') {
+                navigateToSPA();
+            }
         });
     </script>
 </body>
