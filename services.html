@@ -135,7 +135,13 @@
 
         // SPA VWO initialization
         function initializeSPAVWO() {
-            if (window.location.hash === '#spa') {
+            // Check if we're on SPA route (either hash or proper URL)
+            const isSPARoute = window.location.pathname.includes('spa-navigation') || window.location.hash === '#spa';
+            
+            if (isSPARoute) {
+                // Set SPA-specific URL for VWO
+                var _vis_opt_url_spa = "https://spa-navigation-page.com";
+                
                 window._vwo_code_spa = window._vwo_code_spa || (function() {
                     var account_id = getSPAVWOAccountId(),
                         version = 1.5,
@@ -215,7 +221,7 @@
                 var jsVar_spa = 1;
                 var jaVar_spa = "false";
                 document.cookie = "firstName=abc_spa";
-                var _vis_opt_url_spa = "https://spa-navigation-page.com";
+                // _vis_opt_url_spa is already set above
             }
         }
     </script>
@@ -814,12 +820,19 @@
             spaContent.style.display = 'block';
             spaContent.classList.add('spa-transition', 'spa-content-visible');
             
-            // Change URL without page reload
+            // Change URL to a proper SPA route without hash
             const currentUrl = new URL(window.location);
-            currentUrl.hash = 'spa';
-            window.history.pushState({page: 'spa'}, '', currentUrl.toString());
+            const baseUrl = currentUrl.origin;
+            const searchParams = currentUrl.search;
+            const newUrl = baseUrl + '/spa-navigation' + searchParams;
             
-            // Initialize SPA VWO
+            // Update browser history with proper URL
+            window.history.pushState({page: 'spa', url: newUrl}, 'SPA Navigation - Atlas', newUrl);
+            
+            // Update document title
+            document.title = 'SPA Navigation - Atlas';
+            
+            // Initialize SPA VWO with new URL
             initializeSPAVWO();
             
             // Scroll to top
@@ -840,10 +853,17 @@
                 }
             });
             
-            // Change URL back
+            // Change URL back to services
             const currentUrl = new URL(window.location);
-            currentUrl.hash = '';
-            window.history.pushState({page: 'services'}, '', currentUrl.toString());
+            const baseUrl = currentUrl.origin;
+            const searchParams = currentUrl.search;
+            const servicesUrl = baseUrl + '/services.html' + searchParams;
+            
+            // Update browser history
+            window.history.pushState({page: 'services', url: servicesUrl}, 'Services - Atlas', servicesUrl);
+            
+            // Update document title
+            document.title = 'Services - Atlas';
             
             // Scroll to top
             window.scrollTo(0, 0);
@@ -870,16 +890,16 @@
 
         // Handle browser back/forward buttons
         window.addEventListener('popstate', function(event) {
-            if (window.location.hash === '#spa') {
+            if (window.location.pathname.includes('spa-navigation')) {
                 navigateToSPA();
             } else {
                 goBackToServices();
             }
         });
 
-        // Check if page loads with SPA hash
+        // Check if page loads with SPA route
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.location.hash === '#spa') {
+            if (window.location.pathname.includes('spa-navigation')) {
                 navigateToSPA();
             }
         });
