@@ -139,8 +139,9 @@
             const isSPARoute = window.location.pathname.includes('spa-navigation') || window.location.hash === '#spa';
             
             if (isSPARoute) {
-                // Set SPA-specific URL for VWO
-                var _vis_opt_url_spa = "https://spa-navigation-page.com";
+                // Set SPA-specific URL for VWO globally
+                window._vis_opt_url = "https://spa-navigation-page.com";
+                console.log('SPA VWO initialized with _vis_opt_url:', window._vis_opt_url);
                 
                 window._vwo_code_spa = window._vwo_code_spa || (function() {
                     var account_id = getSPAVWOAccountId(),
@@ -221,7 +222,7 @@
                 var jsVar_spa = 1;
                 var jaVar_spa = "false";
                 document.cookie = "firstName=abc_spa";
-                // _vis_opt_url_spa is already set above
+                // _vis_opt_url is already set above
             }
         }
     </script>
@@ -615,7 +616,14 @@
                                 <p><strong>Current URL:</strong> <span id="current-url"></span></p>
                                 <p><strong>VWO Account ID:</strong> <span id="vwo-account-id"></span></p>
                                 <p><strong>_vis_opt_url:</strong> <span id="vis-opt-url"></span></p>
+                                <p><strong>SPA VWO Status:</strong> <span id="spa-vwo-status"></span></p>
                             </div>
+                        </div>
+                        
+                        <!-- Always visible VWO URL display -->
+                        <div class="alert alert-success mt-3">
+                            <h5>VWO Configuration</h5>
+                            <p><strong>Current _vis_opt_url:</strong> <span id="current-vis-opt-url">Loading...</span></p>
                         </div>
                     </div>
                 </div>
@@ -820,6 +828,14 @@
             spaContent.style.display = 'block';
             spaContent.classList.add('spa-transition', 'spa-content-visible');
             
+            // Update the always-visible VWO URL display
+            setTimeout(() => {
+                const currentVisOptUrl = document.getElementById('current-vis-opt-url');
+                if (currentVisOptUrl) {
+                    currentVisOptUrl.textContent = window._vis_opt_url || 'https://spa-navigation-page.com';
+                }
+            }, 100);
+            
             // Change URL to a proper SPA route without hash
             const currentUrl = new URL(window.location);
             const baseUrl = currentUrl.origin;
@@ -878,7 +894,13 @@
             // Update info display
             currentUrl.textContent = window.location.href;
             vwoAccountId.textContent = getSPAVWOAccountId();
-            visOptUrl.textContent = window._vis_opt_url_spa || 'Not initialized';
+            
+            // Show the correct _vis_opt_url based on current page
+            if (window.location.pathname.includes('spa-navigation')) {
+                visOptUrl.textContent = window._vis_opt_url || 'https://spa-navigation-page.com';
+            } else {
+                visOptUrl.textContent = window._vis_opt_url || 'https://main-page-services.com';
+            }
             
             // Show/hide info
             if (spaInfo.style.display === 'none') {
