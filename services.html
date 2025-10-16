@@ -114,7 +114,7 @@
         var jsVar = 1;
         var jaVar = "false";
         document.cookie = "firstName=abc";
-        var vis_opt_url = "https://main-page-services.com";
+        var _vis_opt_url = "https://main-page-services.com";
     }
     </script>
     <!-- End VWO Async SmartCode -->
@@ -579,7 +579,7 @@
             var jsVar = 1;
             var jaVar = 'false';
             document.cookie = 'firstName=abc';
-            var vis_opt_url = 'https://iframe-services-page.com';
+            var _vis_opt_url = 'https://iframe-services-page.com';
         }
     </script>
     <style>
@@ -595,7 +595,7 @@
         <button onclick='alert(\"Iframe button clicked!\")'>Test Button</button>
     </div>
     <script>
-        document.getElementById('url-display').textContent = vis_opt_url || 'Not set';
+        document.getElementById('url-display').textContent = _vis_opt_url || 'Not set';
     </script>
 </body>
 </html>
