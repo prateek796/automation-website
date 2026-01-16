@@ -6,6 +6,16 @@
     <title>Complex Canvas Test Cases</title>
     <!-- Start VWO Async SmartCode -->
     <script type="text/javascript" id="vwoCode">
+        const originalGetContext =
+HTMLCanvasElement.prototype.getContext;
+HTMLCanvasElement.prototype.getContext = function(contextType, attributes) {
+    const ctxList=['webgl', 'webgl2', 'experimental-webgl'];
+    if (ctxList.indexOf(contextType) > -1) {
+        attributes = attributes || {};
+        attributes.preserveDrawingBuffer = true;
+    }
+    return originalGetContext.call(this, contextType, attributes);
+};
         // Function to get ID from URL
         function getVWOAccountId() {
             const params = new URLSearchParams(window.location.search);
