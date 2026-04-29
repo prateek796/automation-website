@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopted StyleSheets - Static</title>
+
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      // Function to get ID from URL
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        const isSync = window.location.href.includes("sync");
+
+        // If URL has an ID parameter, use that
+        if (urlId) {
+          return urlId;
+        }
+        // Default ID if none specified
+        return "814397";
+      }
+
+      if (window.location.href.includes("sync")) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://dev.visualwebsiteoptimizer.com/lib/" +
+          getVWOAccountId() +
+          ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+
+        var anotherScript = document.createElement("script");
+        anotherScript.type = "text/javascript";
+        anotherScript.src = "path/to/your/other/script.js";
+        document.head.appendChild(anotherScript);
+      } else {
+        window._vwo_code =
+          window._vwo_code ||
+          (function () {
+            var account_id = getVWOAccountId(),
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style =
+                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+            var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function () {
+                  return use_existing_jquery;
+                },
+                library_tolerance: function () {
+                  return library_tolerance;
+                },
+                hide_element_style: function () {
+                  return "{" + hide_element_style + "}";
+                },
+                finish: function () {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function () {
+                  return f;
+                },
+                load: function (e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function () {
+                    _vwo_code.finish();
+                  };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function () {
+                  return version;
+                },
+                getMatchedCookies: function (e) {
+                  var t = [];
+                  if (document.cookie) {
+                    t = document.cookie.match(e) || [];
+                  }
+                  return t;
+                },
+                getCombinationCookie: function () {
+                  var e = code.getMatchedCookies(
+                    /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
+                  );
+                  e = e.map(function (e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (
+                        !/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)
+                      ) {
+                        return "";
+                      }
+                      return t;
+                    } catch (e) {
+                      return "";
+                    }
+                  });
+                  var i = [];
+                  e.forEach(function (e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
+                },
+                init: function () {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function () {
+                    _vwo_code.finish();
+                  }, settings_tolerance);
+                  var e = d.createElement("style"),
+                    t = hide_element
+                      ? hide_element + "{" + hide_element_style + "}"
+                      : "",
+                    i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  var n = this.getCombinationCookie();
+                  this.load(
+                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                      account_id +
+                      "&u=" +
+                      encodeURIComponent(d.URL) +
+                      "&f=" +
+                      +is_spa +
+                      "&vn=" +
+                      version +
+                      (n ? "&c=" + n : "")
+                  );
+                  return settings_timer;
+                },
+              };
+            window._vwo_settings_timer = code.init();
+            return code;
+          })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        background: #000;
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        z-index: 10;
+      }
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      .navbar a:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .card {
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+        background: #fff;
+      }
+      .log {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+        background: #0b1020;
+        color: #e6e9ff;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .adopted-demo {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px dashed #bbb;
+      }
+      .muted {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <strong style="margin-right: 10px">Adopted StyleSheets</strong>
+      <a href="index.html" onclick="return preserveQueryParams(this)">Home</a>
+      <a
+        href="adopted-style-sheets-static.html"
+        onclick="return preserveQueryParams(this)"
+        >Static</a
+      >
+      <a
+        href="adopted-style-sheets-dynamic-add.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Add</a
+      >
+      <a
+        href="adopted-style-sheets-dynamic-remove.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Remove</a
+      >
+    </div>
+
+    <div class="container">
+      <h1>Static adoptedStyleSheets</h1>
+      <p class="muted">
+        This page assigns multiple adopted style sheets <b>once on load</b> and
+        reports getter/setter details + confirms the styles only affect the
+        intended selectors (no unintended page-wide impact).
+      </p>
+
+      <div class="card">
+        <h2>Demo area</h2>
+        <div class="adopted-demo">
+          <div id="target">Target element: should get adopted styles</div>
+          <div id="control">Control element: should NOT match selectors</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Status / checks</h2>
+        <div id="status" class="log"></div>
+      </div>
+    </div>
+
+    <script>
+      function preserveQueryParams(link) {
+        const currentParams = new URLSearchParams(window.location.search);
+        const id = currentParams.get("id");
+        const isSync = window.location.href.includes("sync");
+
+        if (id || isSync) {
+          let href = link.getAttribute("href");
+          let newUrl = new URL(href, window.location.origin);
+          if (id) newUrl.searchParams.set("id", id);
+          if (isSync) newUrl.searchParams.set("sync", "");
+          window.location.href = newUrl.toString();
+          return false;
+        }
+        return true;
+      }
+
+      const $status = document.getElementById("status");
+      function log(line) {
+        $status.textContent += line + "\n";
+      }
+
+      function supportsAdoptedStyleSheets() {
+        return (
+          "adoptedStyleSheets" in Document.prototype &&
+          typeof CSSStyleSheet === "function" &&
+          typeof CSSStyleSheet.prototype.replaceSync === "function"
+        );
+      }
+
+      function safeSheet(rulesText) {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(rulesText);
+        return sheet;
+      }
+
+      (function init() {
+        log("Feature detect: " + (supportsAdoptedStyleSheets() ? "SUPPORTED" : "NOT SUPPORTED"));
+        if (!supportsAdoptedStyleSheets()) {
+          log(
+            "This browser does not support adoptedStyleSheets. Nothing else will run."
+          );
+          return;
+        }
+
+        const desc = Object.getOwnPropertyDescriptor(
+          Document.prototype,
+          "adoptedStyleSheets"
+        );
+        log("Getter exists: " + Boolean(desc && typeof desc.get === "function"));
+        log("Setter exists: " + Boolean(desc && typeof desc.set === "function"));
+
+        const before = document.adoptedStyleSheets;
+        log("Initial document.adoptedStyleSheets length: " + before.length);
+        log("Initial value isArray: " + Array.isArray(before));
+
+        const baseSheet = safeSheet(`
+          .adopted-demo { background: #f7fbff; }
+          #target { padding: 10px; border-radius: 10px; border: 2px solid #2b6cb0; background: #ebf8ff; color: #1a365d; }
+        `);
+        const secondSheet = safeSheet(`
+          #target { box-shadow: 0 6px 18px rgba(43,108,176,0.25); }
+          #control { padding: 10px; border: 2px dashed #bbb; border-radius: 10px; }
+        `);
+
+        document.adoptedStyleSheets = [baseSheet, secondSheet];
+
+        const after = document.adoptedStyleSheets;
+        log("After static assign, length: " + after.length);
+        log("More than 1 adopted style sheet: " + (after.length > 1));
+        log("Same references present: " + (after[0] === baseSheet && after[1] === secondSheet));
+
+        const targetStyle = getComputedStyle(document.getElementById("target"));
+        const controlStyle = getComputedStyle(document.getElementById("control"));
+        log("Computed #target borderColor: " + targetStyle.borderTopColor);
+        log("Computed #control borderStyle: " + controlStyle.borderTopStyle);
+        log("No unintended impact check (body bg stays default-ish): " + getComputedStyle(document.body).backgroundColor);
+      })();
+    </script>
+  </body>
+</html>

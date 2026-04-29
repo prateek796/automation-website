@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopted StyleSheets - Dynamic Remove</title>
+
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        const isSync = window.location.href.includes("sync");
+        if (urlId) return urlId;
+        return "814397";
+      }
+
+      if (window.location.href.includes("sync")) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://dev.visualwebsiteoptimizer.com/lib/" +
+          getVWOAccountId() +
+          ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+      } else {
+        window._vwo_code =
+          window._vwo_code ||
+          (function () {
+            var account_id = getVWOAccountId(),
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style =
+                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+            var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function () {
+                  return use_existing_jquery;
+                },
+                library_tolerance: function () {
+                  return library_tolerance;
+                },
+                hide_element_style: function () {
+                  return "{" + hide_element_style + "}";
+                },
+                finish: function () {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function () {
+                  return f;
+                },
+                load: function (e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function () {
+                    _vwo_code.finish();
+                  };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function () {
+                  return version;
+                },
+                init: function () {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function () {
+                    _vwo_code.finish();
+                  }, settings_tolerance);
+                  var e = d.createElement("style"),
+                    t = hide_element
+                      ? hide_element + "{" + hide_element_style + "}"
+                      : "",
+                    i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  this.load(
+                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                      account_id +
+                      "&u=" +
+                      encodeURIComponent(d.URL) +
+                      "&f=" +
+                      +is_spa +
+                      "&vn=" +
+                      version
+                  );
+                  return settings_timer;
+                },
+              };
+            window._vwo_settings_timer = code.init();
+            return code;
+          })();
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        background: #000;
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        z-index: 10;
+      }
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      .navbar a:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .card {
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+        background: #fff;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      button {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: #f8f8f8;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #f0f0f0;
+      }
+      .log {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+        background: #0b1020;
+        color: #e6e9ff;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .adopted-demo {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px dashed #bbb;
+      }
+      #target {
+        padding: 12px;
+        border-radius: 10px;
+        border: 3px solid #111;
+        background: #fff;
+        color: #111;
+      }
+      .muted {
+        color: #666;
+      }
+      .pill {
+        display: inline-block;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #eee;
+        margin-left: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <strong style="margin-right: 10px">Adopted StyleSheets</strong>
+      <a href="index.html" onclick="return preserveQueryParams(this)">Home</a>
+      <a
+        href="adopted-style-sheets-static.html"
+        onclick="return preserveQueryParams(this)"
+        >Static</a
+      >
+      <a
+        href="adopted-style-sheets-dynamic-add.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Add</a
+      >
+      <a
+        href="adopted-style-sheets-dynamic-remove.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Remove</a
+      >
+    </div>
+
+    <div class="container">
+      <h1>Dynamic remove (splice / filter / clear)</h1>
+      <p class="muted">
+        This page starts with <b>two adopted style sheets</b> and lets you
+        remove them in different ways. It’s meant to cover “patching” the list
+        as well as direct assignment.
+      </p>
+
+      <div class="card">
+        <h2>Demo area</h2>
+        <div class="adopted-demo">
+          <div id="target">
+            Target element
+            <span id="badge" class="pill">two sheets</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Actions</h2>
+        <div class="row">
+          <button id="btn-remove-last-splice">Remove last via splice + assign</button>
+          <button id="btn-remove-first-filter">Remove first via filter + assign</button>
+          <button id="btn-clear">Clear via assign []</button>
+          <button id="btn-restore">Restore two sheets</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Status</h2>
+        <div id="status" class="log"></div>
+      </div>
+    </div>
+
+    <script>
+      function preserveQueryParams(link) {
+        const currentParams = new URLSearchParams(window.location.search);
+        const id = currentParams.get("id");
+        const isSync = window.location.href.includes("sync");
+        if (id || isSync) {
+          let href = link.getAttribute("href");
+          let newUrl = new URL(href, window.location.origin);
+          if (id) newUrl.searchParams.set("id", id);
+          if (isSync) newUrl.searchParams.set("sync", "");
+          window.location.href = newUrl.toString();
+          return false;
+        }
+        return true;
+      }
+
+      const $status = document.getElementById("status");
+      const $badge = document.getElementById("badge");
+      function log(line) {
+        $status.textContent += line + "\n";
+      }
+      function supportsAdoptedStyleSheets() {
+        return (
+          "adoptedStyleSheets" in Document.prototype &&
+          typeof CSSStyleSheet === "function" &&
+          typeof CSSStyleSheet.prototype.replaceSync === "function"
+        );
+      }
+      function safeSheet(rulesText) {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(rulesText);
+        return sheet;
+      }
+
+      const sheetA = safeSheet(`
+        #target { border-color: #ef4444; background: #fff1f2; color: #881337; }
+      `);
+      const sheetB = safeSheet(`
+        #target { border-style: double; border-width: 6px; box-shadow: 0 8px 16px rgba(0,0,0,0.12); }
+      `);
+
+      function snapshot(label) {
+        if (!supportsAdoptedStyleSheets()) return;
+        const list = document.adoptedStyleSheets;
+        const target = document.getElementById("target");
+        const st = getComputedStyle(target);
+        log("— " + label);
+        log("adoptedStyleSheets length: " + list.length);
+        log("computed borderStyle: " + st.borderTopStyle + ", borderWidth: " + st.borderTopWidth);
+        log("computed borderColor: " + st.borderTopColor + ", background: " + st.backgroundColor);
+      }
+
+      function restoreTwo() {
+        document.adoptedStyleSheets = [sheetA, sheetB];
+        $badge.textContent = "two sheets";
+        snapshot("restore -> [sheetA, sheetB]");
+      }
+
+      (function init() {
+        log("Feature detect: " + (supportsAdoptedStyleSheets() ? "SUPPORTED" : "NOT SUPPORTED"));
+        if (!supportsAdoptedStyleSheets()) {
+          log("This browser does not support adoptedStyleSheets.");
+          return;
+        }
+        restoreTwo();
+      })();
+
+      document
+        .getElementById("btn-remove-last-splice")
+        .addEventListener("click", () => {
+          const next = document.adoptedStyleSheets.slice();
+          next.splice(next.length - 1, 1);
+          document.adoptedStyleSheets = next;
+          $badge.textContent = "spliced";
+          snapshot("remove last via splice + assign");
+        });
+
+      document
+        .getElementById("btn-remove-first-filter")
+        .addEventListener("click", () => {
+          const current = document.adoptedStyleSheets;
+          const first = current[0];
+          const next = current.filter((s) => s !== first);
+          document.adoptedStyleSheets = next;
+          $badge.textContent = "filtered";
+          snapshot("remove first via filter + assign");
+        });
+
+      document.getElementById("btn-clear").addEventListener("click", () => {
+        document.adoptedStyleSheets = [];
+        $badge.textContent = "cleared";
+        snapshot("clear via assign []");
+      });
+
+      document.getElementById("btn-restore").addEventListener("click", () => {
+        restoreTwo();
+      });
+    </script>
+  </body>
+</html>
