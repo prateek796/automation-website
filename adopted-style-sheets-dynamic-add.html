@@ -278,6 +278,9 @@
           <button id="btn-patch">Add via “patch” (spread + assign)</button>
           <button id="btn-push-only">Push only (no assign) — should NOT apply</button>
           <button id="btn-push-assign">Push + assign — should apply</button>
+          <button id="btn-insert-rule">Add via insertRule()</button>
+          <button id="btn-replace-sync">Add via replaceSync()</button>
+          <button id="btn-replace-async">Add via replace() async</button>
           <button id="btn-reset">Reset (clear adoptedStyleSheets)</button>
         </div>
       </div>
@@ -334,6 +337,12 @@
       `);
       const pushSheet = safeSheet(`
         #target { border-color: #059669; background: #ecfdf5; color: #064e3b; }
+      `);
+      const insertRuleSheet = safeSheet(`
+        #target { letter-spacing: normal; }
+      `);
+      const replaceSheet = safeSheet(`
+        #target { text-transform: none; border-style: solid; }
       `);
 
       function setBadge(text) {
@@ -399,6 +408,63 @@
         document.adoptedStyleSheets = next;
         setBadge("push+assign");
         snapshot("push + assign (expected: style changes)");
+      });
+
+      document.getElementById("btn-insert-rule").addEventListener("click", () => {
+        try {
+          const idx = insertRuleSheet.insertRule(
+            "#target { letter-spacing: 2px; border-color: #d97706; background: #fffbeb; color: #78350f; }",
+            insertRuleSheet.cssRules.length
+          );
+          document.adoptedStyleSheets = [...document.adoptedStyleSheets, insertRuleSheet];
+          setBadge("insertRule");
+          log("insertRule() success at index: " + idx);
+          snapshot("add via insertRule()");
+        } catch (e) {
+          log("insertRule() failed: " + e);
+        }
+      });
+
+      document.getElementById("btn-replace-sync").addEventListener("click", () => {
+        try {
+          replaceSheet.replaceSync(`
+            #target {
+              text-transform: uppercase;
+              border-style: dotted;
+              border-width: 5px;
+              border-color: #be123c;
+              background: #fff1f2;
+              color: #881337;
+            }
+          `);
+          document.adoptedStyleSheets = [...document.adoptedStyleSheets, replaceSheet];
+          setBadge("replaceSync");
+          log("replaceSync() success.");
+          snapshot("add via replaceSync()");
+        } catch (e) {
+          log("replaceSync() failed: " + e);
+        }
+      });
+
+      document.getElementById("btn-replace-async").addEventListener("click", async () => {
+        try {
+          await replaceSheet.replace(`
+            #target {
+              text-transform: lowercase;
+              border-style: double;
+              border-width: 6px;
+              border-color: #1d4ed8;
+              background: #eff6ff;
+              color: #1e3a8a;
+            }
+          `);
+          document.adoptedStyleSheets = [...document.adoptedStyleSheets, replaceSheet];
+          setBadge("replace");
+          log("replace() async success.");
+          snapshot("add via replace() async");
+        } catch (e) {
+          log("replace() failed: " + e);
+        }
       });
 
       document.getElementById("btn-reset").addEventListener("click", () => {
