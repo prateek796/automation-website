@@ -72,7 +72,6 @@
       function getVWOAccountId() {
         const params = new URLSearchParams(window.location.search);
         const urlId = params.get('id');
-        const isSync = window.location.href.includes('sync');
         
         // If URL has an ID parameter, use that
         if (urlId) {
@@ -82,7 +81,40 @@
         return '814397';
       }
 
-      if (window.location.href.includes('sync')) {
+      // Wingify edge CDN: ?wingify or any param value containing wingify.net
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('wingify')) {
+          return true;
+        }
+        for (const value of params.values()) {
+          if (value && value.indexOf('wingify.net') !== -1) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function getWingifyEdgeScriptUrl() {
+        return (
+          'https://edge.wingify.net/cloud-run-test/final/' +
+          getVWOAccountId() +
+          '.js'
+        );
+      }
+
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes('sync')) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
