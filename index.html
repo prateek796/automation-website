@@ -95,10 +95,18 @@
         return false;
       }
 
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+
       function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        }
         return (
           'https://edge.wingify.net/cloud-run-test/final/' +
-          getVWOAccountId() +
+          accountId +
           '.js'
         );
       }
