@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopted &amp; Constructed StyleSheets — Document &amp; Shadow DOM</title>
+
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        if (urlId) return urlId;
+        return "814397";
+      }
+
+      if (window.location.href.includes("sync")) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://dev.visualwebsiteoptimizer.com/lib/" +
+          getVWOAccountId() +
+          ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+      } else {
+        window._vwo_code =
+          window._vwo_code ||
+          (function () {
+            var account_id = getVWOAccountId(),
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style =
+                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+            var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                finish: function () {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                load: function (e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function () {
+                    _vwo_code.finish();
+                  };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                init: function () {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function () {
+                    _vwo_code.finish();
+                  }, settings_tolerance);
+                  var e = d.createElement("style"),
+                    t = hide_element
+                      ? hide_element + "{" + hide_element_style + "}"
+                      : "",
+                    i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  this.load(
+                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                      account_id +
+                      "&u=" +
+                      encodeURIComponent(d.URL) +
+                      "&f=" +
+                      +is_spa +
+                      "&vn=" +
+                      version
+                  );
+                  return settings_timer;
+                },
+              };
+            window._vwo_settings_timer = code.init();
+            return code;
+          })();
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #fafafa;
+      }
+      .container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        background: #000;
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        z-index: 10;
+      }
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .navbar a:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .card {
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+        background: #fff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .demo-box {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px dashed #bbb;
+        min-height: 72px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      button {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: #f8f8f8;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #f0f0f0;
+      }
+      .log {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+        background: #0b1020;
+        color: #e6e9ff;
+        padding: 10px;
+        border-radius: 10px;
+        min-height: 80px;
+      }
+      .muted {
+        color: #666;
+      }
+      .pill {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #eee;
+        margin-left: 6px;
+      }
+      .light-host {
+        display: block;
+        padding: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <strong style="margin-right: 6px">Adopted StyleSheets</strong>
+      <a href="automation-website/index.html" onclick="return preserveQueryParams(this)">Home</a>
+      <a
+        href="automation-website/adopted-style-sheets-static.html"
+        onclick="return preserveQueryParams(this)"
+        >Static</a
+      >
+      <a
+        href="automation-website/adopted-style-sheets-dynamic-add.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Add</a
+      >
+      <a
+        href="automation-website/adopted-style-sheets-dynamic-remove.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Remove</a
+      >
+      <a
+        href="automation-website/adopted-style-sheets-document-shadow.html"
+        onclick="return preserveQueryParams(this)"
+        >Document &amp; Shadow</a
+      >
+    </div>
+
+    <div class="container">
+      <h1>Adopted &amp; Constructed StyleSheets</h1>
+      <p class="muted">
+        Covers <b>document</b> and <b>shadow DOM</b> for both
+        <b>adopted</b> (<code>adoptedStyleSheets</code>) and
+        <b>constructed</b> (<code>new CSSStyleSheet()</code> with
+        <code>replaceSync</code> / <code>insertRule</code>).
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h2>1. Document — Adopted</h2>
+          <p class="muted">
+            Assigns a constructed sheet to <code>document.adoptedStyleSheets</code>.
+          </p>
+          <div class="demo-box">
+            <div id="doc-adopted-target">
+              Document adopted target
+              <span id="doc-adopted-badge" class="pill">idle</span>
+            </div>
+            <div id="doc-adopted-control">Document control (outside selector)</div>
+          </div>
+          <div class="row">
+            <button id="btn-doc-adopted">Apply adopted sheet</button>
+            <button id="btn-doc-adopted-clear">Clear adopted</button>
+          </div>
+          <div id="log-doc-adopted" class="log" style="margin-top: 10px"></div>
+        </div>
+
+        <div class="card">
+          <h2>2. Document — Constructed</h2>
+          <p class="muted">
+            Builds rules via <code>insertRule</code> on a constructed sheet, then adopts it.
+          </p>
+          <div class="demo-box">
+            <div id="doc-constructed-target">
+              Document constructed target
+              <span id="doc-constructed-badge" class="pill">idle</span>
+            </div>
+          </div>
+          <div class="row">
+            <button id="btn-doc-constructed">Build + adopt via insertRule</button>
+            <button id="btn-doc-constructed-replace">Build + adopt via replaceSync</button>
+          </div>
+          <div id="log-doc-constructed" class="log" style="margin-top: 10px"></div>
+        </div>
+
+        <div class="card">
+          <h2>3. Shadow DOM — Adopted</h2>
+          <p class="muted">
+            Assigns a sheet to <code>shadowRoot.adoptedStyleSheets</code>.
+          </p>
+          <div class="demo-box">
+            <div id="shadow-adopted-host" class="light-host"></div>
+          </div>
+          <div class="row">
+            <button id="btn-shadow-adopted">Apply adopted sheet in shadow</button>
+            <button id="btn-shadow-adopted-clear">Clear shadow adopted</button>
+          </div>
+          <div id="log-shadow-adopted" class="log" style="margin-top: 10px"></div>
+        </div>
+
+        <div class="card">
+          <h2>4. Shadow DOM — Constructed</h2>
+          <p class="muted">
+            Constructs a sheet with <code>replace()</code> / <code>insertRule</code>, then adopts into shadow root.
+          </p>
+          <div class="demo-box">
+            <div id="shadow-constructed-host" class="light-host"></div>
+          </div>
+          <div class="row">
+            <button id="btn-shadow-constructed">Build + adopt via insertRule</button>
+            <button id="btn-shadow-constructed-replace">Build + adopt via replace() async</button>
+          </div>
+          <div id="log-shadow-constructed" class="log" style="margin-top: 10px"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function preserveQueryParams(link) {
+        const currentParams = new URLSearchParams(window.location.search);
+        const id = currentParams.get("id");
+        const isSync = window.location.href.includes("sync");
+        if (id || isSync) {
+          let href = link.getAttribute("href");
+          let newUrl = new URL(href, window.location.origin);
+          if (id) newUrl.searchParams.set("id", id);
+          if (isSync) newUrl.searchParams.set("sync", "");
+          window.location.href = newUrl.toString();
+          return false;
+        }
+        return true;
+      }
+
+      function supportsAdoptedStyleSheets() {
+        return (
+          "adoptedStyleSheets" in Document.prototype &&
+          typeof CSSStyleSheet === "function" &&
+          typeof CSSStyleSheet.prototype.replaceSync === "function"
+        );
+      }
+
+      function createSheet(rulesText) {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(rulesText);
+        return sheet;
+      }
+
+      function logTo(el, line) {
+        el.textContent += line + "\n";
+      }
+
+      function clearLog(el) {
+        el.textContent = "";
+      }
+
+      function setBadge(id, text) {
+        document.getElementById(id).textContent = text;
+      }
+
+      function reportStyles(label, targetEl, logEl, badgeId) {
+        const st = getComputedStyle(targetEl);
+        logTo(logEl, "— " + label);
+        logTo(logEl, "border: " + st.borderTopWidth + " " + st.borderTopStyle + " " + st.borderTopColor);
+        logTo(logEl, "background: " + st.backgroundColor + ", color: " + st.color);
+        setBadge(badgeId, "applied");
+      }
+
+      function createShadowHost(hostId, innerId, label) {
+        const host = document.getElementById(hostId);
+        const shadow = host.attachShadow({ mode: "open" });
+        shadow.innerHTML =
+          '<div class="shadow-wrap">' +
+          '<div id="' +
+          innerId +
+          '">' +
+          label +
+          ' <span class="badge">idle</span></div>' +
+          '<div class="shadow-control">Shadow control element</div>' +
+          "</div>";
+        return { host, shadow, target: shadow.getElementById(innerId), badge: shadow.querySelector(".badge") };
+      }
+
+      const logDocAdopted = document.getElementById("log-doc-adopted");
+      const logDocConstructed = document.getElementById("log-doc-constructed");
+      const logShadowAdopted = document.getElementById("log-shadow-adopted");
+      const logShadowConstructed = document.getElementById("log-shadow-constructed");
+
+      const docAdoptedTarget = document.getElementById("doc-adopted-target");
+      const docConstructedTarget = document.getElementById("doc-constructed-target");
+
+      const shadowAdopted = createShadowHost(
+        "shadow-adopted-host",
+        "shadow-adopted-target",
+        "Shadow adopted target"
+      );
+      const shadowConstructed = createShadowHost(
+        "shadow-constructed-host",
+        "shadow-constructed-target",
+        "Shadow constructed target"
+      );
+
+      let docAdoptedSheet = null;
+      let docConstructedSheet = null;
+      let shadowAdoptedSheet = null;
+      let shadowConstructedSheet = null;
+
+      (function init() {
+        const supported = supportsAdoptedStyleSheets();
+        const shadowSupports =
+          supported && "adoptedStyleSheets" in ShadowRoot.prototype;
+
+        clearLog(logDocAdopted);
+        logTo(
+          logDocAdopted,
+          "Feature detect document.adoptedStyleSheets: " + (supported ? "SUPPORTED" : "NOT SUPPORTED")
+        );
+        logTo(
+          logShadowAdopted,
+          "Feature detect shadowRoot.adoptedStyleSheets: " +
+            (shadowSupports ? "SUPPORTED" : "NOT SUPPORTED")
+        );
+      })();
+
+      document.getElementById("btn-doc-adopted").addEventListener("click", () => {
+        clearLog(logDocAdopted);
+        if (!supportsAdoptedStyleSheets()) {
+          logTo(logDocAdopted, "Not supported in this browser.");
+          return;
+        }
+        docAdoptedSheet = createSheet(`
+          #doc-adopted-target {
+            border: 3px solid #2563eb;
+            background: #dbeafe;
+            color: #1e3a8a;
+            padding: 10px;
+            border-radius: 8px;
+          }
+          #doc-adopted-control {
+            margin-top: 8px;
+            padding: 8px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+          }
+        `);
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, docAdoptedSheet];
+        logTo(logDocAdopted, "document.adoptedStyleSheets length: " + document.adoptedStyleSheets.length);
+        reportStyles("document adopted", docAdoptedTarget, logDocAdopted, "doc-adopted-badge");
+      });
+
+      document.getElementById("btn-doc-adopted-clear").addEventListener("click", () => {
+        clearLog(logDocAdopted);
+        if (!supportsAdoptedStyleSheets()) return;
+        if (docAdoptedSheet) {
+          document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
+            (s) => s !== docAdoptedSheet
+          );
+          docAdoptedSheet = null;
+        }
+        setBadge("doc-adopted-badge", "cleared");
+        logTo(logDocAdopted, "Removed document adopted sheet.");
+        logTo(logDocAdopted, "document.adoptedStyleSheets length: " + document.adoptedStyleSheets.length);
+      });
+
+      document.getElementById("btn-doc-constructed").addEventListener("click", () => {
+        clearLog(logDocConstructed);
+        if (!supportsAdoptedStyleSheets()) {
+          logTo(logDocConstructed, "Not supported in this browser.");
+          return;
+        }
+        docConstructedSheet = new CSSStyleSheet();
+        const idx = docConstructedSheet.insertRule(
+          "#doc-constructed-target { border: 4px dotted #b45309; background: #fffbeb; color: #78350f; padding: 10px; border-radius: 8px; letter-spacing: 1px; }",
+          0
+        );
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, docConstructedSheet];
+        logTo(logDocConstructed, "insertRule() index: " + idx);
+        logTo(logDocConstructed, "cssRules length: " + docConstructedSheet.cssRules.length);
+        reportStyles("document constructed + adopted", docConstructedTarget, logDocConstructed, "doc-constructed-badge");
+      });
+
+      document.getElementById("btn-doc-constructed-replace").addEventListener("click", () => {
+        clearLog(logDocConstructed);
+        if (!supportsAdoptedStyleSheets()) {
+          logTo(logDocConstructed, "Not supported in this browser.");
+          return;
+        }
+        docConstructedSheet = new CSSStyleSheet();
+        docConstructedSheet.replaceSync(`
+          #doc-constructed-target {
+            border: 5px double #be123c;
+            background: #fff1f2;
+            color: #881337;
+            padding: 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+          }
+        `);
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, docConstructedSheet];
+        logTo(logDocConstructed, "replaceSync() applied.");
+        reportStyles("document constructed via replaceSync", docConstructedTarget, logDocConstructed, "doc-constructed-badge");
+      });
+
+      document.getElementById("btn-shadow-adopted").addEventListener("click", () => {
+        clearLog(logShadowAdopted);
+        if (!("adoptedStyleSheets" in ShadowRoot.prototype)) {
+          logTo(logShadowAdopted, "shadowRoot.adoptedStyleSheets not supported.");
+          return;
+        }
+        shadowAdoptedSheet = createSheet(`
+          .shadow-wrap { padding: 8px; border-radius: 8px; background: #f0fdf4; }
+          #shadow-adopted-target {
+            border: 3px solid #16a34a;
+            background: #dcfce7;
+            color: #14532d;
+            padding: 10px;
+            border-radius: 8px;
+          }
+          .shadow-control {
+            margin-top: 8px;
+            padding: 8px;
+            border: 1px dashed #86efac;
+            border-radius: 8px;
+          }
+        `);
+        shadowAdopted.shadow.adoptedStyleSheets = [
+          ...shadowAdopted.shadow.adoptedStyleSheets,
+          shadowAdoptedSheet,
+        ];
+        shadowAdopted.badge.textContent = "applied";
+        logTo(
+          logShadowAdopted,
+          "shadowRoot.adoptedStyleSheets length: " + shadowAdopted.shadow.adoptedStyleSheets.length
+        );
+        const st = getComputedStyle(shadowAdopted.target);
+        logTo(logShadowAdopted, "— shadow adopted");
+        logTo(logShadowAdopted, "border: " + st.borderTopWidth + " " + st.borderTopStyle + " " + st.borderTopColor);
+        logTo(logShadowAdopted, "background: " + st.backgroundColor + ", color: " + st.color);
+      });
+
+      document.getElementById("btn-shadow-adopted-clear").addEventListener("click", () => {
+        clearLog(logShadowAdopted);
+        if (!("adoptedStyleSheets" in ShadowRoot.prototype)) return;
+        if (shadowAdoptedSheet) {
+          shadowAdopted.shadow.adoptedStyleSheets =
+            shadowAdopted.shadow.adoptedStyleSheets.filter((s) => s !== shadowAdoptedSheet);
+          shadowAdoptedSheet = null;
+        }
+        shadowAdopted.badge.textContent = "cleared";
+        logTo(logShadowAdopted, "Cleared shadow adopted sheet.");
+      });
+
+      document.getElementById("btn-shadow-constructed").addEventListener("click", () => {
+        clearLog(logShadowConstructed);
+        if (!("adoptedStyleSheets" in ShadowRoot.prototype)) {
+          logTo(logShadowConstructed, "shadowRoot.adoptedStyleSheets not supported.");
+          return;
+        }
+        shadowConstructedSheet = new CSSStyleSheet();
+        shadowConstructedSheet.insertRule(
+          "#shadow-constructed-target { border: 4px solid #7c3aed; background: #f5f3ff; color: #4c1d95; padding: 10px; border-radius: 8px; }",
+          0
+        );
+        shadowConstructed.shadow.adoptedStyleSheets = [
+          ...shadowConstructed.shadow.adoptedStyleSheets,
+          shadowConstructedSheet,
+        ];
+        shadowConstructed.badge.textContent = "insertRule";
+        logTo(logShadowConstructed, "shadow insertRule cssRules: " + shadowConstructedSheet.cssRules.length);
+        const stInsert = getComputedStyle(shadowConstructed.target);
+        logTo(logShadowConstructed, "— shadow constructed + adopted");
+        logTo(logShadowConstructed, "border: " + stInsert.borderTopWidth + " " + stInsert.borderTopStyle + " " + stInsert.borderTopColor);
+        logTo(logShadowConstructed, "background: " + stInsert.backgroundColor + ", color: " + stInsert.color);
+      });
+
+      document.getElementById("btn-shadow-constructed-replace").addEventListener("click", async () => {
+        clearLog(logShadowConstructed);
+        if (!("adoptedStyleSheets" in ShadowRoot.prototype)) {
+          logTo(logShadowConstructed, "shadowRoot.adoptedStyleSheets not supported.");
+          return;
+        }
+        shadowConstructedSheet = new CSSStyleSheet();
+        await shadowConstructedSheet.replace(`
+          #shadow-constructed-target {
+            border: 6px ridge #0d9488;
+            background: #ccfbf1;
+            color: #134e4a;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+          }
+        `);
+        shadowConstructed.shadow.adoptedStyleSheets = [
+          ...shadowConstructed.shadow.adoptedStyleSheets,
+          shadowConstructedSheet,
+        ];
+        shadowConstructed.badge.textContent = "replace";
+        logTo(logShadowConstructed, "shadow replace() async success.");
+        const stReplace = getComputedStyle(shadowConstructed.target);
+        logTo(logShadowConstructed, "— shadow constructed via replace()");
+        logTo(logShadowConstructed, "border: " + stReplace.borderTopWidth + " " + stReplace.borderTopStyle + " " + stReplace.borderTopColor);
+        logTo(logShadowConstructed, "background: " + stReplace.backgroundColor + ", color: " + stReplace.color);
+      });
+    </script>
+  </body>
+</html>
