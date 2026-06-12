@@ -7,14 +7,61 @@
 
     <!-- Start VWO Async SmartCode -->
     <script type="text/javascript" id="vwoCode">
+      // Function to get ID from URL
       function getVWOAccountId() {
         const params = new URLSearchParams(window.location.search);
         const urlId = params.get("id");
-        if (urlId) return urlId;
+
+        // If URL has an ID parameter, use that
+        if (urlId) {
+          return urlId;
+        }
+        // Default ID if none specified
         return "814397";
       }
 
-      if (window.location.href.includes("sync")) {
+      // Wingify edge CDN: ?wingify or any param value containing wingify.net
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("wingify")) {
+          return true;
+        }
+        for (const value of params.values()) {
+          if (value && value.indexOf("wingify.net") !== -1) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag("wingify") && hasQueryFlag("prod")) {
+          return "https://edge.wingify.net/tags/" + accountId + ".js";
+        }
+        return (
+          "https://edge.wingify.net/cloud-run-test/final/" +
+          accountId +
+          ".js"
+        );
+      }
+
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes("sync")) {
         var script = document.createElement("script");
         script.type = "text/javascript";
         script.src =
@@ -24,6 +71,11 @@
         script.id = "vwoCode";
         script.referrerPolicy = "no-referrer-when-downgrade";
         document.head.appendChild(script);
+
+        var anotherScript = document.createElement("script");
+        anotherScript.type = "text/javascript";
+        anotherScript.src = "path/to/your/other/script.js";
+        document.head.appendChild(anotherScript);
       } else {
         window._vwo_code =
           window._vwo_code ||
@@ -37,16 +89,29 @@
               hide_element = "body",
               hide_element_style =
                 "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
             var f = false,
               d = document,
               vwoCodeEl = d.querySelector("#vwoCode"),
               code = {
+                use_existing_jquery: function () {
+                  return use_existing_jquery;
+                },
+                library_tolerance: function () {
+                  return library_tolerance;
+                },
+                hide_element_style: function () {
+                  return "{" + hide_element_style + "}";
+                },
                 finish: function () {
                   if (!f) {
                     f = true;
                     var e = d.getElementById("_vis_opt_path_hides");
                     if (e) e.parentNode.removeChild(e);
                   }
+                },
+                finished: function () {
+                  return f;
                 },
                 load: function (e) {
                   var t = d.createElement("script");
@@ -57,6 +122,40 @@
                     _vwo_code.finish();
                   };
                   d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function () {
+                  return version;
+                },
+                getMatchedCookies: function (e) {
+                  var t = [];
+                  if (document.cookie) {
+                    t = document.cookie.match(e) || [];
+                  }
+                  return t;
+                },
+                getCombinationCookie: function () {
+                  var e = code.getMatchedCookies(
+                    /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
+                  );
+                  e = e.map(function (e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (
+                        !/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)
+                      ) {
+                        return "";
+                      }
+                      return t;
+                    } catch (e) {
+                      return "";
+                    }
+                  });
+                  var i = [];
+                  e.forEach(function (e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
                 },
                 init: function () {
                   if (d.URL.indexOf("__vwo_disable__") > -1) return;
@@ -74,6 +173,7 @@
                   if (e.styleSheet) e.styleSheet.cssText = t;
                   else e.appendChild(d.createTextNode(t));
                   i.appendChild(e);
+                  var n = this.getCombinationCookie();
                   this.load(
                     "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
                       account_id +
@@ -82,7 +182,8 @@
                       "&f=" +
                       +is_spa +
                       "&vn=" +
-                      version
+                      version +
+                      (n ? "&c=" + n : "")
                   );
                   return settings_timer;
                 },
@@ -90,6 +191,10 @@
             window._vwo_settings_timer = code.init();
             return code;
           })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
       }
     </script>
     <!-- End VWO Async SmartCode -->
