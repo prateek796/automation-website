@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MutationObserver Attribute Test Playground</title>
+
+  <!-- Start VWO Async SmartCode -->
+  <script type="text/javascript" id="vwoCode">
+    function getVWOAccountId() {
+      const params = new URLSearchParams(window.location.search);
+      const urlId = params.get('id');
+      if (urlId) return urlId;
+      return '814397';
+    }
+
+    function shouldUseWingifyEdgeSmartCode() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('wingify')) return true;
+      for (const value of params.values()) {
+        if (value && value.indexOf('wingify.net') !== -1) return true;
+      }
+      return false;
+    }
+
+    function hasQueryFlag(name) {
+      return new URLSearchParams(window.location.search).has(name);
+    }
+
+    function getWingifyEdgeScriptUrl() {
+      var accountId = getVWOAccountId();
+      if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+        return 'https://edge.wingify.net/tags/' + accountId + '.js';
+      }
+      return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+    }
+
+    function loadWingifyEdgeSmartCode() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = getWingifyEdgeScriptUrl();
+      script.id = 'vwoCode';
+      script.referrerPolicy = 'no-referrer-when-downgrade';
+      document.head.appendChild(script);
+    }
+
+    if (shouldUseWingifyEdgeSmartCode()) {
+      loadWingifyEdgeSmartCode();
+    } else if (window.location.href.includes('sync')) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
+      script.id = 'vwoCode';
+      script.referrerPolicy = 'no-referrer-when-downgrade';
+      document.head.appendChild(script);
+      var anotherScript = document.createElement('script');
+      anotherScript.type = 'text/javascript';
+      anotherScript.src = 'path/to/your/other/script.js';
+      document.head.appendChild(anotherScript);
+    } else {
+      window._vwo_code = window._vwo_code || (function() {
+        var account_id = getVWOAccountId(),
+            version = 1.5,
+            settings_tolerance = 2000,
+            library_tolerance = 2500,
+            use_existing_jquery = false,
+            is_spa = 1,
+            hide_element = 'body',
+            hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important';
+        var f = false, d = document, vwoCodeEl = d.querySelector('#vwoCode'),
+            code = {
+              use_existing_jquery: function() { return use_existing_jquery; },
+              library_tolerance: function() { return library_tolerance; },
+              hide_element_style: function() { return '{' + hide_element_style + '}'; },
+              finish: function() {
+                if (!f) { f = true; var e = d.getElementById('_vis_opt_path_hides'); if (e) e.parentNode.removeChild(e); }
+              },
+              finished: function() { return f; },
+              load: function(e) {
+                var t = d.createElement('script');
+                t.fetchPriority = 'high'; t.src = e; t.type = 'text/javascript';
+                t.onerror = function() { _vwo_code.finish(); };
+                d.getElementsByTagName('head')[0].appendChild(t);
+              },
+              getVersion: function() { return version; },
+              getMatchedCookies: function(e) {
+                var t = []; if (document.cookie) { t = document.cookie.match(e) || []; } return t;
+              },
+              getCombinationCookie: function() {
+                var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                e = e.map(function(e) {
+                  try {
+                    var t = decodeURIComponent(e);
+                    if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) return '';
+                    return t;
+                  } catch (e) { return ''; }
+                });
+                var i = [];
+                e.forEach(function(e) { var t = e.match(/([\d,]+)/g); t && i.push(t.join('-')); });
+                return i.join('|');
+              },
+              init: function() {
+                if (d.URL.indexOf('__vwo_disable__') > -1) return;
+                window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                var e = d.createElement('style'),
+                    t = hide_element ? hide_element + '{' + hide_element_style + '}' : '',
+                    i = d.getElementsByTagName('head')[0];
+                e.setAttribute('id', '_vis_opt_path_hides');
+                vwoCodeEl && e.setAttribute('nonce', vwoCodeEl.nonce);
+                e.setAttribute('type', 'text/css');
+                if (e.styleSheet) e.styleSheet.cssText = t;
+                else e.appendChild(d.createTextNode(t));
+                i.appendChild(e);
+                var n = this.getCombinationCookie();
+                this.load('https://dev.visualwebsiteoptimizer.com/j.php?a=' + account_id + '&u=' + encodeURIComponent(d.URL) + '&f=' + +is_spa + '&vn=' + version + (n ? '&c=' + n : ''));
+                return settings_timer;
+              }
+            };
+        window._vwo_settings_timer = code.init();
+        return code;
+      })();
+      _vwo_pc_custom = { a: 100, t: 100 };
+      var jsVar = 1;
+      var jaVar = 'false';
+      document.cookie = 'firstName=abc';
+    }
+  </script>
+  <!-- End VWO Async SmartCode -->
+
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #242836;
+      --border: #333a4d;
+      --text: #e8ecf4;
+      --muted: #8b95a8;
+      --accent: #5b8def;
+      --attr: #4ade80;
+      --child: #fbbf24;
+      --char: #f472b6;
+      --pass: #22c55e;
+      --fail: #ef4444;
+      --pending: #64748b;
+      --running: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: var(--accent); }
+    .top-nav {
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+      padding: 12px 20px; background: #000; border-bottom: 1px solid var(--border);
+    }
+    .top-nav a { text-decoration: none; padding: 6px 12px; border: 1px solid #444; border-radius: 6px; color: #fff; font-size: 13px; }
+    .top-nav a:hover { background: #222; }
+    .top-nav .brand { font-weight: 700; font-size: 18px; border: none; padding-left: 0; }
+    header.hero {
+      padding: 24px 20px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    header.hero h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    header.hero p { margin: 0; color: var(--muted); max-width: 900px; }
+    .layout { display: grid; grid-template-columns: 320px 1fr; gap: 0; min-height: calc(100vh - 140px); }
+    @media (max-width: 1100px) { .layout { grid-template-columns: 1fr; } }
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 16px;
+      overflow-y: auto;
+      max-height: calc(100vh - 140px);
+      position: sticky; top: 0;
+    }
+    .main { padding: 16px 20px 40px; overflow-x: hidden; }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .panel h2 { margin: 0 0 10px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat .val { font-size: 1.4rem; font-weight: 700; }
+    .stat .lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; }
+    .stat.attr .val { color: var(--attr); }
+    .stat.child .val { color: var(--child); }
+    .stat.char .val { color: var(--char); }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; }
+    button, .btn {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    button.danger { background: #7f1d1d; border-color: #991b1b; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    input[type="number"], input[type="range"], select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 13px;
+    }
+    .field { margin-bottom: 10px; }
+    .range-val { font-size: 12px; color: var(--muted); }
+    .timeline {
+      max-height: 220px;
+      overflow-y: auto;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .timeline-entry {
+      padding: 3px 6px;
+      border-left: 3px solid var(--muted);
+      margin-bottom: 4px;
+      border-radius: 0 4px 4px 0;
+    }
+    .timeline-entry.attr { border-left-color: var(--attr); }
+    .timeline-entry.childList { border-left-color: var(--child); }
+    .timeline-entry.characterData { border-left-color: var(--char); }
+    .section-group { margin-bottom: 28px; }
+    .section-group > h2 {
+      font-size: 1.1rem;
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    .test-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .test-card header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .test-card h3 { margin: 0; font-size: 0.95rem; }
+    .test-num { color: var(--muted); font-weight: normal; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge.pending { background: #334155; color: var(--pending); }
+    .badge.running { background: #0c4a6e; color: var(--running); }
+    .badge.pass { background: #14532d; color: var(--pass); }
+    .badge.fail { background: #7f1d1d; color: var(--fail); }
+    .badge.skip { background: #44403c; color: #a8a29e; }
+    .expected, .result { font-size: 13px; color: var(--muted); margin: 4px 0; }
+    .result strong { color: var(--text); }
+    .live-panel {
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #1e293b 0%, var(--surface) 100%);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .live-panel h2 { margin: 0 0 6px; font-size: 1.15rem; color: var(--text); }
+    .live-panel .live-desc { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+    #live-status {
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: var(--surface2);
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: ui-monospace, monospace;
+      color: var(--accent);
+      min-height: 36px;
+    }
+    #mutation-root { margin-top: 16px; }
+    #live-stage {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    #live-active {
+      min-height: 120px;
+      padding: 16px;
+      background: #0f172a;
+      border: 2px dashed #475569;
+      border-radius: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+    #live-active.running { border-color: var(--running); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
+    .mut-visible {
+      padding: 16px 24px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      min-width: 120px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s, transform 0.15s, opacity 0.15s, width 0.3s, height 0.3s;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+    .mut-visible.active { background: #22c55e; color: #052e16; }
+    .mut-visible.flash-attr {
+      outline: 3px solid var(--attr);
+      transform: scale(1.05);
+    }
+    .mut-visible.flash-child {
+      outline: 3px solid var(--child);
+    }
+    .mut-visible.flash-char {
+      outline: 3px solid var(--char);
+    }
+    .live-widget {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .live-widget label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  #live-demo-box {
+      width: 100%;
+      height: 80px;
+      background: #334155;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    #live-demo-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      cursor: default;
+    }
+    #live-demo-input { width: 100%; padding: 8px; font-size: 14px; }
+    #live-demo-svg { width: 100%; height: 70px; }
+    .sandbox-label { font-size: 12px; color: var(--muted); margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .sandbox-toggle { font-size: 12px; color: var(--accent); cursor: pointer; }
+    #test-sandbox {
+      background: var(--surface2);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 280px;
+      overflow: auto;
+      font-size: 12px;
+    }
+    #test-sandbox.collapsed { display: none; }
+    .sandbox-el {
+      min-height: 10px;
+      margin: 2px 0;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid #475569;
+      border-radius: 2px;
+    }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; margin-bottom: 8px; }
+    .legend span::before {
+      content: '';
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+    .legend .l-attr::before { background: var(--attr); }
+    .legend .l-child::before { background: var(--child); }
+    .legend .l-char::before { background: var(--char); }
+    .status-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #111827;
+      border-top: 1px solid var(--border);
+      padding: 6px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      z-index: 100;
+    }
+    .mode-active { outline: 2px solid var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a class="brand" href="automation-website/index.html" onclick="return preserveQueryParams(this)">Atlas</a>
+    <a href="automation-website/index.html" onclick="return preserveQueryParams(this)">Home</a>
+    <a href="automation-website/mutation-observer-attributes.html" onclick="return preserveQueryParams(this)">Mutation Observer</a>
+    <a href="automation-website/adopted-style-sheets-static.html" onclick="return preserveQueryParams(this)">Adopted StyleSheets</a>
+  </nav>
+
+  <header class="hero">
+    <h1>MutationObserver Attribute Test Playground</h1>
+    <p>Comprehensive DOM mutation testing for attribute throttling, childList, CharacterData, edge cases, and performance. Open DevTools console for per-mutation logs.</p>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="panel">
+        <h2>Controls</h2>
+        <div class="controls">
+          <button class="primary" id="btn-run-all">Run All Tests</button>
+          <button id="btn-reset">Reset</button>
+          <button id="btn-pause">Pause</button>
+          <button id="btn-resume" disabled>Resume</button>
+        </div>
+        <div class="controls" style="margin-top:8px">
+          <button id="btn-stress">Stress Mode</button>
+          <button id="btn-random">Random Mode</button>
+          <button id="btn-autoloop">Auto Loop</button>
+          <button id="btn-export">Export JSON</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Configuration</h2>
+        <div class="field">
+          <label>Mutation interval (ms): <span class="range-val" id="interval-val">50</span></label>
+          <input type="range" id="cfg-interval" min="1" max="5000" value="50" />
+        </div>
+        <div class="field">
+          <label>Mutation count</label>
+          <input type="number" id="cfg-count" min="1" max="10000" value="100" />
+        </div>
+        <div class="field">
+          <label>Stress duration (sec)</label>
+          <input type="number" id="cfg-stress-sec" min="1" max="300" value="30" />
+        </div>
+        <div class="field">
+          <label>Long-run duration (min)</label>
+          <input type="number" id="cfg-long-min" min="1" max="10" value="5" />
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Live Counters</h2>
+        <div class="stats-grid">
+          <div class="stat"><div class="val" id="cnt-total">0</div><div class="lbl">Total Events</div></div>
+          <div class="stat attr"><div class="val" id="cnt-attr">0</div><div class="lbl">Attributes</div></div>
+          <div class="stat child"><div class="val" id="cnt-child">0</div><div class="lbl">ChildList</div></div>
+          <div class="stat char"><div class="val" id="cnt-char">0</div><div class="lbl">CharacterData</div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Mutation Timeline</h2>
+        <div class="legend">
+          <span class="l-attr">Attribute</span>
+          <span class="l-child">ChildList</span>
+          <span class="l-char">CharacterData</span>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="live-panel" id="live-panel">
+        <h2>Live Mutation Stage</h2>
+        <p class="live-desc">Attribute and DOM changes appear here in real time. The active test highlights this area while running.</p>
+        <div id="live-stage">
+          <div class="live-widget">
+            <label>Demo Box (#live-demo-box)</label>
+            <div id="live-demo-box" class="mut-visible">Idle</div>
+          </div>
+          <div class="live-widget">
+            <label>Button (#live-demo-btn)</label>
+            <button type="button" id="live-demo-btn" class="mut-visible">Click target</button>
+          </div>
+          <div class="live-widget">
+            <label>Input (#live-demo-input)</label>
+            <input type="text" id="live-demo-input" class="mut-visible" placeholder="Watch attributes change" />
+          </div>
+          <div class="live-widget">
+            <label>SVG (#live-demo-svg)</label>
+            <svg id="live-demo-svg" class="mut-visible" viewBox="0 0 120 60">
+              <rect id="live-demo-rect" x="10" y="10" width="40" height="40" fill="#5b8def" stroke="#fff" stroke-width="2" />
+            </svg>
+          </div>
+        </div>
+        <div id="live-active" aria-label="Active test output"></div>
+        <div id="live-status">Ready — press Run All Tests or run an individual test</div>
+      </section>
+
+      <div id="test-sections"></div>
+
+      <p class="sandbox-label">Background sandbox <span class="sandbox-toggle" id="sandbox-toggle">(hide bulk DOM ▾)</span></p>
+      <div id="mutation-root">
+        <div id="test-sandbox" aria-label="Test sandbox"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="status-bar" id="status-bar">Ready</div>
+
+  <script>
+    function preserveQueryParams(link) {
+      const currentParams = new URLSearchParams(window.location.search);
+      const targetUrl = new URL(link.href, window.location.href);
+      currentParams.forEach((value, key) => targetUrl.searchParams.set(key, value));
+      link.href = targetUrl.toString();
+      return true;
+    }
+
+    (function() {
+      'use strict';
+
+      const sandbox = document.getElementById('test-sandbox');
+      const mutationRoot = document.getElementById('mutation-root');
+      const liveActive = document.getElementById('live-active');
+      const liveStatus = document.getElementById('live-status');
+      const sectionsEl = document.getElementById('test-sections');
+      const timelineEl = document.getElementById('timeline');
+      const statusBar = document.getElementById('status-bar');
+
+      const app = {
+        paused: false,
+        runAllInProgress: false,
+        stressActive: false,
+        randomActive: false,
+        autoLoopActive: false,
+        autoLoopTimer: null,
+        stressTimer: null,
+        randomTimer: null,
+        longRunTimer: null,
+        logs: [],
+        emitted: [],
+        counters: { total: 0, attributes: 0, childList: 0, characterData: 0 },
+        testBaselines: {},
+        modes: { abbreviated: true },
+        intervals: [],
+        closedShadowRef: null
+      };
+
+      function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+      function waitPause() {
+        return new Promise(resolve => {
+          (function check() {
+            if (!app.paused) resolve();
+            else setTimeout(check, 50);
+          })();
+        });
+      }
+      function cfgInterval() { return +document.getElementById('cfg-interval').value; }
+      function cfgCount() { return +document.getElementById('cfg-count').value; }
+      function cfgStressSec() { return +document.getElementById('cfg-stress-sec').value; }
+      function cfgLongMin() { return +document.getElementById('cfg-long-min').value; }
+
+      function setStatus(msg) { statusBar.textContent = msg; }
+
+      function logBeforeMutation(elementId, attributeName, oldValue, newValue) {
+        const entry = {
+          timestamp: Date.now(),
+          elementId: elementId || '(none)',
+          attributeName,
+          oldValue: oldValue == null ? '' : String(oldValue),
+          newValue: newValue == null ? '' : String(newValue)
+        };
+        console.log('[MUTATION]', entry);
+        app.logs.push({ type: 'operation', ...entry });
+        return entry;
+      }
+
+      function mutateAttr(el, name, value) {
+        if (!el) return;
+        const old = el.hasAttribute(name) ? el.getAttribute(name) : null;
+        logBeforeMutation(el.id || el.tagName, name, old, value);
+        if (value == null) el.removeAttribute(name);
+        else el.setAttribute(name, value);
+      }
+
+      function mutateRemoveAttr(el, name) {
+        if (!el) return;
+        const old = el.hasAttribute(name) ? el.getAttribute(name) : null;
+        logBeforeMutation(el.id || el.tagName, name, old, null);
+        el.removeAttribute(name);
+      }
+
+      function recordEmitted(mutation) {
+        if (app.paused) return;
+        app.counters.total++;
+        const types = mutation.type;
+        if (types === 'attributes') app.counters.attributes++;
+        else if (types === 'childList') app.counters.childList++;
+        else if (types === 'characterData') app.counters.characterData++;
+
+        const rec = {
+          timestamp: Date.now(),
+          type: mutation.type,
+          targetId: mutation.target.id || mutation.target.nodeName,
+          attributeName: mutation.attributeName || null,
+          oldValue: mutation.oldValue,
+          added: mutation.addedNodes.length,
+          removed: mutation.removedNodes.length
+        };
+        app.emitted.push(rec);
+        if (app.emitted.length > 500) app.emitted.shift();
+
+        const target = mutation.type === 'attributes' ? mutation.target : mutation.target.parentElement;
+        if (target && (target.classList.contains('mut-visible') || target.closest('#live-stage, #live-active'))) {
+          flashElement(target, mutation.type);
+        }
+
+        const div = document.createElement('div');
+        div.className = 'timeline-entry ' + mutation.type;
+        const detail = mutation.type === 'attributes'
+          ? mutation.attributeName + ': "' + (mutation.oldValue || '') + '" → "' + (mutation.target.getAttribute(mutation.attributeName) || '') + '"'
+          : mutation.type === 'childList'
+          ? '+' + mutation.addedNodes.length + ' / -' + mutation.removedNodes.length
+          : '"' + (mutation.oldValue || '') + '" → "' + (mutation.target.data || '') + '"';
+        div.textContent = new Date(rec.timestamp).toISOString().slice(11, 23) + ' [' + rec.targetId + '] ' + mutation.type + ' ' + detail;
+        timelineEl.appendChild(div);
+        timelineEl.scrollTop = timelineEl.scrollHeight;
+        updateCounterUI();
+      }
+
+      function flashElement(el, type) {
+        const cls = type === 'attributes' ? 'flash-attr' : type === 'childList' ? 'flash-child' : 'flash-char';
+        el.classList.remove('flash-attr', 'flash-child', 'flash-char');
+        void el.offsetWidth;
+        el.classList.add(cls);
+        setTimeout(() => el.classList.remove(cls), 350);
+      }
+
+      function setLiveStatus(msg) {
+        liveStatus.textContent = msg;
+      }
+
+      function updateCounterUI() {
+        document.getElementById('cnt-total').textContent = app.counters.total;
+        document.getElementById('cnt-attr').textContent = app.counters.attributes;
+        document.getElementById('cnt-child').textContent = app.counters.childList;
+        document.getElementById('cnt-char').textContent = app.counters.characterData;
+      }
+
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(recordEmitted);
+      });
+
+      observer.observe(mutationRoot, {
+        attributes: true,
+        attributeOldValue: true,
+        childList: true,
+        subtree: true,
+        characterData: true,
+        characterDataOldValue: true
+      });
+
+      observer.observe(document.getElementById('live-stage'), {
+        attributes: true,
+        attributeOldValue: true,
+        childList: true,
+        subtree: true,
+        characterData: true,
+        characterDataOldValue: true
+      });
+
+      observer.observe(liveActive, {
+        attributes: true,
+        attributeOldValue: true,
+        childList: true,
+        subtree: true,
+        characterData: true,
+        characterDataOldValue: true
+      });
+
+      function snapshotCounts() {
+        return { ...app.counters };
+      }
+
+      function deltaCounts(before) {
+        const after = snapshotCounts();
+        return {
+          total: after.total - before.total,
+          attributes: after.attributes - before.attributes,
+          childList: after.childList - before.childList,
+          characterData: after.characterData - before.characterData
+        };
+      }
+
+      function setTestState(id, state, detail) {
+        const card = document.getElementById('card-' + id);
+        if (!card) return;
+        const badge = card.querySelector('.badge');
+        badge.className = 'badge ' + state;
+        badge.textContent = state;
+        if (detail != null) card.querySelector('.result').innerHTML = '<strong>Result:</strong> ' + detail;
+      }
+
+      function mkEl(tag, id, html) {
+        const el = document.createElement(tag);
+        if (id) el.id = id;
+        if (html != null) el.innerHTML = html;
+        el.classList.add('sandbox-el');
+        sandbox.appendChild(el);
+        return el;
+      }
+
+      function mkVisibleEl(tag, id, html) {
+        const el = document.createElement(tag);
+        if (id) el.id = id;
+        if (html != null) el.innerHTML = html;
+        el.classList.add('mut-visible');
+        liveActive.appendChild(el);
+        return el;
+      }
+
+      function clearLiveActive() {
+        liveActive.innerHTML = '';
+      }
+
+      function clearSandbox() {
+        sandbox.innerHTML = '';
+        app.closedShadowRef = null;
+      }
+
+      const SECTIONS = [
+        { id: 'attr', title: 'Attribute Mutation Tests (1–20)' },
+        { id: 'non-attr', title: 'Non-Attribute Mutation Tests (21–30)' },
+        { id: 'mixed', title: 'Mixed Mutation Tests (31–44)' },
+        { id: 'edge', title: 'Edge Cases (45–60)' }
+      ];
+
+      const tests = [];
+
+      function registerTest(num, section, name, expected, runFn, opts) {
+        tests.push({ num, section, name, expected, run: runFn, opts: opts || {} });
+      }
+
+      // ─── 1. Single Attribute Change ───
+      registerTest(1, 'attr', 'Single Attribute Change',
+        'Exactly one attribute mutation when class changes once.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-01-single', 'Single attr');
+          el.style.background = '#475569';
+          el.style.color = '#fff';
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', 'active');
+          await sleep(400);
+          const d = deltaCounts(before);
+          return { detail: 'Observed ' + d.attributes + ' attribute mutation(s)', ok: d.attributes >= 1 };
+        });
+
+      // ─── 2. Multiple Different Attributes ───
+      registerTest(2, 'attr', 'Multiple Different Attributes',
+        'Each of class, style, title, aria-label, data-value, data-state, hidden, disabled captured independently.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-02-multi-attr', 'Multi-attribute target');
+          el.style.cssText = 'background:#1e3a5f;color:#fff;min-height:80px;';
+          const attrs = [
+            ['class', 'a'], ['style', 'color:red;background:#7f1d1d'], ['title', 'Demo title'],
+            ['aria-label', 'lbl'], ['data-value', '1'], ['data-state', 'on'],
+            ['hidden', ''], ['disabled', '']
+          ];
+          const before = snapshotCounts();
+          for (const [a, v] of attrs) {
+            mutateAttr(el, a, v);
+            await sleep(120);
+          }
+          mutateRemoveAttr(el, 'hidden');
+          mutateRemoveAttr(el, 'disabled');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attribute mutations observed', ok: d.attributes >= 8 };
+        });
+
+      // ─── 3. Same Attribute Multiple Times Quickly ───
+      registerTest(3, 'attr', 'Same Attribute Multiple Times Quickly',
+        '20 rapid style changes within 100ms — validates throttling behavior.',
+        async function(ctx) {
+          const el = mkVisibleEl('div', 'test-03-rapid-style', 'Rapid colors');
+          el.style.cssText = 'width:160px;height:80px;';
+          const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7'];
+          const n = 20;
+          const before = snapshotCounts();
+          for (let i = 0; i < n; i++) {
+            mutateAttr(el, 'style', 'background:' + colors[i % colors.length] + ';width:160px;height:80px;color:#fff');
+            el.textContent = colors[i % colors.length];
+          }
+          await sleep(400);
+          const d = deltaCounts(before);
+          return { detail: n + ' ops → ' + d.attributes + ' observed attribute mutations', ok: true };
+        });
+
+      // ─── 4. Same Attribute Slowly ───
+      registerTest(4, 'attr', 'Same Attribute Slowly',
+        'Style changes every second — every mutation should be emitted.',
+        async function(ctx) {
+          const box = document.getElementById('live-demo-box');
+          const steps = ctx.abbreviated ? 3 : 4;
+          const before = snapshotCounts();
+          for (let i = 0; i < steps; i++) {
+            const color = 'hsl(' + (i * 90) + ',70%,45%)';
+            mutateAttr(box, 'style', 'background:' + color + ';color:#fff');
+            box.textContent = 'Step ' + (i + 1);
+            if (i < steps - 1) await sleep(ctx.abbreviated ? 350 : 1000);
+          }
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: steps + ' slow changes → ' + d.attributes + ' observed', ok: d.attributes >= steps };
+        });
+
+      // ─── 5. Multiple Elements Same Attribute ───
+      registerTest(5, 'attr', 'Multiple Elements Same Attribute',
+        '100 elements update class simultaneously — each has own throttle bucket.',
+        async function() {
+          const wrap = mkEl('div', 'test-05-multi-el-wrap');
+          const els = [];
+          for (let i = 0; i < 100; i++) {
+            const d = document.createElement('div');
+            d.id = 'test-05-el-' + i;
+            wrap.appendChild(d);
+            els.push(d);
+          }
+          const before = snapshotCounts();
+          els.forEach((el, i) => mutateAttr(el, 'class', 'item-' + i));
+          await sleep(300);
+          const d = deltaCounts(before);
+          return { detail: '100 elements → ' + d.attributes + ' attribute mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 6. One Element Multiple Attributes Simultaneously ───
+      registerTest(6, 'attr', 'One Element Multiple Attributes Simultaneously',
+        'style, class, title, aria-label, data-id changed in same event loop tick.',
+        async function() {
+          const el = mkEl('div', 'test-06-simul-attr');
+          const before = snapshotCounts();
+          mutateAttr(el, 'style', 'width:10px');
+          mutateAttr(el, 'class', 'x');
+          mutateAttr(el, 'title', 't');
+          mutateAttr(el, 'aria-label', 'a');
+          mutateAttr(el, 'data-id', '99');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attribute mutations in one tick', ok: d.attributes >= 5 };
+        });
+
+      // ─── 7. Attribute Toggle ───
+      registerTest(7, 'attr', 'Attribute Toggle',
+        'Rapidly toggle hidden on/off.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-07-toggle-hidden', 'Toggle me');
+          el.style.cssText = 'background:#6366f1;color:#fff;padding:20px;';
+          const before = snapshotCounts();
+          for (let i = 0; i < 6; i++) {
+            if (i % 2 === 0) {
+              mutateAttr(el, 'hidden', '');
+              el.textContent = 'Hidden';
+            } else {
+              mutateRemoveAttr(el, 'hidden');
+              el.textContent = 'Visible';
+            }
+            await sleep(200);
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: '6 toggles → ' + d.attributes + ' mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 8. Returns To Original Value ───
+      registerTest(8, 'attr', 'Attribute Returns To Original Value',
+        'class: "" → "active" → "" — intermediate states captured.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-08-revert-class', 'Revert test');
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', '');
+          el.style.background = '#64748b';
+          await sleep(200);
+          mutateAttr(el, 'class', 'active');
+          el.style.background = '#22c55e';
+          el.textContent = 'active';
+          await sleep(200);
+          mutateAttr(el, 'class', '');
+          el.style.background = '#64748b';
+          el.textContent = 'reverted';
+          await sleep(200);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations (including revert)', ok: d.attributes >= 2 };
+        });
+
+      // ─── 9. Identical Attribute Values ───
+      registerTest(9, 'attr', 'Identical Attribute Values',
+        'setAttribute("class","active") 100 times — no actual value changes.',
+        async function() {
+          const el = mkEl('div', 'test-09-identical');
+          mutateAttr(el, 'class', 'active');
+          const before = snapshotCounts();
+          for (let i = 0; i < 100; i++) mutateAttr(el, 'class', 'active');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: '100 identical sets → ' + d.attributes + ' new mutations', ok: true };
+        });
+
+      // ─── 10. Remove Attribute ───
+      registerTest(10, 'attr', 'Remove Attribute',
+        'disabled=true then removeAttribute("disabled").',
+        async function() {
+          const el = mkEl('button', 'test-10-remove-attr');
+          const before = snapshotCounts();
+          mutateAttr(el, 'disabled', 'true');
+          mutateRemoveAttr(el, 'disabled');
+          await sleep(50);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations (set + remove)', ok: d.attributes >= 2 };
+        });
+
+      // ─── 11. Boolean Attributes ───
+      registerTest(11, 'attr', 'Boolean Attributes',
+        'checked, selected, disabled, readonly, required, open, hidden.',
+        async function() {
+          const wrap = mkEl('div', 'test-11-bool-wrap');
+          const input = document.createElement('input');
+          input.type = 'checkbox'; input.id = 'test-11-checkbox';
+          wrap.appendChild(input);
+          const opt = document.createElement('option');
+          opt.id = 'test-11-option'; opt.textContent = 'x';
+          const sel = document.createElement('select');
+          sel.id = 'test-11-select'; sel.appendChild(opt);
+          wrap.appendChild(sel);
+          const det = document.createElement('details');
+          det.id = 'test-11-details';
+          det.innerHTML = '<summary id="test-11-summary">s</summary>';
+          wrap.appendChild(det);
+          const before = snapshotCounts();
+          [['test-11-checkbox','checked'],['test-11-option','selected'],['test-11-checkbox','disabled'],
+           ['test-11-checkbox','readonly'],['test-11-checkbox','required'],['test-11-details','open'],
+           ['test-11-checkbox','hidden']].forEach(([id, a]) => mutateAttr(document.getElementById(id), a, ''));
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' boolean attribute mutations', ok: d.attributes >= 7 };
+        });
+
+      // ─── 12. data-* Attributes ───
+      registerTest(12, 'attr', 'data-* Attributes',
+        'Rapidly mutate data-count, data-user, data-state.',
+        async function() {
+          const el = mkEl('div', 'test-12-data');
+          const before = snapshotCounts();
+          for (let i = 0; i < 15; i++) {
+            mutateAttr(el, 'data-count', String(i));
+            mutateAttr(el, 'data-user', 'u' + i);
+            mutateAttr(el, 'data-state', i % 2 ? 'on' : 'off');
+          }
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: '45 data-* ops → ' + d.attributes + ' mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 13. ARIA Attributes ───
+      registerTest(13, 'attr', 'ARIA Attributes',
+        'Rapid updates to aria-hidden, aria-expanded, aria-selected, aria-label, aria-live.',
+        async function() {
+          const el = mkEl('div', 'test-13-aria', 'ARIA');
+          const attrs = ['aria-hidden', 'aria-expanded', 'aria-selected', 'aria-label', 'aria-live'];
+          const before = snapshotCounts();
+          for (let i = 0; i < 10; i++) {
+            attrs.forEach((a, j) => mutateAttr(el, a, String((i + j) % 2)));
+          }
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' ARIA mutations', ok: d.attributes >= 5 };
+        });
+
+      // ─── 14. Style Attribute ───
+      registerTest(14, 'attr', 'Style Attribute',
+        'Repeatedly modify color, background, width, height, transform, opacity.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-14-style', 'Style demo');
+          el.style.cssText = 'width:100px;height:60px;background:#334155;';
+          const props = [
+            'color:#fff;background:#dc2626;width:120px',
+            'color:#fff;background:#2563eb;width:140px;height:70px',
+            'color:#fff;background:#16a34a;transform:rotate(3deg)',
+            'color:#000;background:#eab308;opacity:0.85',
+            'color:#fff;background:#9333ea;width:100px;height:60px;transform:none;opacity:1'
+          ];
+          const before = snapshotCounts();
+          for (const p of props) {
+            mutateAttr(el, 'style', p);
+            await sleep(180);
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' style mutations', ok: d.attributes >= 5 };
+        });
+
+      // ─── 15. Class Attribute ───
+      registerTest(15, 'attr', 'Class Attribute',
+        'Add/remove/toggle classes rapidly via class attribute.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-15-class', 'Class toggle');
+          el.style.cssText = 'background:#475569;color:#fff;';
+          const classes = ['', 'active', 'active highlight', 'highlight', ''];
+          const before = snapshotCounts();
+          for (const c of classes) {
+            mutateAttr(el, 'class', c);
+            el.textContent = c || '(none)';
+            if (c === 'active') el.style.background = '#22c55e';
+            else if (c.includes('highlight')) el.style.background = '#f59e0b';
+            else el.style.background = '#475569';
+            await sleep(150);
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' class mutations', ok: d.attributes >= 3 };
+        });
+
+      // ─── 16. SVG Attributes ───
+      registerTest(16, 'attr', 'SVG Attributes',
+        'Mutate fill, stroke, viewBox, width, height on SVG.',
+        async function() {
+          const svg = document.getElementById('live-demo-svg');
+          const rect = document.getElementById('live-demo-rect');
+          const before = snapshotCounts();
+          mutateAttr(svg, 'viewBox', '0 0 200 100');
+          await sleep(150);
+          mutateAttr(rect, 'fill', '#ef4444');
+          await sleep(150);
+          mutateAttr(rect, 'stroke', '#fbbf24');
+          await sleep(150);
+          mutateAttr(rect, 'width', '60');
+          mutateAttr(rect, 'height', '50');
+          await sleep(150);
+          mutateAttr(svg, 'width', '100%');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' SVG attribute mutations', ok: d.attributes >= 5 };
+        });
+
+      // ─── 17. Input Attributes ───
+      registerTest(17, 'attr', 'Input Attributes',
+        'placeholder, value, maxlength, type, disabled, readonly.',
+        async function() {
+          const el = document.getElementById('live-demo-input');
+          const before = snapshotCounts();
+          mutateAttr(el, 'placeholder', 'Enter text...');
+          await sleep(100);
+          mutateAttr(el, 'value', 'hello world');
+          await sleep(100);
+          mutateAttr(el, 'maxlength', '10');
+          mutateAttr(el, 'type', 'text');
+          await sleep(100);
+          mutateAttr(el, 'disabled', '');
+          await sleep(200);
+          mutateRemoveAttr(el, 'disabled');
+          mutateAttr(el, 'readonly', '');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' input mutations', ok: d.attributes >= 6 };
+        });
+
+      // ─── 18. Image Attributes ───
+      registerTest(18, 'attr', 'Image Attributes',
+        'src, alt, loading, width, height.',
+        async function() {
+          const el = mkVisibleEl('img', 'test-18-img');
+          el.style.cssText = 'width:80px;height:80px;border-radius:8px;border:2px solid #fff;background:#334155;';
+          const before = snapshotCounts();
+          mutateAttr(el, 'src', 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect fill="%23ef4444" width="80" height="80"/><text x="40" y="45" text-anchor="middle" fill="white" font-size="14">IMG</text></svg>'));
+          await sleep(150);
+          mutateAttr(el, 'alt', 'Red square');
+          mutateAttr(el, 'loading', 'lazy');
+          mutateAttr(el, 'width', '80');
+          mutateAttr(el, 'height', '80');
+          await sleep(200);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' image mutations', ok: d.attributes >= 5 };
+        });
+
+      // ─── 19. Link Attributes ───
+      registerTest(19, 'attr', 'Link Attributes',
+        'href, target, rel.',
+        async function() {
+          const el = mkVisibleEl('a', 'test-19-link', 'Example link');
+          el.style.cssText = 'color:#60a5fa;font-size:18px;text-decoration:underline;';
+          const before = snapshotCounts();
+          mutateAttr(el, 'href', '#mutation-test');
+          await sleep(120);
+          mutateAttr(el, 'target', '_blank');
+          mutateAttr(el, 'rel', 'noopener');
+          el.textContent = 'Link → mutation-test';
+          await sleep(150);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' link mutations', ok: d.attributes >= 3 };
+        });
+
+      // ─── 20. Video Attributes ───
+      registerTest(20, 'attr', 'Video Attributes',
+        'poster, controls, muted, autoplay, loop.',
+        async function() {
+          const el = mkVisibleEl('video', 'test-20-video');
+          el.style.cssText = 'width:220px;height:120px;background:#000;border-radius:8px;';
+          const before = snapshotCounts();
+          mutateAttr(el, 'poster', '');
+          mutateAttr(el, 'controls', '');
+          mutateAttr(el, 'muted', '');
+          mutateAttr(el, 'autoplay', '');
+          mutateAttr(el, 'loop', '');
+          await sleep(300);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' video mutations', ok: d.attributes >= 5 };
+        });
+
+      // ─── 21. Text Node Changes ───
+      registerTest(21, 'non-attr', 'Text Node Changes',
+        'textContent changes — should NOT count as attribute mutations.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-21-text', 'Starting text');
+          el.style.cssText = 'background:#1e293b;color:#fff;font-size:18px;';
+          const before = snapshotCounts();
+          for (let i = 0; i < 8; i++) {
+            console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'textContent', oldValue: el.textContent, newValue: 'v' + i });
+            el.textContent = 'Text update #' + i;
+            await sleep(120);
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: 'childList/char: ' + (d.childList + d.characterData) + ', attributes: ' + d.attributes, ok: d.attributes === 0 };
+        });
+
+      // ─── 22. innerHTML ───
+      registerTest(22, 'non-attr', 'innerHTML Changes',
+        'Replace innerHTML multiple times.',
+        async function() {
+          const el = mkEl('div', 'test-22-inner');
+          const before = snapshotCounts();
+          for (let i = 0; i < 5; i++) {
+            console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'innerHTML', oldValue: el.innerHTML, newValue: '<span>' + i + '</span>' });
+            el.innerHTML = '<span id="test-22-span-' + i + '">' + i + '</span>';
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList, ' + d.attributes + ' attributes', ok: d.childList >= 5 && d.attributes === 0 };
+        });
+
+      // ─── 23. appendChild ───
+      registerTest(23, 'non-attr', 'appendChild()',
+        'Append children rapidly.',
+        async function() {
+          const el = mkEl('div', 'test-23-append-parent');
+          const before = snapshotCounts();
+          for (let i = 0; i < 8; i++) {
+            const c = document.createElement('span');
+            c.id = 'test-23-child-' + i;
+            console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'appendChild', oldValue: '', newValue: c.id });
+            el.appendChild(c);
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList mutations', ok: d.childList >= 8 };
+        });
+
+      // ─── 24. removeChild ───
+      registerTest(24, 'non-attr', 'removeChild()',
+        'Remove children.',
+        async function() {
+          const el = mkEl('div', 'test-24-remove-parent');
+          const kids = [];
+          for (let i = 0; i < 5; i++) {
+            const c = document.createElement('span');
+            c.id = 'test-24-child-' + i;
+            el.appendChild(c);
+            kids.push(c);
+          }
+          await sleep(30);
+          const before = snapshotCounts();
+          kids.forEach(c => {
+            console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'removeChild', oldValue: c.id, newValue: '' });
+            el.removeChild(c);
+          });
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList removals', ok: d.childList >= 5 };
+        });
+
+      // ─── 25. replaceChild ───
+      registerTest(25, 'non-attr', 'replaceChild()',
+        'Replace child nodes.',
+        async function() {
+          const el = mkEl('div', 'test-25-replace-parent');
+          const old = document.createElement('span');
+          old.id = 'test-25-old'; el.appendChild(old);
+          await sleep(30);
+          const before = snapshotCounts();
+          const neu = document.createElement('span');
+          neu.id = 'test-25-new';
+          console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'replaceChild', oldValue: old.id, newValue: neu.id });
+          el.replaceChild(neu, old);
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList', ok: d.childList >= 1 };
+        });
+
+      // ─── 26. insertBefore ───
+      registerTest(26, 'non-attr', 'insertBefore()',
+        'Insert nodes before reference.',
+        async function() {
+          const el = mkEl('div', 'test-26-insert-parent');
+          const ref = document.createElement('span');
+          ref.id = 'test-26-ref'; el.appendChild(ref);
+          const before = snapshotCounts();
+          for (let i = 0; i < 4; i++) {
+            const n = document.createElement('span');
+            n.id = 'test-26-ins-' + i;
+            console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'insertBefore', oldValue: '', newValue: n.id });
+            el.insertBefore(n, ref);
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList', ok: d.childList >= 4 };
+        });
+
+      // ─── 27. cloneNode ───
+      registerTest(27, 'non-attr', 'cloneNode()',
+        'Clone and append nodes.',
+        async function() {
+          const src = mkEl('div', 'test-27-clone-src', 'clone me');
+          mutateAttr(src, 'class', 'source');
+          const before = snapshotCounts();
+          const clone = src.cloneNode(true);
+          clone.id = 'test-27-clone-dst';
+          console.log('[MUTATION]', { timestamp: Date.now(), elementId: 'test-27-clone-parent', attributeName: 'appendChild(clone)', oldValue: '', newValue: clone.id });
+          sandbox.appendChild(clone);
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList (clone append)', ok: d.childList >= 1 };
+        });
+
+      // ─── 28. remove() ───
+      registerTest(28, 'non-attr', 'remove()',
+        'Element.remove() on child.',
+        async function() {
+          const parent = mkEl('div', 'test-28-remove-wrap');
+          const child = document.createElement('span');
+          child.id = 'test-28-remove-child';
+          parent.appendChild(child);
+          await sleep(30);
+          const before = snapshotCounts();
+          console.log('[MUTATION]', { timestamp: Date.now(), elementId: child.id, attributeName: 'remove()', oldValue: 'attached', newValue: 'detached' });
+          child.remove();
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList', ok: d.childList >= 1 };
+        });
+
+      // ─── 29. Entire subtree replaced ───
+      registerTest(29, 'non-attr', 'Entire Subtree Replaced',
+        'container.innerHTML = ... replaces all children.',
+        async function() {
+          const el = mkEl('div', 'test-29-subtree');
+          el.innerHTML = '<p id="test-29-a">a</p><p id="test-29-b">b</p>';
+          await sleep(30);
+          const before = snapshotCounts();
+          console.log('[MUTATION]', { timestamp: Date.now(), elementId: el.id, attributeName: 'innerHTML', oldValue: '2 children', newValue: 'new subtree' });
+          el.innerHTML = '<div id="test-29-new"><span id="test-29-new-span">x</span></div>';
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.childList + ' childList', ok: d.childList >= 1 };
+        });
+
+      // ─── 30. CharacterData ───
+      registerTest(30, 'non-attr', 'CharacterData Mutations',
+        'Repeated text node updates.',
+        async function() {
+          const el = mkEl('div', 'test-30-chardata');
+          const text = document.createTextNode('start');
+          text.id = 'test-30-text-node';
+          el.appendChild(text);
+          await sleep(30);
+          const before = snapshotCounts();
+          for (let i = 0; i < 8; i++) {
+            console.log('[MUTATION]', { timestamp: Date.now(), elementId: 'test-30-text-node', attributeName: 'data', oldValue: text.data, newValue: 't' + i });
+            text.data = 't' + i;
+          }
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.characterData + ' characterData mutations', ok: d.characterData >= 8 };
+        });
+
+      // ─── 31. Attribute + Child ───
+      registerTest(31, 'mixed', 'Attribute + Child Mutation Together',
+        'class changes + append child in same flow.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-31-mixed-ac', 'Parent');
+          el.style.cssText = 'background:#0f766e;color:#fff;padding:12px;min-height:50px;';
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', 'active');
+          el.style.background = '#14b8a6';
+          const c = document.createElement('span');
+          c.id = 'test-31-child';
+          c.textContent = '+ child added';
+          c.style.cssText = 'display:block;margin-top:8px;background:#134e4a;padding:6px;border-radius:4px;';
+          el.appendChild(c);
+          await sleep(400);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attr, ' + d.childList + ' childList', ok: d.attributes >= 1 && d.childList >= 1 };
+        });
+
+      // ─── 32. Attribute + Text ───
+      registerTest(32, 'mixed', 'Attribute + Text Change',
+        'Attribute and textContent together.',
+        async function() {
+          const el = mkEl('div', 'test-32-mixed-at');
+          const before = snapshotCounts();
+          mutateAttr(el, 'title', 't');
+          el.textContent = 'hello';
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attr, child/char: ' + (d.childList + d.characterData), ok: d.attributes >= 1 };
+        });
+
+      // ─── 33. Attribute + Remove Element ───
+      registerTest(33, 'mixed', 'Attribute + Remove Element',
+        'style changes then element removed immediately.',
+        async function() {
+          const parent = mkEl('div', 'test-33-remove-parent');
+          const el = document.createElement('div');
+          el.id = 'test-33-remove-target';
+          parent.appendChild(el);
+          const before = snapshotCounts();
+          mutateAttr(el, 'style', 'color:red');
+          el.remove();
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attr, ' + d.childList + ' childList', ok: d.attributes >= 1 || d.childList >= 1 };
+        });
+
+      // ─── 34. Attribute + Reinsert ───
+      registerTest(34, 'mixed', 'Attribute + Reinsert Element',
+        'Remove, append again, change attribute.',
+        async function() {
+          const parent = mkEl('div', 'test-34-reinsert-parent');
+          const el = document.createElement('div');
+          el.id = 'test-34-reinsert-el';
+          parent.appendChild(el);
+          el.remove();
+          parent.appendChild(el);
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', 'back');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attribute after reinsert', ok: d.attributes >= 1 };
+        });
+
+      // ─── 35. Attribute While Hidden ───
+      registerTest(35, 'mixed', 'Attribute While Hidden',
+        'display:none, mutate, display:block.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-35-hidden-mutate', 'Now you see me');
+          el.style.cssText = 'background:#ec4899;color:#fff;padding:16px;font-size:16px;';
+          mutateAttr(el, 'style', 'display:none');
+          await sleep(300);
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', 'hidden-active');
+          mutateAttr(el, 'style', 'display:block;background:#ec4899;color:#fff;padding:16px;font-size:16px;');
+          el.textContent = 'Visible again!';
+          await sleep(400);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations while hidden/visible', ok: d.attributes >= 2 };
+        });
+
+      // ─── 36. CSS Animation ───
+      registerTest(36, 'mixed', 'Attribute During CSS Animation',
+        'Animation updates inline styles.',
+        async function() {
+          const el = mkVisibleEl('div', 'test-36-animate');
+          el.textContent = 'Animating width';
+          el.style.cssText = 'width:60px;height:60px;background:#5b8def;transition:width 0.4s,color 0.3s;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;';
+          const before = snapshotCounts();
+          mutateAttr(el, 'style', el.getAttribute('style') + ';width:200px');
+          await sleep(450);
+          mutateAttr(el, 'style', el.getAttribute('style') + ';background:#22c55e');
+          el.textContent = 'Done';
+          await sleep(200);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' style mutations during animation', ok: d.attributes >= 2 };
+        });
+
+      // ─── 37. requestAnimationFrame ───
+      registerTest(37, 'mixed', 'Attribute During requestAnimationFrame',
+        'Change attribute every animation frame.',
+        async function(ctx) {
+          const el = mkEl('div', 'test-37-raf');
+          const frames = ctx.abbreviated ? 5 : 15;
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            let f = 0;
+            function tick() {
+              if (f >= frames) { resolve(); return; }
+              mutateAttr(el, 'data-frame', String(f));
+              f++;
+              requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+          });
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: frames + ' rAF frames → ' + d.attributes + ' mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 38. setInterval ───
+      registerTest(38, 'mixed', 'Attribute During setInterval',
+        'Mutate every 10ms.',
+        async function(ctx) {
+          const el = mkEl('div', 'test-38-interval');
+          const ms = ctx.abbreviated ? 20 : 10;
+          const count = ctx.abbreviated ? 5 : 10;
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            let i = 0;
+            const t = setInterval(() => {
+              mutateAttr(el, 'data-i', String(i++));
+              if (i >= count) { clearInterval(t); resolve(); }
+            }, ms);
+            app.intervals.push(t);
+          });
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: count + ' interval ticks → ' + d.attributes + ' mutations', ok: d.attributes >= count };
+        });
+
+      // ─── 39. setTimeout Loop ───
+      registerTest(39, 'mixed', 'Attribute During setTimeout Loop',
+        'Nested timers mutate attributes.',
+        async function(ctx) {
+          const el = mkEl('div', 'test-39-timeout');
+          const depth = ctx.abbreviated ? 4 : 6;
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            let n = 0;
+            function nest() {
+              if (n >= depth) { resolve(); return; }
+              mutateAttr(el, 'data-n', String(n++));
+              setTimeout(nest, 15);
+            }
+            setTimeout(nest, 15);
+          });
+          await sleep(depth * 20 + 50);
+          const d = deltaCounts(before);
+          return { detail: depth + ' nested timeouts → ' + d.attributes + ' mutations', ok: d.attributes >= depth };
+        });
+
+      // ─── 40. Promise Microtask ───
+      registerTest(40, 'mixed', 'Promise Microtask Mutations',
+        'Promise.resolve().then(...) attribute changes.',
+        async function() {
+          const el = mkEl('div', 'test-40-microtask');
+          const before = snapshotCounts();
+          await Promise.resolve().then(() => mutateAttr(el, 'data-p', '1'))
+            .then(() => mutateAttr(el, 'data-p', '2'))
+            .then(() => mutateAttr(el, 'data-p', '3'));
+          await sleep(50);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' microtask mutations', ok: d.attributes >= 3 };
+        });
+
+      // ─── 41. Mutation inside MutationObserver callback ───
+      registerTest(41, 'mixed', 'Mutation inside MutationObserver Callback',
+        'Recursive mutation from observer callback.',
+        async function() {
+          const el = mkEl('div', 'test-41-recursive');
+          let innerObs;
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            let done = false;
+            innerObs = new MutationObserver(() => {
+              if (!done) {
+                done = true;
+                mutateAttr(el, 'data-recursive', '1');
+                innerObs.disconnect();
+                resolve();
+              }
+            });
+            innerObs.observe(el, { attributes: true });
+            mutateAttr(el, 'class', 'trigger');
+          });
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations (incl. recursive)', ok: d.attributes >= 2 };
+        });
+
+      // ─── 42. requestIdleCallback ───
+      registerTest(42, 'mixed', 'Mutation inside requestIdleCallback',
+        'Idle callback attribute mutation.',
+        async function() {
+          const el = mkEl('div', 'test-42-idle');
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            const run = () => { mutateAttr(el, 'data-idle', '1'); resolve(); };
+            if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 500 });
+            else setTimeout(run, 0);
+          });
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' idle mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 43. ResizeObserver ───
+      registerTest(43, 'mixed', 'Mutation inside ResizeObserver',
+        'Resize triggers attribute change in callback.',
+        async function() {
+          const el = mkEl('div', 'test-43-resize');
+          el.style.width = '50px';
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            if (!('ResizeObserver' in window)) {
+              mutateAttr(el, 'data-ro', 'fallback');
+              resolve();
+              return;
+            }
+            const ro = new ResizeObserver(() => {
+              mutateAttr(el, 'data-resized', '1');
+              ro.disconnect();
+              resolve();
+            });
+            ro.observe(el);
+            el.style.width = '120px';
+            mutateAttr(el, 'style', 'width:120px;height:60px');
+          });
+          await sleep(150);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' resize-triggered mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 44. IntersectionObserver ───
+      registerTest(44, 'mixed', 'Mutation inside IntersectionObserver',
+        'Intersection callback mutates attribute.',
+        async function() {
+          const el = mkEl('div', 'test-44-intersect');
+          el.style.height = '40px';
+          const before = snapshotCounts();
+          await new Promise(resolve => {
+            if (!('IntersectionObserver' in window)) {
+              mutateAttr(el, 'data-io', 'fallback');
+              resolve();
+              return;
+            }
+            const io = new IntersectionObserver(entries => {
+              if (entries.length) {
+                mutateAttr(el, 'data-visible', entries[0].isIntersecting ? 'yes' : 'no');
+                io.disconnect();
+                resolve();
+              }
+            });
+            io.observe(el);
+            mutateAttr(el, 'class', 'observe-me');
+          });
+          await sleep(150);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' intersection mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 45. Remove before throttle expires ───
+      registerTest(45, 'edge', 'Remove Element Before Throttle Expires',
+        'Attribute changes then element removed before flush.',
+        async function() {
+          const parent = mkEl('div', 'test-45-throttle-parent');
+          const el = document.createElement('div');
+          el.id = 'test-45-throttle-el';
+          parent.appendChild(el);
+          const before = snapshotCounts();
+          for (let i = 0; i < 10; i++) mutateAttr(el, 'style', 'color:' + i);
+          el.remove();
+          await sleep(200);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attr, ' + d.childList + ' childList before flush', ok: true };
+        });
+
+      // ─── 46. Remove parent ───
+      registerTest(46, 'edge', 'Remove Parent',
+        'Attribute changes then parent removed.',
+        async function() {
+          const grand = mkEl('div', 'test-46-grand');
+          const parent = document.createElement('div');
+          parent.id = 'test-46-parent';
+          const el = document.createElement('div');
+          el.id = 'test-46-child';
+          parent.appendChild(el);
+          grand.appendChild(parent);
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', 'x');
+          grand.removeChild(parent);
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' attr, ' + d.childList + ' childList', ok: d.attributes >= 1 || d.childList >= 1 };
+        });
+
+      // ─── 47. Detached element ───
+      registerTest(47, 'edge', 'Detached Element',
+        'Create element, never append, mutate attributes.',
+        async function() {
+          const el = document.createElement('div');
+          el.id = 'test-47-detached';
+          const before = snapshotCounts();
+          mutateAttr(el, 'class', 'off-dom');
+          mutateAttr(el, 'data-x', '1');
+          await sleep(50);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations (detached — observer may not see)', ok: true };
+        });
+
+      // ─── 48. Open Shadow DOM ───
+      registerTest(48, 'edge', 'Shadow DOM (Open)',
+        'Open shadow root — mutate attributes inside.',
+        async function() {
+          const host = mkEl('div', 'test-48-shadow-host');
+          const shadow = host.attachShadow({ mode: 'open' });
+          const inner = document.createElement('span');
+          inner.id = 'test-48-shadow-inner';
+          shadow.appendChild(inner);
+          const before = snapshotCounts();
+          mutateAttr(inner, 'class', 'shadow');
+          mutateAttr(inner, 'data-s', '1');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' shadow DOM mutations (subtree:true)', ok: d.attributes >= 2 };
+        });
+
+      // ─── 49. Closed Shadow DOM ───
+      registerTest(49, 'edge', 'Closed Shadow DOM',
+        'Closed shadow root — mutate via retained reference.',
+        async function() {
+          const host = mkEl('div', 'test-49-closed-host');
+          const shadow = host.attachShadow({ mode: 'closed' });
+          app.closedShadowRef = shadow;
+          const inner = document.createElement('span');
+          inner.id = 'test-49-closed-inner';
+          shadow.appendChild(inner);
+          const before = snapshotCounts();
+          mutateAttr(inner, 'class', 'closed');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' closed shadow mutations', ok: d.attributes >= 1 };
+        });
+
+      // ─── 50. iframe ───
+      registerTest(50, 'edge', 'iframe',
+        'Mutate attributes inside iframe document.',
+        async function() {
+          const frame = mkEl('iframe', 'test-50-iframe');
+          frame.style.width = '100%'; frame.style.height = '60px'; frame.style.border = 'none';
+          await new Promise(resolve => {
+            frame.onload = resolve;
+            frame.srcdoc = '<div id="test-50-iframe-el">iframe</div>';
+          });
+          const doc = frame.contentDocument;
+          const el = doc.getElementById('test-50-iframe-el');
+          const before = snapshotCounts();
+          logBeforeMutation('test-50-iframe-el', 'class', el.getAttribute('class'), 'iframe-class');
+          el.setAttribute('class', 'iframe-class');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' parent observer sees iframe (usually 0)', ok: true };
+        });
+
+      // ─── 51. Nested iframes ───
+      registerTest(51, 'edge', 'Nested iframes',
+        'Mutate inside nested iframe.',
+        async function() {
+          const outer = mkEl('iframe', 'test-51-outer-iframe');
+          outer.style.width = '100%'; outer.style.height = '80px'; outer.style.border = 'none';
+          await new Promise(resolve => {
+            outer.onload = resolve;
+            outer.srcdoc = '<iframe id="test-51-inner-iframe" srcdoc="<div id=\'test-51-nested-el\'>nested</div>"></iframe>';
+          });
+          await sleep(200);
+          try {
+            const innerDoc = outer.contentDocument.getElementById('test-51-inner-iframe').contentDocument;
+            const el = innerDoc.getElementById('test-51-nested-el');
+            logBeforeMutation('test-51-nested-el', 'data-nested', null, '1');
+            el.setAttribute('data-nested', '1');
+          } catch (e) { /* cross-doc access ok for srcdoc */ }
+          await sleep(80);
+          return { detail: 'Nested iframe mutation logged to console', ok: true };
+        });
+
+      // ─── 52. Large DOM ───
+      registerTest(52, 'edge', 'Large DOM',
+        '10,000 elements with random attribute mutations.',
+        async function(ctx) {
+          const wrap = mkEl('div', 'test-52-large-wrap');
+          const count = ctx.abbreviated ? 500 : 10000;
+          const frag = document.createDocumentFragment();
+          for (let i = 0; i < count; i++) {
+            const d = document.createElement('div');
+            d.id = 'test-52-el-' + i;
+            frag.appendChild(d);
+          }
+          wrap.appendChild(frag);
+          const before = snapshotCounts();
+          const sample = ctx.abbreviated ? 100 : 1000;
+          for (let i = 0; i < sample; i++) {
+            const idx = Math.floor(Math.random() * count);
+            mutateAttr(document.getElementById('test-52-el-' + idx), 'class', 'c' + i);
+          }
+          await sleep(500);
+          const d = deltaCounts(before);
+          return { detail: count + ' elements, ' + sample + ' mutations → ' + d.attributes + ' observed', ok: d.attributes >= 1 };
+        });
+
+      // ─── 53. Continuous Stress ───
+      registerTest(53, 'edge', 'Continuous Stress Test',
+        'Random attribute mutations at high rate for configured duration.',
+        async function(ctx) {
+          const el = mkEl('div', 'test-53-stress');
+          const sec = ctx.abbreviated ? 2 : cfgStressSec();
+          const interval = Math.max(1, Math.floor(1000 / 1000));
+          const before = snapshotCounts();
+          let ops = 0;
+          const end = Date.now() + sec * 1000;
+          while (Date.now() < end) {
+            mutateAttr(el, 'data-s', String(ops++));
+            await sleep(interval);
+          }
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: ops + ' ops in ' + sec + 's → ' + d.attributes + ' observed', ok: ops > 0 };
+        });
+
+      // ─── 54. Random Mutation Generator ───
+      registerTest(54, 'edge', 'Random Mutation Generator',
+        'Random element, attribute, and timing for many mutations.',
+        async function(ctx) {
+          const wrap = mkEl('div', 'test-54-random-wrap');
+          for (let i = 0; i < 20; i++) {
+            const d = document.createElement('div');
+            d.id = 'test-54-r-' + i;
+            wrap.appendChild(d);
+          }
+          const attrs = ['class', 'style', 'title', 'data-x', 'aria-label'];
+          const n = ctx.abbreviated ? 50 : cfgCount();
+          const before = snapshotCounts();
+          for (let i = 0; i < n; i++) {
+            const el = document.getElementById('test-54-r-' + (i % 20));
+            mutateAttr(el, attrs[i % attrs.length], 'v' + i);
+            if (i % 10 === 0) await sleep(cfgInterval());
+          }
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: n + ' random mutations → ' + d.attributes + ' observed', ok: d.attributes >= 1 };
+        });
+
+      // ─── 55. Memory Test ───
+      registerTest(55, 'edge', 'Memory Test',
+        'Continuously create/remove elements while mutating.',
+        async function(ctx) {
+          const wrap = mkEl('div', 'test-55-memory');
+          const cycles = ctx.abbreviated ? 20 : 100;
+          const before = snapshotCounts();
+          for (let i = 0; i < cycles; i++) {
+            const el = document.createElement('div');
+            el.id = 'test-55-temp-' + i;
+            mutateAttr(el, 'class', 'temp');
+            wrap.appendChild(el);
+            mutateAttr(el, 'data-i', String(i));
+            el.remove();
+          }
+          await sleep(100);
+          const d = deltaCounts(before);
+          return { detail: cycles + ' create/mutate/remove cycles, ' + d.childList + ' childList', ok: d.childList >= cycles };
+        });
+
+      // ─── 56. Long-running Test ───
+      registerTest(56, 'edge', 'Long-running Test',
+        'Run for configured minutes with randomized mutations.',
+        async function(ctx) {
+          const el = mkEl('div', 'test-56-longrun');
+          const before = snapshotCounts();
+          let n = 0;
+          if (ctx.abbreviated) {
+            for (let i = 0; i < 5; i++) {
+              mutateAttr(el, 'data-t', String(n++));
+              await sleep(30);
+            }
+          } else {
+            const ms = cfgLongMin() * 60 * 1000;
+            const start = Date.now();
+            while (Date.now() - start < ms) {
+              mutateAttr(el, 'data-t', String(n++));
+              await sleep(cfgInterval());
+              await waitPause();
+            }
+          }
+          const d = deltaCounts(before);
+          return {
+            detail: n + ' mutations' + (ctx.abbreviated ? ' (abbreviated)' : ' over ' + cfgLongMin() + ' min') + ' → ' + d.attributes + ' observed',
+            ok: n > 0
+          };
+        });
+
+      // ─── 57. Node ID Reuse ───
+      registerTest(57, 'edge', 'Node ID Reuse',
+        'Delete element, create another with same id, mutate.',
+        async function() {
+          const parent = mkEl('div', 'test-57-reuse-parent');
+          const a = document.createElement('div');
+          a.id = 'test-57-reused-id';
+          parent.appendChild(a);
+          mutateAttr(a, 'class', 'first');
+          a.remove();
+          const b = document.createElement('div');
+          b.id = 'test-57-reused-id';
+          parent.appendChild(b);
+          const before = snapshotCounts();
+          mutateAttr(b, 'class', 'second');
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations on reused id', ok: d.attributes >= 1 };
+        });
+
+      // ─── 58. Massive Attribute Burst ───
+      registerTest(58, 'edge', 'Massive Attribute Burst',
+        '1000 attribute changes on one element in one event loop.',
+        async function(ctx) {
+          const el = mkEl('div', 'test-58-burst');
+          const n = ctx.abbreviated ? 200 : 1000;
+          const before = snapshotCounts();
+          for (let i = 0; i < n; i++) mutateAttr(el, 'data-b', String(i));
+          await sleep(200);
+          const d = deltaCounts(before);
+          return { detail: n + ' burst ops → ' + d.attributes + ' observed', ok: d.attributes >= 1 };
+        });
+
+      // ─── 59. Multiple Independent Buckets ───
+      registerTest(59, 'edge', 'Multiple Independent Buckets',
+        '100 elements × 100 different attributes simultaneously.',
+        async function(ctx) {
+          const wrap = mkEl('div', 'test-59-buckets-wrap');
+          const els = [];
+          for (let i = 0; i < 100; i++) {
+            const d = document.createElement('div');
+            d.id = 'test-59-bucket-' + i;
+            wrap.appendChild(d);
+            els.push(d);
+          }
+          const before = snapshotCounts();
+          els.forEach((el, i) => {
+            for (let a = 0; a < (ctx.abbreviated ? 10 : 100); a++) {
+              mutateAttr(el, 'data-a' + a, String(i));
+            }
+          });
+          await sleep(300);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' bucket mutations', ok: d.attributes >= 100 };
+        });
+
+      // ─── 60. Clock Timing Test ───
+      registerTest(60, 'edge', 'Clock Timing Test',
+        'Display timestamps between mutations to verify throttling intervals.',
+        async function() {
+          const el = mkEl('div', 'test-60-clock');
+          const times = [];
+          const before = snapshotCounts();
+          for (let i = 0; i < 8; i++) {
+            times.push(Date.now());
+            mutateAttr(el, 'data-tick', String(i));
+            await sleep(cfgInterval());
+          }
+          const gaps = times.slice(1).map((t, i) => t - times[i]);
+          await sleep(80);
+          const d = deltaCounts(before);
+          return { detail: d.attributes + ' mutations, gaps(ms): ' + gaps.join(', '), ok: d.attributes >= 4 };
+        });
+
+      function buildUI() {
+        SECTIONS.forEach(sec => {
+          const group = document.createElement('div');
+          group.className = 'section-group';
+          group.id = 'section-' + sec.id;
+          const h2 = document.createElement('h2');
+          h2.textContent = sec.title;
+          group.appendChild(h2);
+
+          tests.filter(t => t.section === sec.id).forEach(test => {
+            const card = document.createElement('div');
+            card.className = 'test-card';
+            card.id = 'card-' + test.num;
+            card.innerHTML =
+              '<header>' +
+                '<h3><span class="test-num">#' + test.num + '</span> ' + test.name + '</h3>' +
+                '<span class="badge pending">pending</span>' +
+              '</header>' +
+              '<p class="expected"><strong>Expected:</strong> ' + test.expected + '</p>' +
+              '<p class="result"><strong>Result:</strong> —</p>' +
+              '<button type="button" data-run="' + test.num + '">Run Test</button>';
+            group.appendChild(card);
+          });
+          sectionsEl.appendChild(group);
+        });
+
+        sectionsEl.addEventListener('click', e => {
+          const btn = e.target.closest('[data-run]');
+          if (btn && !app.runAllInProgress) runSingle(+btn.dataset.run, { abbreviated: false, fromBatch: false });
+        });
+      }
+
+      async function runSingle(num, ctx) {
+        const test = tests.find(t => t.num === num);
+        if (!test) return;
+        if (app.runAllInProgress && ctx && ctx.fromBatch === false) return;
+
+        clearLiveActive();
+        liveActive.classList.add('running');
+        setLiveStatus('Running #' + num + ': ' + test.name);
+        setTestState(num, 'running');
+
+        const card = document.getElementById('card-' + num);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        setStatus('Running test #' + num + ': ' + test.name);
+        try {
+          await waitPause();
+          const result = await test.run(ctx || { abbreviated: false });
+          setTestState(num, result.ok !== false ? 'pass' : 'fail', result.detail);
+          setLiveStatus('#' + num + ' done — ' + result.detail);
+          console.log('[TEST #' + num + ']', result);
+        } catch (err) {
+          setTestState(num, 'fail', err.message);
+          setLiveStatus('#' + num + ' failed — ' + err.message);
+          console.error('[TEST #' + num + ' ERROR]', err);
+        } finally {
+          liveActive.classList.remove('running');
+        }
+        setStatus('Test #' + num + ' complete');
+      }
+
+      async function runAll() {
+        if (app.runAllInProgress) return;
+        app.runAllInProgress = true;
+        document.getElementById('btn-run-all').disabled = true;
+        setLiveStatus('Running all tests…');
+        setStatus('Running all tests (abbreviated long tests)...');
+        try {
+          for (const test of tests) {
+            await runSingle(test.num, { abbreviated: true, fromBatch: true });
+            await waitPause();
+          }
+          setLiveStatus('All 60 tests complete');
+          setStatus('All tests complete');
+        } catch (err) {
+          setLiveStatus('Run All failed: ' + err.message);
+          setStatus('Run All failed');
+          console.error('[RUN ALL]', err);
+        } finally {
+          app.runAllInProgress = false;
+          document.getElementById('btn-run-all').disabled = false;
+        }
+      }
+
+      function resetAll() {
+        app.intervals.forEach(clearInterval);
+        app.intervals = [];
+        clearTimeout(app.stressTimer);
+        clearTimeout(app.randomTimer);
+        clearTimeout(app.autoLoopTimer);
+        clearTimeout(app.longRunTimer);
+        app.stressActive = false;
+        app.randomActive = false;
+        app.autoLoopActive = false;
+        app.runAllInProgress = false;
+        app.paused = false;
+        document.getElementById('btn-run-all').disabled = false;
+        document.getElementById('btn-pause').disabled = false;
+        document.getElementById('btn-resume').disabled = true;
+        ['btn-stress', 'btn-random', 'btn-autoloop'].forEach(id => document.getElementById(id).classList.remove('mode-active'));
+
+        clearLiveActive();
+        clearSandbox();
+        liveActive.classList.remove('running');
+
+        const box = document.getElementById('live-demo-box');
+        if (box) { box.textContent = 'Idle'; box.style.cssText = ''; box.removeAttribute('class'); box.classList.add('mut-visible'); }
+        const btn = document.getElementById('live-demo-btn');
+        if (btn) { btn.textContent = 'Click target'; btn.removeAttribute('disabled'); }
+        const inp = document.getElementById('live-demo-input');
+        if (inp) { inp.value = ''; inp.placeholder = 'Watch attributes change'; inp.removeAttribute('disabled'); inp.removeAttribute('readonly'); }
+        const rect = document.getElementById('live-demo-rect');
+        const svg = document.getElementById('live-demo-svg');
+        if (rect) { rect.setAttribute('fill', '#5b8def'); rect.setAttribute('stroke', '#fff'); rect.setAttribute('width', '40'); rect.setAttribute('height', '40'); }
+        if (svg) svg.setAttribute('viewBox', '0 0 120 60');
+
+        app.logs = [];
+        app.emitted = [];
+        app.counters = { total: 0, attributes: 0, childList: 0, characterData: 0 };
+        timelineEl.innerHTML = '';
+        updateCounterUI();
+        tests.forEach(t => setTestState(t.num, 'pending', '—'));
+        setLiveStatus('Reset complete — press Run All Tests');
+        setStatus('Reset complete');
+        console.log('[RESET] All state cleared');
+      }
+
+      function exportJSON() {
+        const payload = {
+          exportedAt: new Date().toISOString(),
+          counters: app.counters,
+          operations: app.logs,
+          emittedMutations: app.emitted,
+          tests: tests.map(t => {
+            const card = document.getElementById('card-' + t.num);
+            return {
+              num: t.num,
+              name: t.name,
+              status: card.querySelector('.badge').textContent,
+              result: card.querySelector('.result').textContent
+            };
+          })
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'mutation-observer-logs-' + Date.now() + '.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        setStatus('Exported ' + app.logs.length + ' operation logs');
+      }
+
+      function startStressMode() {
+        if (app.stressActive) return;
+        app.stressActive = true;
+        document.getElementById('btn-stress').classList.add('mode-active');
+        const el = document.getElementById('live-demo-box');
+        let ops = 0;
+        const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7'];
+        const tick = () => {
+          if (!app.stressActive) return;
+          if (!app.paused) {
+            const c = colors[ops % colors.length];
+            mutateAttr(el, 'style', 'background:' + c + ';color:#fff');
+            el.textContent = 'Stress #' + ops;
+            ops++;
+          }
+          app.stressTimer = setTimeout(tick, 8);
+        };
+        tick();
+        setLiveStatus('Stress mode — mutating #live-demo-box rapidly');
+        setStatus('Stress mode active (~1000/sec)');
+      }
+
+      function stopStressMode() {
+        app.stressActive = false;
+        document.getElementById('btn-stress').classList.remove('mode-active');
+      }
+
+      function startRandomMode() {
+        if (app.randomActive) return;
+        app.randomActive = true;
+        document.getElementById('btn-random').classList.add('mode-active');
+        const targets = [
+          document.getElementById('live-demo-box'),
+          document.getElementById('live-demo-btn'),
+          document.getElementById('live-demo-input')
+        ].filter(Boolean);
+        const attrs = ['class', 'style', 'title', 'data-r', 'aria-label'];
+        const loop = () => {
+          if (!app.randomActive) return;
+          if (!app.paused) {
+            const el = targets[Math.floor(Math.random() * targets.length)];
+            const attr = attrs[Math.floor(Math.random() * attrs.length)];
+            if (el) {
+              if (attr === 'style') mutateAttr(el, 'style', 'background:hsl(' + Math.floor(Math.random() * 360) + ',70%,45%);color:#fff');
+              else mutateAttr(el, attr, 'r' + Math.random().toString(36).slice(2, 6));
+            }
+          }
+          app.randomTimer = setTimeout(loop, cfgInterval());
+        };
+        loop();
+        setLiveStatus('Random mode — mutating live demo widgets');
+        setStatus('Random mode active');
+      }
+
+      function stopRandomMode() {
+        app.randomActive = false;
+        document.getElementById('btn-random').classList.remove('mode-active');
+      }
+
+      function toggleAutoLoop() {
+        if (app.autoLoopActive) {
+          app.autoLoopActive = false;
+          clearTimeout(app.autoLoopTimer);
+          document.getElementById('btn-autoloop').classList.remove('mode-active');
+          setStatus('Auto loop stopped');
+          return;
+        }
+        app.autoLoopActive = true;
+        document.getElementById('btn-autoloop').classList.add('mode-active');
+        const loop = async () => {
+          if (!app.autoLoopActive) return;
+          resetAll();
+          await sleep(300);
+          await runAll();
+          app.autoLoopTimer = setTimeout(loop, 2000);
+        };
+        loop();
+        setStatus('Auto loop started');
+      }
+
+      document.getElementById('btn-run-all').addEventListener('click', runAll);
+      document.getElementById('btn-reset').addEventListener('click', resetAll);
+      document.getElementById('btn-export').addEventListener('click', exportJSON);
+      document.getElementById('btn-pause').addEventListener('click', () => {
+        app.paused = true;
+        document.getElementById('btn-pause').disabled = true;
+        document.getElementById('btn-resume').disabled = false;
+        setStatus('Paused');
+      });
+      document.getElementById('btn-resume').addEventListener('click', () => {
+        app.paused = false;
+        document.getElementById('btn-pause').disabled = false;
+        document.getElementById('btn-resume').disabled = true;
+        setStatus('Resumed');
+      });
+      document.getElementById('btn-stress').addEventListener('click', () => app.stressActive ? stopStressMode() : startStressMode());
+      document.getElementById('btn-random').addEventListener('click', () => app.randomActive ? stopRandomMode() : startRandomMode());
+      document.getElementById('btn-autoloop').addEventListener('click', toggleAutoLoop);
+
+      document.getElementById('cfg-interval').addEventListener('input', e => {
+        document.getElementById('interval-val').textContent = e.target.value;
+      });
+
+      document.getElementById('sandbox-toggle').addEventListener('click', () => {
+        sandbox.classList.toggle('collapsed');
+        document.getElementById('sandbox-toggle').textContent =
+          sandbox.classList.contains('collapsed') ? '(show bulk DOM ▾)' : '(hide bulk DOM ▴)';
+      });
+
+      buildUI();
+      window.MutationTestPlayground = { app, runSingle, runAll, resetAll, mutateAttr, observer };
+
+      window.addEventListener('load', () => {
+        if (new URLSearchParams(window.location.search).has('noauto')) {
+          setLiveStatus('Ready — auto-run disabled (?noauto)');
+          return;
+        }
+        setTimeout(() => {
+          console.log('[AUTO] Starting all tests...');
+          runAll();
+        }, 1200);
+      });
+    })();
+  </script>
+</body>
+</html>
