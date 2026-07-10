@@ -413,6 +413,7 @@
       color: var(--muted);
       z-index: 100;
     }
+    #live-status code { background: var(--surface2); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
     .mode-active { outline: 2px solid var(--accent); }
   </style>
 </head>
@@ -513,7 +514,7 @@
           </div>
         </div>
         <div id="live-active" aria-label="Active test output"></div>
-        <div id="live-status">Ready — press Run All Tests or run an individual test</div>
+        <div id="live-status">Ready — use Run All Tests or run tests individually. Add <code>?auto</code> to auto-run on load.</div>
       </section>
 
       <div id="test-sections"></div>
@@ -550,6 +551,7 @@
       const app = {
         paused: false,
         runAllInProgress: false,
+        lightweight: false,
         stressActive: false,
         randomActive: false,
         autoLoopActive: false,
@@ -563,10 +565,21 @@
         testBaselines: {},
         modes: { abbreviated: true },
         intervals: [],
-        closedShadowRef: null
+        closedShadowRef: null,
+        timelinePending: [],
+        timelineRaf: null,
+        counterRaf: null,
+        countersDirty: false
       };
 
       function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+      function testSleep(ms, ctx) {
+        if (ctx && ctx.abbreviated) return sleep(Math.min(ms, 25));
+        return sleep(ms);
+      }
+      function yieldToMain() {
+        return new Promise(r => requestAnimationFrame(() => setTimeout(r, 0)));
+      }
       function waitPause() {
         return new Promise(resolve => {
           (function check() {
@@ -590,8 +603,9 @@
           oldValue: oldValue == null ? '' : String(oldValue),
           newValue: newValue == null ? '' : String(newValue)
         };
-        console.log('[MUTATION]', entry);
+        if (!app.lightweight) console.log('[MUTATION]', entry);
         app.logs.push({ type: 'operation', ...entry });
+        if (app.logs.length > 2000) app.logs.splice(0, app.logs.length - 2000);
         return entry;
       }
 
@@ -610,6 +624,34 @@
         el.removeAttribute(name);
       }
 
+      function scheduleCounterUpdate() {
+        if (app.counterRaf) return;
+        app.counterRaf = requestAnimationFrame(() => {
+          app.counterRaf = null;
+          if (!app.countersDirty) return;
+          app.countersDirty = false;
+          updateCounterUI();
+        });
+      }
+
+      function flushTimeline() {
+        if (!app.timelinePending.length) return;
+        const batch = app.timelinePending.splice(0, 40);
+        const frag = document.createDocumentFragment();
+        batch.forEach(div => frag.appendChild(div));
+        timelineEl.appendChild(frag);
+        while (timelineEl.children.length > 120) timelineEl.removeChild(timelineEl.firstChild);
+        timelineEl.scrollTop = timelineEl.scrollHeight;
+      }
+
+      function scheduleTimelineFlush() {
+        if (app.timelineRaf) return;
+        app.timelineRaf = requestAnimationFrame(() => {
+          app.timelineRaf = null;
+          flushTimeline();
+        });
+      }
+
       function recordEmitted(mutation) {
         if (app.paused) return;
         app.counters.total++;
@@ -617,6 +659,8 @@
         if (types === 'attributes') app.counters.attributes++;
         else if (types === 'childList') app.counters.childList++;
         else if (types === 'characterData') app.counters.characterData++;
+        app.countersDirty = true;
+        scheduleCounterUpdate();
 
         const rec = {
           timestamp: Date.now(),
@@ -630,22 +674,23 @@
         app.emitted.push(rec);
         if (app.emitted.length > 500) app.emitted.shift();
 
-        const target = mutation.type === 'attributes' ? mutation.target : mutation.target.parentElement;
-        if (target && (target.classList.contains('mut-visible') || target.closest('#live-stage, #live-active'))) {
-          flashElement(target, mutation.type);
-        }
+        if (!app.lightweight) {
+          const target = mutation.type === 'attributes' ? mutation.target : mutation.target.parentElement;
+          if (target && (target.classList.contains('mut-visible') || target.closest('#live-stage, #live-active'))) {
+            flashElement(target, mutation.type);
+          }
 
-        const div = document.createElement('div');
-        div.className = 'timeline-entry ' + mutation.type;
-        const detail = mutation.type === 'attributes'
-          ? mutation.attributeName + ': "' + (mutation.oldValue || '') + '" → "' + (mutation.target.getAttribute(mutation.attributeName) || '') + '"'
-          : mutation.type === 'childList'
-          ? '+' + mutation.addedNodes.length + ' / -' + mutation.removedNodes.length
-          : '"' + (mutation.oldValue || '') + '" → "' + (mutation.target.data || '') + '"';
-        div.textContent = new Date(rec.timestamp).toISOString().slice(11, 23) + ' [' + rec.targetId + '] ' + mutation.type + ' ' + detail;
-        timelineEl.appendChild(div);
-        timelineEl.scrollTop = timelineEl.scrollHeight;
-        updateCounterUI();
+          const div = document.createElement('div');
+          div.className = 'timeline-entry ' + mutation.type;
+          const detail = mutation.type === 'attributes'
+            ? mutation.attributeName + ': "' + (mutation.oldValue || '') + '" → "' + (mutation.target.getAttribute(mutation.attributeName) || '') + '"'
+            : mutation.type === 'childList'
+            ? '+' + mutation.addedNodes.length + ' / -' + mutation.removedNodes.length
+            : '"' + (mutation.oldValue || '') + '" → "' + (mutation.target.data || '') + '"';
+          div.textContent = new Date(rec.timestamp).toISOString().slice(11, 23) + ' [' + rec.targetId + '] ' + mutation.type + ' ' + detail;
+          app.timelinePending.push(div);
+          scheduleTimelineFlush();
+        }
       }
 
       function flashElement(el, type) {
@@ -761,6 +806,10 @@
         tests.push({ num, section, name, expected, run: runFn, opts: opts || {} });
       }
 
+      function isHeavyTest(test, ctx) {
+        return !!(ctx && ctx.abbreviated && test.opts && test.opts.heavy);
+      }
+
       // ─── 1. Single Attribute Change ───
       registerTest(1, 'attr', 'Single Attribute Change',
         'Exactly one attribute mutation when class changes once.',
@@ -789,11 +838,11 @@
           const before = snapshotCounts();
           for (const [a, v] of attrs) {
             mutateAttr(el, a, v);
-            await sleep(120);
+            await testSleep(120, ctx);
           }
           mutateRemoveAttr(el, 'hidden');
           mutateRemoveAttr(el, 'disabled');
-          await sleep(80);
+          await testSleep(80, ctx);
           const d = deltaCounts(before);
           return { detail: d.attributes + ' attribute mutations observed', ok: d.attributes >= 8 };
         });
@@ -805,13 +854,13 @@
           const el = mkVisibleEl('div', 'test-03-rapid-style', 'Rapid colors');
           el.style.cssText = 'width:160px;height:80px;';
           const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7'];
-          const n = 20;
+          const n = ctx.abbreviated ? 10 : 20;
           const before = snapshotCounts();
           for (let i = 0; i < n; i++) {
             mutateAttr(el, 'style', 'background:' + colors[i % colors.length] + ';width:160px;height:80px;color:#fff');
-            el.textContent = colors[i % colors.length];
+            if (!ctx.abbreviated) el.textContent = colors[i % colors.length];
           }
-          await sleep(400);
+          await testSleep(200, ctx);
           const d = deltaCounts(before);
           return { detail: n + ' ops → ' + d.attributes + ' observed attribute mutations', ok: true };
         });
@@ -821,15 +870,15 @@
         'Style changes every second — every mutation should be emitted.',
         async function(ctx) {
           const box = document.getElementById('live-demo-box');
-          const steps = ctx.abbreviated ? 3 : 4;
+          const steps = ctx.abbreviated ? 2 : 4;
           const before = snapshotCounts();
           for (let i = 0; i < steps; i++) {
             const color = 'hsl(' + (i * 90) + ',70%,45%)';
             mutateAttr(box, 'style', 'background:' + color + ';color:#fff');
             box.textContent = 'Step ' + (i + 1);
-            if (i < steps - 1) await sleep(ctx.abbreviated ? 350 : 1000);
+            if (i < steps - 1) await testSleep(ctx.abbreviated ? 350 : 1000, ctx);
           }
-          await sleep(100);
+          await testSleep(80, ctx);
           const d = deltaCounts(before);
           return { detail: steps + ' slow changes → ' + d.attributes + ' observed', ok: d.attributes >= steps };
         });
@@ -837,10 +886,11 @@
       // ─── 5. Multiple Elements Same Attribute ───
       registerTest(5, 'attr', 'Multiple Elements Same Attribute',
         '100 elements update class simultaneously — each has own throttle bucket.',
-        async function() {
+        async function(ctx) {
           const wrap = mkEl('div', 'test-05-multi-el-wrap');
+          const count = ctx.abbreviated ? 20 : 100;
           const els = [];
-          for (let i = 0; i < 100; i++) {
+          for (let i = 0; i < count; i++) {
             const d = document.createElement('div');
             d.id = 'test-05-el-' + i;
             wrap.appendChild(d);
@@ -848,9 +898,9 @@
           }
           const before = snapshotCounts();
           els.forEach((el, i) => mutateAttr(el, 'class', 'item-' + i));
-          await sleep(300);
+          await testSleep(100, ctx);
           const d = deltaCounts(before);
-          return { detail: '100 elements → ' + d.attributes + ' attribute mutations', ok: d.attributes >= 1 };
+          return { detail: count + ' elements → ' + d.attributes + ' attribute mutations', ok: d.attributes >= 1 };
         });
 
       // ─── 6. One Element Multiple Attributes Simultaneously ───
@@ -872,23 +922,24 @@
       // ─── 7. Attribute Toggle ───
       registerTest(7, 'attr', 'Attribute Toggle',
         'Rapidly toggle hidden on/off.',
-        async function() {
+        async function(ctx) {
           const el = mkVisibleEl('div', 'test-07-toggle-hidden', 'Toggle me');
           el.style.cssText = 'background:#6366f1;color:#fff;padding:20px;';
+          const toggles = ctx.abbreviated ? 4 : 6;
           const before = snapshotCounts();
-          for (let i = 0; i < 6; i++) {
+          for (let i = 0; i < toggles; i++) {
             if (i % 2 === 0) {
               mutateAttr(el, 'hidden', '');
-              el.textContent = 'Hidden';
+              if (!ctx.abbreviated) el.textContent = 'Hidden';
             } else {
               mutateRemoveAttr(el, 'hidden');
-              el.textContent = 'Visible';
+              if (!ctx.abbreviated) el.textContent = 'Visible';
             }
-            await sleep(200);
+            await testSleep(200, ctx);
           }
-          await sleep(80);
+          await testSleep(50, ctx);
           const d = deltaCounts(before);
-          return { detail: '6 toggles → ' + d.attributes + ' mutations', ok: d.attributes >= 1 };
+          return { detail: toggles + ' toggles → ' + d.attributes + ' mutations', ok: d.attributes >= 1 };
         });
 
       // ─── 8. Returns To Original Value ───
@@ -1730,7 +1781,7 @@
           await sleep(500);
           const d = deltaCounts(before);
           return { detail: count + ' elements, ' + sample + ' mutations → ' + d.attributes + ' observed', ok: d.attributes >= 1 };
-        });
+        }, { heavy: true });
 
       // ─── 53. Continuous Stress ───
       registerTest(53, 'edge', 'Continuous Stress Test',
@@ -1749,7 +1800,7 @@
           await sleep(100);
           const d = deltaCounts(before);
           return { detail: ops + ' ops in ' + sec + 's → ' + d.attributes + ' observed', ok: ops > 0 };
-        });
+        }, { heavy: true });
 
       // ─── 54. Random Mutation Generator ───
       registerTest(54, 'edge', 'Random Mutation Generator',
@@ -1762,7 +1813,7 @@
             wrap.appendChild(d);
           }
           const attrs = ['class', 'style', 'title', 'data-x', 'aria-label'];
-          const n = ctx.abbreviated ? 50 : cfgCount();
+          const n = ctx.abbreviated ? 15 : cfgCount();
           const before = snapshotCounts();
           for (let i = 0; i < n; i++) {
             const el = document.getElementById('test-54-r-' + (i % 20));
@@ -1792,7 +1843,7 @@
           await sleep(100);
           const d = deltaCounts(before);
           return { detail: cycles + ' create/mutate/remove cycles, ' + d.childList + ' childList', ok: d.childList >= cycles };
-        });
+        }, { heavy: true });
 
       // ─── 56. Long-running Test ───
       registerTest(56, 'edge', 'Long-running Test',
@@ -1820,7 +1871,7 @@
             detail: n + ' mutations' + (ctx.abbreviated ? ' (abbreviated)' : ' over ' + cfgLongMin() + ' min') + ' → ' + d.attributes + ' observed',
             ok: n > 0
           };
-        });
+        }, { heavy: true });
 
       // ─── 57. Node ID Reuse ───
       registerTest(57, 'edge', 'Node ID Reuse',
@@ -1853,7 +1904,7 @@
           await sleep(200);
           const d = deltaCounts(before);
           return { detail: n + ' burst ops → ' + d.attributes + ' observed', ok: d.attributes >= 1 };
-        });
+        }, { heavy: true });
 
       // ─── 59. Multiple Independent Buckets ───
       registerTest(59, 'edge', 'Multiple Independent Buckets',
@@ -1876,7 +1927,7 @@
           await sleep(300);
           const d = deltaCounts(before);
           return { detail: d.attributes + ' bucket mutations', ok: d.attributes >= 100 };
-        });
+        }, { heavy: true });
 
       // ─── 60. Clock Timing Test ───
       registerTest(60, 'edge', 'Clock Timing Test',
@@ -1933,49 +1984,61 @@
         if (!test) return;
         if (app.runAllInProgress && ctx && ctx.fromBatch === false) return;
 
+        if (isHeavyTest(test, ctx)) {
+          setTestState(num, 'skip', 'Skipped in Run All — click Run Test for full stress run');
+          return;
+        }
+
+        const batch = !!(ctx && ctx.fromBatch);
         clearLiveActive();
-        liveActive.classList.add('running');
+        if (!batch) liveActive.classList.add('running');
         setLiveStatus('Running #' + num + ': ' + test.name);
         setTestState(num, 'running');
 
         const card = document.getElementById('card-' + num);
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (card && !batch) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
         setStatus('Running test #' + num + ': ' + test.name);
         try {
           await waitPause();
           const result = await test.run(ctx || { abbreviated: false });
           setTestState(num, result.ok !== false ? 'pass' : 'fail', result.detail);
-          setLiveStatus('#' + num + ' done — ' + result.detail);
-          console.log('[TEST #' + num + ']', result);
+          if (!batch) setLiveStatus('#' + num + ' done — ' + result.detail);
+          if (!batch) console.log('[TEST #' + num + ']', result);
         } catch (err) {
           setTestState(num, 'fail', err.message);
-          setLiveStatus('#' + num + ' failed — ' + err.message);
+          if (!batch) setLiveStatus('#' + num + ' failed — ' + err.message);
           console.error('[TEST #' + num + ' ERROR]', err);
         } finally {
           liveActive.classList.remove('running');
         }
-        setStatus('Test #' + num + ' complete');
+        if (!batch) setStatus('Test #' + num + ' complete');
       }
 
       async function runAll() {
         if (app.runAllInProgress) return;
         app.runAllInProgress = true;
+        app.lightweight = true;
         document.getElementById('btn-run-all').disabled = true;
-        setLiveStatus('Running all tests…');
-        setStatus('Running all tests (abbreviated long tests)...');
+        setLiveStatus('Running all tests in lightweight mode…');
+        setStatus('Running all tests…');
         try {
           for (const test of tests) {
             await runSingle(test.num, { abbreviated: true, fromBatch: true });
+            await yieldToMain();
             await waitPause();
           }
-          setLiveStatus('All 60 tests complete');
+          setLiveStatus('All tests complete — timeline/flashes resume on next individual run');
           setStatus('All tests complete');
         } catch (err) {
           setLiveStatus('Run All failed: ' + err.message);
           setStatus('Run All failed');
           console.error('[RUN ALL]', err);
         } finally {
+          app.lightweight = false;
+          app.countersDirty = true;
+          updateCounterUI();
+          flushTimeline();
           app.runAllInProgress = false;
           document.getElementById('btn-run-all').disabled = false;
         }
@@ -1992,6 +2055,7 @@
         app.randomActive = false;
         app.autoLoopActive = false;
         app.runAllInProgress = false;
+        app.lightweight = false;
         app.paused = false;
         document.getElementById('btn-run-all').disabled = false;
         document.getElementById('btn-pause').disabled = false;
@@ -2162,14 +2226,13 @@
       window.MutationTestPlayground = { app, runSingle, runAll, resetAll, mutateAttr, observer };
 
       window.addEventListener('load', () => {
-        if (new URLSearchParams(window.location.search).has('noauto')) {
-          setLiveStatus('Ready — auto-run disabled (?noauto)');
-          return;
+        setLiveStatus('Ready — click Run All Tests or run individually. Use ?auto to run on load.');
+        if (new URLSearchParams(window.location.search).has('auto')) {
+          setTimeout(() => {
+            console.log('[AUTO] Starting all tests (?auto)...');
+            runAll();
+          }, 500);
         }
-        setTimeout(() => {
-          console.log('[AUTO] Starting all tests...');
-          runAll();
-        }, 1200);
       });
     })();
   </script>
