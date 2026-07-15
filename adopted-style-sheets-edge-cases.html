@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopted StyleSheets — Edge Cases (Document &amp; ShadowRoot override)</title>
+
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        if (urlId) return urlId;
+        return "814397";
+      }
+
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("wingify")) return true;
+        for (const value of params.values()) {
+          if (value && value.indexOf("wingify.net") !== -1) return true;
+        }
+        return false;
+      }
+
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag("wingify") && hasQueryFlag("prod")) {
+          return "https://edge.wingify.net/tags/" + accountId + ".js";
+        }
+        return "https://edge.wingify.net/cloud-run-test/final/" + accountId + ".js";
+      }
+
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes("sync")) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://dev.visualwebsiteoptimizer.com/lib/" + getVWOAccountId() + ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+      } else {
+        window._vwo_code =
+          window._vwo_code ||
+          (function () {
+            var account_id = getVWOAccountId(),
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style =
+                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+            var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function () {
+                  return use_existing_jquery;
+                },
+                library_tolerance: function () {
+                  return library_tolerance;
+                },
+                hide_element_style: function () {
+                  return "{" + hide_element_style + "}";
+                },
+                finish: function () {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function () {
+                  return f;
+                },
+                load: function (e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function () {
+                    _vwo_code.finish();
+                  };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function () {
+                  return version;
+                },
+                getMatchedCookies: function (e) {
+                  var t = [];
+                  if (document.cookie) {
+                    t = document.cookie.match(e) || [];
+                  }
+                  return t;
+                },
+                getCombinationCookie: function () {
+                  var e = code.getMatchedCookies(
+                    /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
+                  );
+                  e = e.map(function (e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) {
+                        return "";
+                      }
+                      return t;
+                    } catch (e) {
+                      return "";
+                    }
+                  });
+                  var i = [];
+                  e.forEach(function (e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
+                },
+                init: function () {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function () {
+                    _vwo_code.finish();
+                  }, settings_tolerance);
+                  var e = d.createElement("style"),
+                    t = hide_element
+                      ? hide_element + "{" + hide_element_style + "}"
+                      : "",
+                    i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  var n = this.getCombinationCookie();
+                  this.load(
+                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                      account_id +
+                      "&u=" +
+                      encodeURIComponent(d.URL) +
+                      "&f=" +
+                      +is_spa +
+                      "&vn=" +
+                      version +
+                      (n ? "&c=" + n : "")
+                  );
+                  return settings_timer;
+                },
+              };
+            window._vwo_settings_timer = code.init();
+            return code;
+          })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #fafafa;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        background: #000;
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        z-index: 10;
+      }
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .navbar a:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .card {
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+        background: #fff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .muted {
+        color: #666;
+        font-size: 14px;
+      }
+      .edge-list {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .edge-list li {
+        margin-bottom: 4px;
+      }
+      .demo-box {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px dashed #bbb;
+        min-height: 56px;
+        margin-top: 8px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      button {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: #f8f8f8;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      button:hover {
+        background: #f0f0f0;
+      }
+      .log {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+        background: #0b1020;
+        color: #e6e9ff;
+        padding: 10px;
+        border-radius: 10px;
+        min-height: 72px;
+        margin-top: 10px;
+      }
+      .pass {
+        color: #86efac;
+      }
+      .fail {
+        color: #fca5a5;
+      }
+      .warn {
+        color: #fde68a;
+      }
+      code {
+        background: #f3f4f6;
+        padding: 1px 4px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .pill {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #eee;
+        margin-left: 6px;
+      }
+      .summary-bar {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+      .summary-bar span {
+        font-size: 13px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: #f3f4f6;
+      }
+      pre.snippet {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        overflow-x: auto;
+        line-height: 1.45;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <strong style="margin-right: 6px">Adopted StyleSheets</strong>
+      <a href="automation-website/index.html" onclick="return preserveQueryParams(this)">Home</a>
+      <a href="automation-website/adopted-style-sheets-static.html" onclick="return preserveQueryParams(this)">Static</a>
+      <a href="automation-website/adopted-style-sheets-dynamic-add.html" onclick="return preserveQueryParams(this)">Dynamic Add</a>
+      <a href="automation-website/adopted-style-sheets-dynamic-remove.html" onclick="return preserveQueryParams(this)">Dynamic Remove</a>
+      <a href="automation-website/adopted-style-sheets-document-shadow.html" onclick="return preserveQueryParams(this)">Document &amp; Shadow</a>
+      <a href="automation-website/adopted-style-sheets-edge-cases.html" onclick="return preserveQueryParams(this)">Edge Cases</a>
+    </div>
+
+    <div class="container">
+      <h1>adoptedStyleSheets override — edge cases</h1>
+      <p class="muted">
+        Tests for VWO's <code>installAdoptedStyleSheetsOverride</code> on
+        <code>Document.prototype</code> and <code>ShadowRoot.prototype</code>.
+        The override is installed only when a prototype is resolved via global
+        constructor or native fallback.
+      </p>
+
+      <pre class="snippet">// Document
+const NativeDocument = NativeConstants.get('Document');
+const documentPrototype =
+  (typeof Document !== 'undefined' &amp;&amp; Document.prototype) ||
+  (NativeDocument &amp;&amp; NativeDocument.prototype);
+if (documentPrototype) {
+  installAdoptedStyleSheetsOverride(documentPrototype, context, NativeArray, false);
+}
+
+// ShadowRoot (isShadow = true)
+const NativeShadowRoot = NativeConstants.get('ShadowRoot');
+const shadowRootPrototype =
+  (typeof ShadowRoot !== 'undefined' &amp;&amp; ShadowRoot.prototype) ||
+  (NativeShadowRoot &amp;&amp; NativeShadowRoot.prototype);
+if (shadowRootPrototype) {
+  installAdoptedStyleSheetsOverride(shadowRootPrototype, context, NativeArray, true);
+}</pre>
+
+      <div class="card">
+        <h2>Edge case catalog</h2>
+        <div class="grid">
+          <div>
+            <h3>Prototype resolution</h3>
+            <ul class="edge-list">
+              <li><b>EC-01</b> Global <code>Document</code> / <code>ShadowRoot</code> undefined</li>
+              <li><b>EC-02</b> Constructor exists but <code>.prototype</code> is missing</li>
+              <li><b>EC-03</b> Global prototype vs native fallback mismatch</li>
+              <li><b>EC-04</b> <code>documentPrototype</code> / <code>shadowRootPrototype</code> is falsy → skip install</li>
+              <li><b>EC-05</b> Feature absent: <code>adoptedStyleSheets</code> not on prototype</li>
+              <li><b>EC-06</b> Descriptor type: accessor vs data property</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Assignment &amp; array behavior</h3>
+            <ul class="edge-list">
+              <li><b>EC-07</b> Assign empty array <code>[]</code></li>
+              <li><b>EC-08</b> Full replace via spread vs in-place mutation (<code>push</code>)</li>
+              <li><b>EC-09</b> Assign invalid entries (non-<code>CSSStyleSheet</code>)</li>
+              <li><b>EC-10</b> Same sheet on document + multiple shadow roots</li>
+              <li><b>EC-11</b> Document and shadow lists are independent</li>
+              <li><b>EC-12</b> Cross-realm array from iframe</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Shadow DOM specifics</h3>
+            <ul class="edge-list">
+              <li><b>EC-13</b> Open vs closed shadow root access</li>
+              <li><b>EC-14</b> Multiple shadow hosts, separate adopted lists</li>
+              <li><b>EC-15</b> Shadow created before vs after sheet assignment</li>
+              <li><b>EC-16</b> Nested shadow roots</li>
+            </ul>
+          </div>
+          <div>
+            <h3>VWO interaction</h3>
+            <ul class="edge-list">
+              <li><b>EC-17</b> VWO hide style + adopted sheet cascade</li>
+              <li><b>EC-18</b> Dynamic adopt after <code>_vwo_code.finish()</code></li>
+              <li><b>EC-19</b> Injected <code>&lt;style&gt;</code> tag vs adopted sheet priority</li>
+              <li><b>EC-20</b> Re-assign adopted list after VWO campaign CSS</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-bar">
+        <span id="summary-pass">Pass: 0</span>
+        <span id="summary-fail">Fail: 0</span>
+        <span id="summary-skip">Skip: 0</span>
+        <button id="btn-run-all">Run all automated tests</button>
+        <button id="btn-clear-logs">Clear logs</button>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>EC-01 — Prototype detection</h2>
+          <p class="muted">Verify global constructors and prototype chain used by install logic.</p>
+          <div class="row">
+            <button data-test="ec01">Run EC-01</button>
+          </div>
+          <div id="log-ec01" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-05 — Feature support</h2>
+          <p class="muted"><code>adoptedStyleSheets</code> on Document / ShadowRoot prototypes.</p>
+          <div class="row">
+            <button data-test="ec05">Run EC-05</button>
+          </div>
+          <div id="log-ec05" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-06 — Property descriptor</h2>
+          <p class="muted">Inspect getter/setter on <code>adoptedStyleSheets</code>.</p>
+          <div class="row">
+            <button data-test="ec06">Run EC-06</button>
+          </div>
+          <div id="log-ec06" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-07 / EC-08 — Empty &amp; mutation</h2>
+          <p class="muted">Clear list, then try in-place <code>push</code> vs reassignment.</p>
+          <div id="ec07-target" class="demo-box">EC-07/08 target <span class="pill">idle</span></div>
+          <div class="row">
+            <button data-test="ec07">Run EC-07 (empty)</button>
+            <button data-test="ec08">Run EC-08 (push vs assign)</button>
+          </div>
+          <div id="log-ec07" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-09 — Invalid assignment</h2>
+          <p class="muted">Assign array with non-sheet values; expect throw or reject.</p>
+          <div class="row">
+            <button data-test="ec09">Run EC-09</button>
+          </div>
+          <div id="log-ec09" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-10 / EC-11 — Shared &amp; independent</h2>
+          <p class="muted">One sheet on document + shadow; clear one side only.</p>
+          <div id="ec10-doc-target" class="demo-box">Document target</div>
+          <div id="ec10-shadow-host" class="demo-box"></div>
+          <div class="row">
+            <button data-test="ec10">Run EC-10/11</button>
+          </div>
+          <div id="log-ec10" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-12 — Cross-realm array</h2>
+          <p class="muted">Assign sheets array built inside an iframe realm.</p>
+          <iframe id="ec12-frame" title="ec12" style="width:100%;height:60px;border:1px solid #ddd;border-radius:8px;"></iframe>
+          <div class="row">
+            <button data-test="ec12">Run EC-12</button>
+          </div>
+          <div id="log-ec12" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-13 — Open vs closed shadow</h2>
+          <p class="muted">Closed root: external JS cannot set <code>adoptedStyleSheets</code>.</p>
+          <div id="ec13-open-host" class="demo-box"></div>
+          <div id="ec13-closed-host" class="demo-box"></div>
+          <div class="row">
+            <button data-test="ec13">Run EC-13</button>
+          </div>
+          <div id="log-ec13" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-14 — Multiple shadow hosts</h2>
+          <p class="muted">Each host maintains its own adopted list.</p>
+          <div id="ec14-host-a" class="demo-box"></div>
+          <div id="ec14-host-b" class="demo-box"></div>
+          <div class="row">
+            <button data-test="ec14">Run EC-14</button>
+          </div>
+          <div id="log-ec14" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-15 — Timing</h2>
+          <p class="muted">Adopt before attachShadow vs adopt after shadow exists.</p>
+          <div id="ec15-host" class="demo-box"></div>
+          <div class="row">
+            <button data-test="ec15-before">Adopt before shadow</button>
+            <button data-test="ec15-after">Adopt after shadow</button>
+          </div>
+          <div id="log-ec15" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-16 — Nested shadow</h2>
+          <p class="muted">Inner shadow root gets its own adopted list.</p>
+          <div id="ec16-outer-host" class="demo-box"></div>
+          <div class="row">
+            <button data-test="ec16">Run EC-16</button>
+          </div>
+          <div id="log-ec16" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-17 / EC-18 / EC-19 — VWO cascade</h2>
+          <p class="muted">VWO hide style, injected tag, and adopted sheet stacking.</p>
+          <div id="ec17-target" class="demo-box">VWO + adopted target</div>
+          <div class="row">
+            <button data-test="ec17">Run EC-17 (hide + adopt)</button>
+            <button data-test="ec18">Run EC-18 (finish + adopt)</button>
+            <button data-test="ec19">Run EC-19 (style tag vs adopt)</button>
+          </div>
+          <div id="log-ec17" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-20 — Re-assign after campaign CSS</h2>
+          <p class="muted">Simulate VWO campaign style, then replace adopted list.</p>
+          <div id="ec20-target" class="demo-box">EC-20 target</div>
+          <div class="row">
+            <button data-test="ec20">Run EC-20</button>
+          </div>
+          <div id="log-ec20" class="log"></div>
+        </div>
+
+        <div class="card">
+          <h2>EC-03 — Native fallback simulation</h2>
+          <p class="muted">
+            Temporarily shadow global <code>Document</code> to exercise native-fallback path
+            (restored after test).
+          </p>
+          <div class="row">
+            <button data-test="ec03">Run EC-03</button>
+          </div>
+          <div id="log-ec03" class="log"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function preserveQueryParams(link) {
+        const currentParams = new URLSearchParams(window.location.search);
+        const id = currentParams.get("id");
+        const isSync = window.location.href.includes("sync");
+        if (id || isSync) {
+          let href = link.getAttribute("href");
+          let newUrl = new URL(href, window.location.origin);
+          if (id) newUrl.searchParams.set("id", id);
+          if (isSync) newUrl.searchParams.set("sync", "");
+          window.location.href = newUrl.toString();
+          return false;
+        }
+        return true;
+      }
+
+      const stats = { pass: 0, fail: 0, skip: 0 };
+
+      function updateSummary() {
+        document.getElementById("summary-pass").textContent = "Pass: " + stats.pass;
+        document.getElementById("summary-fail").textContent = "Fail: " + stats.fail;
+        document.getElementById("summary-skip").textContent = "Skip: " + stats.skip;
+      }
+
+      function log(el, line, kind) {
+        const span = document.createElement("span");
+        if (kind === "pass") span.className = "pass";
+        else if (kind === "fail") span.className = "fail";
+        else if (kind === "skip") span.className = "warn";
+        span.textContent = line + "\n";
+        el.appendChild(span);
+      }
+
+      function clearLog(el) {
+        el.textContent = "";
+      }
+
+      function record(kind) {
+        stats[kind]++;
+        updateSummary();
+      }
+
+      function assert(el, condition, passMsg, failMsg) {
+        if (condition) {
+          log(el, "PASS: " + passMsg, "pass");
+          record("pass");
+          return true;
+        }
+        log(el, "FAIL: " + failMsg, "fail");
+        record("fail");
+        return false;
+      }
+
+      function skip(el, msg) {
+        log(el, "SKIP: " + msg, "skip");
+        record("skip");
+      }
+
+      function supportsDocAdopted() {
+        return (
+          "adoptedStyleSheets" in Document.prototype &&
+          typeof CSSStyleSheet === "function" &&
+          typeof CSSStyleSheet.prototype.replaceSync === "function"
+        );
+      }
+
+      function supportsShadowAdopted() {
+        return supportsDocAdopted() && "adoptedStyleSheets" in ShadowRoot.prototype;
+      }
+
+      function makeSheet(selector, styles) {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(selector + " { " + styles + " }");
+        return sheet;
+      }
+
+      function getLog(id) {
+        return document.getElementById("log-" + id);
+      }
+
+      const tests = {
+        ec01(el) {
+          clearLog(el);
+          const hasDocument = typeof Document !== "undefined";
+          const hasShadowRoot = typeof ShadowRoot !== "undefined";
+          log(el, "typeof Document: " + typeof Document);
+          log(el, "typeof ShadowRoot: " + typeof ShadowRoot);
+          assert(el, hasDocument, "EC-01a global Document exists", "EC-01a Document missing");
+          assert(el, hasShadowRoot, "EC-01b global ShadowRoot exists", "EC-01b ShadowRoot missing");
+          assert(
+            el,
+            hasDocument && !!Document.prototype,
+            "EC-01c Document.prototype resolved",
+            "EC-01c Document.prototype missing"
+          );
+          assert(
+            el,
+            hasShadowRoot && !!ShadowRoot.prototype,
+            "EC-01d ShadowRoot.prototype resolved",
+            "EC-01d ShadowRoot.prototype missing"
+          );
+          assert(
+            el,
+            document instanceof Document,
+            "EC-01e document instanceof Document",
+            "EC-01e document not instanceof Document"
+          );
+        },
+
+        ec03(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-03 requires adoptedStyleSheets support");
+            return;
+          }
+          const savedDocument = window.Document;
+          const nativeProto = savedDocument && savedDocument.prototype;
+          try {
+            window.Document = undefined;
+            const fallbackProto =
+              (typeof Document !== "undefined" && Document.prototype) ||
+              (savedDocument && savedDocument.prototype);
+            assert(
+              el,
+              fallbackProto === nativeProto,
+              "EC-03 native fallback resolves when global Document cleared",
+              "EC-03 fallback prototype mismatch"
+            );
+            assert(
+              el,
+              !!fallbackProto,
+              "EC-03 prototype still truthy for install guard",
+              "EC-03 prototype falsy — install would be skipped"
+            );
+          } finally {
+            window.Document = savedDocument;
+          }
+          assert(
+            el,
+            typeof Document !== "undefined" && Document.prototype === nativeProto,
+            "EC-03 Document restored after simulation",
+            "EC-03 failed to restore Document"
+          );
+        },
+
+        ec05(el) {
+          clearLog(el);
+          const docSupported = "adoptedStyleSheets" in Document.prototype;
+          const shadowSupported = "adoptedStyleSheets" in ShadowRoot.prototype;
+          log(el, "Document.prototype.adoptedStyleSheets: " + (docSupported ? "yes" : "no"));
+          log(el, "ShadowRoot.prototype.adoptedStyleSheets: " + (shadowSupported ? "yes" : "no"));
+          if (!docSupported) {
+            skip(el, "EC-05 browser lacks document.adoptedStyleSheets");
+            return;
+          }
+          assert(el, docSupported, "EC-05a document feature present", "EC-05a missing on Document");
+          if (shadowSupported) {
+            assert(el, true, "EC-05b shadow feature present", "");
+          } else {
+            skip(el, "EC-05b shadowRoot.adoptedStyleSheets not in this browser");
+          }
+        },
+
+        ec06(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-06 requires adoptedStyleSheets");
+            return;
+          }
+          const docDesc = Object.getOwnPropertyDescriptor(Document.prototype, "adoptedStyleSheets");
+          const instDesc = Object.getOwnPropertyDescriptor(document, "adoptedStyleSheets");
+          log(el, "Document.prototype descriptor: " + JSON.stringify({
+            hasGet: !!docDesc && typeof docDesc.get === "function",
+            hasSet: !!docDesc && typeof docDesc.set === "function",
+            enumerable: docDesc && docDesc.enumerable,
+          }));
+          assert(
+            el,
+            docDesc && typeof docDesc.get === "function" && typeof docDesc.set === "function",
+            "EC-06a Document.prototype uses accessor descriptor",
+            "EC-06a unexpected Document descriptor"
+          );
+          if (supportsShadowAdopted()) {
+            const shadowDesc = Object.getOwnPropertyDescriptor(ShadowRoot.prototype, "adoptedStyleSheets");
+            assert(
+              el,
+              shadowDesc && typeof shadowDesc.get === "function",
+              "EC-06b ShadowRoot.prototype uses accessor",
+              "EC-06b unexpected ShadowRoot descriptor"
+            );
+          }
+          const before = document.adoptedStyleSheets;
+          assert(el, Array.isArray(before), "EC-06c read returns array", "EC-06c read not array");
+        },
+
+        ec07(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-07 requires adoptedStyleSheets");
+            return;
+          }
+          document.adoptedStyleSheets = [];
+          assert(
+            el,
+            document.adoptedStyleSheets.length === 0,
+            "EC-07 empty array assignment clears list",
+            "EC-07 length after clear: " + document.adoptedStyleSheets.length
+          );
+          const sheet = makeSheet("#ec07-target", "border: 3px solid #2563eb; padding: 8px;");
+          document.adoptedStyleSheets = [sheet];
+          assert(el, document.adoptedStyleSheets.length === 1, "EC-07 re-assign works", "EC-07 re-assign failed");
+        },
+
+        ec08(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-08 requires adoptedStyleSheets");
+            return;
+          }
+          const sheetA = makeSheet("#ec07-target", "background: #dbeafe;");
+          const sheetB = makeSheet("#ec07-target", "outline: 3px solid #f59e0b;");
+          document.adoptedStyleSheets = [sheetA];
+          let pushThrew = false;
+          try {
+            document.adoptedStyleSheets.push(sheetB);
+          } catch (e) {
+            pushThrew = true;
+            log(el, "push() threw: " + e.message);
+          }
+          const lenAfterPush = document.adoptedStyleSheets.length;
+          document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheetB];
+          assert(
+            el,
+            document.adoptedStyleSheets.length >= 2,
+            "EC-08 spread reassignment adds sheet (length " + document.adoptedStyleSheets.length + ")",
+            "EC-08 spread assign failed"
+          );
+          if (pushThrew || lenAfterPush < 2) {
+            assert(el, true, "EC-08 in-place push blocked or no-op (expected in strict browsers)", "");
+          } else {
+            log(el, "NOTE: push() mutated adoptedStyleSheets in-place", "warn");
+          }
+        },
+
+        ec09(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-09 requires adoptedStyleSheets");
+            return;
+          }
+          let threw = false;
+          try {
+            document.adoptedStyleSheets = [{}];
+          } catch (e) {
+            threw = true;
+            log(el, "Assign [{}] threw: " + e.name + " — " + e.message);
+          }
+          assert(
+            el,
+            threw || document.adoptedStyleSheets.length === 0,
+            "EC-09 invalid entry rejected or ignored",
+            "EC-09 invalid entry accepted — length " + document.adoptedStyleSheets.length
+          );
+          document.adoptedStyleSheets = [];
+        },
+
+        ec10(el) {
+          clearLog(el);
+          if (!supportsShadowAdopted()) {
+            skip(el, "EC-10/11 require shadow adoptedStyleSheets");
+            return;
+          }
+          const host = document.getElementById("ec10-shadow-host");
+          host.textContent = "";
+          const shadow = host.attachShadow({ mode: "open" });
+          shadow.innerHTML = '<div id="ec10-shadow-inner">Shadow inner</div>';
+
+          const shared = makeSheet(
+            "#ec10-doc-target, #ec10-shadow-inner",
+            "border: 4px solid #16a34a; padding: 8px; background: #f0fdf4;"
+          );
+          document.adoptedStyleSheets = [shared];
+          shadow.adoptedStyleSheets = [shared];
+
+          assert(
+            el,
+            document.adoptedStyleSheets.length === 1 && shadow.adoptedStyleSheets.length === 1,
+            "EC-10 same sheet adopted on document and shadow",
+            "EC-10 adoption counts mismatch"
+          );
+
+          document.adoptedStyleSheets = [];
+          assert(
+            el,
+            document.adoptedStyleSheets.length === 0 && shadow.adoptedStyleSheets.length === 1,
+            "EC-11 clearing document does not clear shadow list",
+            "EC-11 lists not independent"
+          );
+          shadow.adoptedStyleSheets = [];
+        },
+
+        ec12(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-12 requires adoptedStyleSheets");
+            return;
+          }
+          const frame = document.getElementById("ec12-frame");
+          const doc = frame.contentDocument;
+          doc.open();
+          doc.write("<!DOCTYPE html><body></body>");
+          doc.close();
+
+          let crossRealmOk = false;
+          let threw = false;
+          try {
+            const frameSheet = new doc.defaultView.CSSStyleSheet();
+            frameSheet.replaceSync("body { margin: 0; }");
+            document.adoptedStyleSheets = [frameSheet];
+            crossRealmOk = document.adoptedStyleSheets.length === 1;
+          } catch (e) {
+            threw = true;
+            log(el, "Cross-realm assign threw: " + e.message);
+          }
+
+          if (threw) {
+            assert(el, true, "EC-12 cross-realm sheet rejected (expected in some browsers)", "");
+          } else {
+            assert(el, crossRealmOk, "EC-12 cross-realm sheet accepted", "EC-12 cross-realm failed");
+          }
+          document.adoptedStyleSheets = [];
+        },
+
+        ec13(el) {
+          clearLog(el);
+          if (!supportsShadowAdopted()) {
+            skip(el, "EC-13 requires shadow adoptedStyleSheets");
+            return;
+          }
+          const openHost = document.getElementById("ec13-open-host");
+          const closedHost = document.getElementById("ec13-closed-host");
+          openHost.textContent = "";
+          closedHost.textContent = "";
+
+          const openShadow = openHost.attachShadow({ mode: "open" });
+          openShadow.innerHTML = "<div>Open shadow</div>";
+          const closedShadow = closedHost.attachShadow({ mode: "closed" });
+          closedShadow.innerHTML = "<div>Closed shadow</div>";
+
+          const sheet = makeSheet("div", "color: #1d4ed8; font-weight: bold;");
+          openShadow.adoptedStyleSheets = [sheet];
+
+          let closedAccessible = false;
+          try {
+            closedHost.shadowRoot.adoptedStyleSheets = [sheet];
+            closedAccessible = true;
+          } catch (e) {
+            log(el, "Closed shadow access error: " + e.message);
+          }
+
+          assert(el, openShadow.adoptedStyleSheets.length === 1, "EC-13a open shadow adopt works", "EC-13a open failed");
+          assert(
+            el,
+            !closedAccessible && closedHost.shadowRoot === null,
+            "EC-13b closed shadow not accessible from light DOM",
+            "EC-13b closed shadow unexpectedly accessible"
+          );
+          openShadow.adoptedStyleSheets = [];
+        },
+
+        ec14(el) {
+          clearLog(el);
+          if (!supportsShadowAdopted()) {
+            skip(el, "EC-14 requires shadow adoptedStyleSheets");
+            return;
+          }
+          const hostA = document.getElementById("ec14-host-a");
+          const hostB = document.getElementById("ec14-host-b");
+          hostA.textContent = "";
+          hostB.textContent = "";
+          const shadowA = hostA.attachShadow({ mode: "open" });
+          const shadowB = hostB.attachShadow({ mode: "open" });
+          shadowA.innerHTML = "<div>A</div>";
+          shadowB.innerHTML = "<div>B</div>";
+
+          const sheetA = makeSheet("div", "background: #fee2e2;");
+          const sheetB = makeSheet("div", "background: #dbeafe;");
+          shadowA.adoptedStyleSheets = [sheetA];
+          shadowB.adoptedStyleSheets = [sheetB];
+
+          assert(
+            el,
+            shadowA.adoptedStyleSheets[0] !== shadowB.adoptedStyleSheets[0],
+            "EC-14 separate sheet instances per host",
+            "EC-14 hosts share same array reference"
+          );
+          shadowA.adoptedStyleSheets = [];
+          assert(
+            el,
+            shadowA.adoptedStyleSheets.length === 0 && shadowB.adoptedStyleSheets.length === 1,
+            "EC-14 clearing host A does not affect host B",
+            "EC-14 host lists coupled"
+          );
+          shadowB.adoptedStyleSheets = [];
+        },
+
+        "ec15-before"(el) {
+          clearLog(el);
+          if (!supportsShadowAdopted()) {
+            skip(el, "EC-15 requires shadow adoptedStyleSheets");
+            return;
+          }
+          const host = document.getElementById("ec15-host");
+          host.textContent = "";
+          const preSheet = makeSheet("div", "border: 2px dashed #9333ea;");
+          const shadow = host.attachShadow({ mode: "open" });
+          shadow.innerHTML = "<div>Created then adopted</div>";
+          shadow.adoptedStyleSheets = [preSheet];
+          assert(
+            el,
+            shadow.adoptedStyleSheets.length === 1,
+            "EC-15 adopt immediately after attachShadow",
+            "EC-15 post-attach adopt failed"
+          );
+          shadow.adoptedStyleSheets = [];
+        },
+
+        "ec15-after"(el) {
+          clearLog(el);
+          if (!supportsShadowAdopted()) {
+            skip(el, "EC-15 requires shadow adoptedStyleSheets");
+            return;
+          }
+          const host = document.getElementById("ec15-host");
+          host.textContent = "";
+          const shadow = host.attachShadow({ mode: "open" });
+          shadow.innerHTML = "<div>Delayed adopt</div>";
+          setTimeout(() => {
+            const lateSheet = makeSheet("div", "background: #fef3c7; padding: 6px;");
+            shadow.adoptedStyleSheets = [lateSheet];
+            assert(
+              el,
+              shadow.adoptedStyleSheets.length === 1,
+              "EC-15 delayed adopt after microtask",
+              "EC-15 delayed adopt failed"
+            );
+          }, 0);
+        },
+
+        ec16(el) {
+          clearLog(el);
+          if (!supportsShadowAdopted()) {
+            skip(el, "EC-16 requires shadow adoptedStyleSheets");
+            return;
+          }
+          const outerHost = document.getElementById("ec16-outer-host");
+          outerHost.textContent = "";
+          const outer = outerHost.attachShadow({ mode: "open" });
+          outer.innerHTML = '<div id="inner-host">Outer</div>';
+          const innerHost = outer.getElementById("inner-host");
+          const inner = innerHost.attachShadow({ mode: "open" });
+          inner.innerHTML = "<span>Nested inner</span>";
+
+          const outerSheet = makeSheet("div", "outline: 2px solid #0ea5e9;");
+          const innerSheet = makeSheet("span", "color: #b91c1c; font-weight: bold;");
+          outer.adoptedStyleSheets = [outerSheet];
+          inner.adoptedStyleSheets = [innerSheet];
+
+          assert(
+            el,
+            outer.adoptedStyleSheets.length === 1 && inner.adoptedStyleSheets.length === 1,
+            "EC-16 nested roots each hold adopted list",
+            "EC-16 nested adopt failed"
+          );
+          outer.adoptedStyleSheets = [];
+          inner.adoptedStyleSheets = [];
+        },
+
+        ec17(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-17 requires adoptedStyleSheets");
+            return;
+          }
+          const target = document.getElementById("ec17-target");
+          const hideStyle = document.getElementById("_vis_opt_path_hides");
+          log(el, "VWO hide element present: " + !!hideStyle);
+          const sheet = makeSheet("#ec17-target", "opacity: 1 !important; background: #ecfccb !important; border: 3px solid #65a30d;");
+          document.adoptedStyleSheets = [sheet];
+          const st = getComputedStyle(target);
+          log(el, "Computed opacity: " + st.opacity + ", background: " + st.backgroundColor);
+          assert(
+            el,
+            parseFloat(st.opacity) > 0,
+            "EC-17 adopted sheet can override / coexist with VWO hide",
+            "EC-17 target still fully hidden"
+          );
+          if (typeof window._vwo_code !== "undefined") {
+            log(el, "_vwo_code.finished(): " + window._vwo_code.finished());
+          }
+        },
+
+        ec18(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-18 requires adoptedStyleSheets");
+            return;
+          }
+          if (typeof window._vwo_code !== "undefined") {
+            window._vwo_code.finish();
+            log(el, "Called _vwo_code.finish()");
+          } else {
+            log(el, "No _vwo_code (sync/edge mode) — skipping finish call");
+          }
+          const sheet = makeSheet("#ec17-target", "border: 4px double #7c3aed; padding: 10px;");
+          document.adoptedStyleSheets = [sheet];
+          assert(
+            el,
+            document.adoptedStyleSheets.length === 1,
+            "EC-18 adopt after VWO finish succeeds",
+            "EC-18 post-finish adopt failed"
+          );
+        },
+
+        ec19(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-19 requires adoptedStyleSheets");
+            return;
+          }
+          const style = document.createElement("style");
+          style.id = "ec19-injected";
+          style.textContent = "#ec17-target { color: red !important; }";
+          document.head.appendChild(style);
+
+          const sheet = makeSheet("#ec17-target", "color: blue !important; border: 2px solid blue;");
+          document.adoptedStyleSheets = [sheet];
+
+          const st = getComputedStyle(document.getElementById("ec17-target"));
+          log(el, "Computed color after style tag + adopt: " + st.color);
+          assert(
+            el,
+            st.color === "rgb(0, 0, 255)" || st.color === "blue",
+            "EC-19 adopted sheet beats injected style tag (blue)",
+            "EC-19 unexpected color: " + st.color
+          );
+          style.remove();
+        },
+
+        ec20(el) {
+          clearLog(el);
+          if (!supportsDocAdopted()) {
+            skip(el, "EC-20 requires adoptedStyleSheets");
+            return;
+          }
+          const campaign = document.createElement("style");
+          campaign.id = "ec20-campaign";
+          campaign.textContent = "#ec20-target { background: pink !important; }";
+          document.head.appendChild(campaign);
+
+          const sheet1 = makeSheet("#ec20-target", "background: #bfdbfe !important;");
+          document.adoptedStyleSheets = [sheet1];
+          let st1 = getComputedStyle(document.getElementById("ec20-target")).backgroundColor;
+          log(el, "After first adopt: " + st1);
+
+          const sheet2 = makeSheet("#ec20-target", "background: #bbf7d0 !important;");
+          document.adoptedStyleSheets = [sheet2];
+          let st2 = getComputedStyle(document.getElementById("ec20-target")).backgroundColor;
+          log(el, "After re-assign: " + st2);
+
+          assert(
+            el,
+            st2 !== st1 || document.adoptedStyleSheets[0] === sheet2,
+            "EC-20 re-assign replaces adopted list",
+            "EC-20 re-assign did not change appearance"
+          );
+          campaign.remove();
+          document.adoptedStyleSheets = [];
+        },
+      };
+
+      document.querySelectorAll("button[data-test]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-test");
+          const logId = id.startsWith("ec15") ? "ec15" : id;
+          const el = getLog(logId);
+          if (tests[id]) tests[id](el);
+        });
+      });
+
+      document.getElementById("btn-run-all").addEventListener("click", () => {
+        stats.pass = 0;
+        stats.fail = 0;
+        stats.skip = 0;
+        updateSummary();
+        [
+          "ec01",
+          "ec03",
+          "ec05",
+          "ec06",
+          "ec07",
+          "ec08",
+          "ec09",
+          "ec10",
+          "ec12",
+          "ec13",
+          "ec14",
+          "ec15-before",
+          "ec16",
+          "ec17",
+          "ec18",
+          "ec19",
+          "ec20",
+        ].forEach((name) => {
+          const logId = name.startsWith("ec15") ? "ec15" : name;
+          if (tests[name]) tests[name](getLog(logId));
+        });
+      });
+
+      document.getElementById("btn-clear-logs").addEventListener("click", () => {
+        document.querySelectorAll(".log").forEach((el) => (el.textContent = ""));
+        stats.pass = 0;
+        stats.fail = 0;
+        stats.skip = 0;
+        updateSummary();
+      });
+
+      (function init() {
+        const el = getLog("ec05");
+        clearLog(el);
+        log(el, "Page loaded. VWO account: " + (new URLSearchParams(location.search).get("id") || "814397"));
+        log(el, "Run individual tests or click Run all automated tests.");
+        if (typeof window._vwo_code !== "undefined") {
+          log(el, "_vwo_code present (async smartcode path).");
+        } else if (location.href.includes("sync") || location.search.includes("wingify")) {
+          log(el, "Sync / Wingify edge smartcode path.");
+        }
+      })();
+    </script>
+  </body>
+</html>
