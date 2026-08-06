@@ -1,0 +1,23 @@
+{
+  "name": "csp-test",
+  "version": "1.0.0",
+  "description": "Realistic test website with configurable CSP headers for Web Worker QA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "csp",
+    "content-security-policy",
+    "web-worker",
+    "qa"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

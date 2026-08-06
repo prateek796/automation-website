@@ -35,7 +35,37 @@
             return '814397';
         }
 
-        if (window.location.href.includes('sync')) {
+        
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('wingify')) return true;
+        for (const value of params.values()) {
+          if (value && value.indexOf('wingify.net') !== -1) return true;
+        }
+        return false;
+      }
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        }
+        return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+      }
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes('sync')) {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';

@@ -52,7 +52,37 @@
             return '814397';
         }
 
-        if (window.location.href.includes('sync')) {
+        
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('wingify')) return true;
+        for (const value of params.values()) {
+          if (value && value.indexOf('wingify.net') !== -1) return true;
+        }
+        return false;
+      }
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        }
+        return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+      }
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes('sync')) {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
@@ -154,10 +184,10 @@
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
             <div style="display: flex; gap: 15px; margin-left: auto;">
-                <a href="automation-website/index.html" class="btn btn-outline-light">Home</a>
-                <a href="automation-website/cars_page.html" class="btn btn-outline-light">Cars</a>
-                <a href="automation-website/products.html" class="btn btn-outline-light">Products</a>
-                <a href="automation-website/services.html" class="btn btn-outline-light">Services</a>
+                <a href="index.html" class="btn btn-outline-light">Home</a>
+                <a href="cars_page.html" class="btn btn-outline-light">Cars</a>
+                <a href="products.html" class="btn btn-outline-light">Products</a>
+                <a href="services.html" class="btn btn-outline-light">Services</a>
             </div>
         </div>
     </nav>
@@ -296,32 +326,32 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         function preserveQueryParams(link) {
-            // Get all current URL parameters
-            const currentParams = new URLSearchParams(window.location.search);
-            const id = currentParams.get('id');
-            const isSync = window.location.href.includes('sync');
-            
-            if (id || isSync) {
-                // Get the href from the link
-                let href = link.getAttribute('href');
-                let newUrl = new URL(href, window.location.origin);
-                
-                // Preserve the ID if it exists
-                if (id) {
-                    newUrl.searchParams.set('id', id);
-                }
-                
-                // Preserve sync parameter if it exists
-                if (isSync) {
-                    newUrl.searchParams.set('sync', '');
-                }
-                
-                // Update the link's href and navigate
-                window.location.href = newUrl.toString();
-                return false;
-            }
-            return true;
-        }
+    const currentParams = new URLSearchParams(window.location.search);
+    const id = currentParams.get('id');
+    const isSync = window.location.href.includes('sync');
+    const hasWingify = currentParams.has('wingify');
+    const hasProd = currentParams.has('prod');
+
+    if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
+        let href = link.getAttribute('href');
+        // Resolve relative to current page directory (not origin) so paths stay correct
+        let newUrl = new URL(href, window.location.href);
+
+        if (id) newUrl.searchParams.set('id', id);
+        if (isSync) newUrl.searchParams.set('sync', '');
+        if (hasWingify) newUrl.searchParams.set('wingify', currentParams.get('wingify') || '');
+        if (hasProd) newUrl.searchParams.set('prod', currentParams.get('prod') || '');
+
+        // Carry any other current params too
+        currentParams.forEach((value, key) => {
+          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+        });
+
+        window.location.href = newUrl.toString();
+        return false;
+    }
+    return true;
+}
         
         // Add event listeners to all navigation links when the page loads
         document.addEventListener('DOMContentLoaded', function() {

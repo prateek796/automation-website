@@ -64,7 +64,37 @@
             return '814397';
         }
 
-        if (window.location.href.includes('sync')) {
+        
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('wingify')) return true;
+        for (const value of params.values()) {
+          if (value && value.indexOf('wingify.net') !== -1) return true;
+        }
+        return false;
+      }
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        }
+        return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+      }
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes('sync')) {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
@@ -405,27 +435,32 @@
 
         // Preserve query parameters for navigation
         function preserveQueryParams(link) {
-            const currentParams = new URLSearchParams(window.location.search);
-            const id = currentParams.get('id');
-            const isSync = window.location.href.includes('sync');
-            
-            if (id || isSync) {
-                let href = link.getAttribute('href');
-                let newUrl = new URL(href, window.location.origin);
-                
-                if (id) {
-                    newUrl.searchParams.set('id', id);
-                }
-                
-                if (isSync) {
-                    newUrl.searchParams.set('sync', '');
-                }
-                
-                window.location.href = newUrl.toString();
-                return false;
-            }
-            return true;
-        }
+    const currentParams = new URLSearchParams(window.location.search);
+    const id = currentParams.get('id');
+    const isSync = window.location.href.includes('sync');
+    const hasWingify = currentParams.has('wingify');
+    const hasProd = currentParams.has('prod');
+
+    if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
+        let href = link.getAttribute('href');
+        // Resolve relative to current page directory (not origin) so paths stay correct
+        let newUrl = new URL(href, window.location.href);
+
+        if (id) newUrl.searchParams.set('id', id);
+        if (isSync) newUrl.searchParams.set('sync', '');
+        if (hasWingify) newUrl.searchParams.set('wingify', currentParams.get('wingify') || '');
+        if (hasProd) newUrl.searchParams.set('prod', currentParams.get('prod') || '');
+
+        // Carry any other current params too
+        currentParams.forEach((value, key) => {
+          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+        });
+
+        window.location.href = newUrl.toString();
+        return false;
+    }
+    return true;
+}
 
         // Add event listeners to navigation links
         document.addEventListener('DOMContentLoaded', function() {

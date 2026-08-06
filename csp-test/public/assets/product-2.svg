@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#0b2422"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g2)"/>
+  <circle cx="480" cy="90" r="70" fill="#ecfdf5" opacity="0.12"/>
+  <path d="M40 280 Q180 200 320 260 T600 240" fill="none" stroke="#ecfdf5" stroke-width="3" opacity="0.45"/>
+  <text x="48" y="72" font-family="Georgia, serif" font-size="28" fill="#ecfdf5">Product 2</text>
+</svg>

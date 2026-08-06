@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nimbus Labs — analytics and automation for modern product teams. CSP / Web Worker QA test surface.">
+  <title>Nimbus Labs — Product Analytics &amp; Automation</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Start VWO Async SmartCode -->
+  <script type="text/javascript" id="vwoCode">
+    function getVWOAccountId() {
+      const params = new URLSearchParams(window.location.search);
+      const urlId = params.get('id');
+      if (urlId) return urlId;
+      return '814397';
+    }
+
+    function shouldUseWingifyEdgeSmartCode() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('wingify')) return true;
+      for (const value of params.values()) {
+        if (value && value.indexOf('wingify.net') !== -1) return true;
+      }
+      return false;
+    }
+
+    function hasQueryFlag(name) {
+      return new URLSearchParams(window.location.search).has(name);
+    }
+
+    function getWingifyEdgeScriptUrl() {
+      var accountId = getVWOAccountId();
+      if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+        return 'https://edge.wingify.net/tags/' + accountId + '.js';
+      }
+      return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+    }
+
+    function loadWingifyEdgeSmartCode() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = getWingifyEdgeScriptUrl();
+      script.id = 'vwoCode';
+      script.referrerPolicy = 'no-referrer-when-downgrade';
+      document.head.appendChild(script);
+    }
+
+    if (shouldUseWingifyEdgeSmartCode()) {
+      loadWingifyEdgeSmartCode();
+    } else if (window.location.href.includes('sync')) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
+      script.id = 'vwoCode';
+      script.referrerPolicy = 'no-referrer-when-downgrade';
+      document.head.appendChild(script);
+    } else {
+      window._vwo_code = window._vwo_code || (function() {
+        var account_id = getVWOAccountId(),
+            version = 1.5,
+            settings_tolerance = 2000,
+            library_tolerance = 2500,
+            use_existing_jquery = false,
+            is_spa = 1,
+            hide_element = 'body',
+            hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important';
+
+        var f = false,
+            d = document,
+            vwoCodeEl = d.querySelector('#vwoCode'),
+            code = {
+              use_existing_jquery: function() { return use_existing_jquery; },
+              library_tolerance: function() { return library_tolerance; },
+              hide_element_style: function() { return '{' + hide_element_style + '}'; },
+              finish: function() {
+                if (!f) {
+                  f = true;
+                  var e = d.getElementById('_vis_opt_path_hides');
+                  if (e) e.parentNode.removeChild(e);
+                }
+              },
+              finished: function() { return f; },
+              load: function(e) {
+                var t = d.createElement('script');
+                t.fetchPriority = 'high';
+                t.src = e;
+                t.type = 'text/javascript';
+                t.onerror = function() { _vwo_code.finish(); };
+                d.getElementsByTagName('head')[0].appendChild(t);
+              },
+              getVersion: function() { return version; },
+              getMatchedCookies: function(e) {
+                var t = [];
+                if (document.cookie) { t = document.cookie.match(e) || []; }
+                return t;
+              },
+              getCombinationCookie: function() {
+                var e = code.getMatchedCookies(/(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi);
+                e = e.map(function(e) {
+                  try {
+                    var t = decodeURIComponent(e);
+                    if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) { return ''; }
+                    return t;
+                  } catch (err) { return ''; }
+                });
+                var i = [];
+                e.forEach(function(e) {
+                  var t = e.match(/([\d,]+)/g);
+                  t && i.push(t.join('-'));
+                });
+                return i.join('|');
+              },
+              init: function() {
+                if (d.URL.indexOf('__vwo_disable__') > -1) return;
+                window.settings_timer = setTimeout(function() { _vwo_code.finish(); }, settings_tolerance);
+                var e = d.createElement('style'),
+                    t = hide_element ? hide_element + '{' + hide_element_style + '}' : '',
+                    i = d.getElementsByTagName('head')[0];
+                e.setAttribute('id', '_vis_opt_path_hides');
+                vwoCodeEl && e.setAttribute('nonce', vwoCodeEl.nonce);
+                e.setAttribute('type', 'text/css');
+                if (e.styleSheet) e.styleSheet.cssText = t;
+                else e.appendChild(d.createTextNode(t));
+                i.appendChild(e);
+                var n = this.getCombinationCookie();
+                this.load('https://dev.visualwebsiteoptimizer.com/j.php?a=' + account_id + '&u=' + encodeURIComponent(d.URL) + '&f=' + +is_spa + '&vn=' + version + (n ? '&c=' + n : ''));
+                return settings_timer;
+              }
+            };
+        window._vwo_settings_timer = code.init();
+        return code;
+      })();
+      _vwo_pc_custom = { a: 100, t: 100 };
+    }
+  </script>
+  <!-- End VWO Async SmartCode -->
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div id="top-banner" class="top-banner" role="status">
+    <p>CSP Worker QA environment — route: <span id="current-route">loading…</span></p>
+    <button type="button" id="dismiss-banner" class="btn-text" aria-label="Dismiss banner">Dismiss</button>
+  </div>
+
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Nimbus Labs home">
+        <img src="/logo.svg" alt="Nimbus Labs" width="120" height="32" class="brand-logo">
+      </a>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+        <ul class="nav-list">
+          <li><a href="#products" class="nav-link">Products</a></li>
+          <li><a href="#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+          <li><a href="/docs" class="nav-link" data-external="docs">Docs</a></li>
+        </ul>
+      </nav>
+
+      <form class="search-form" id="search-form" role="search" action="#" method="get">
+        <label class="visually-hidden" for="search-input">Search</label>
+        <input type="search" id="search-input" name="q" placeholder="Search docs…" autocomplete="off">
+        <button type="submit" class="btn btn-ghost" id="search-btn">Search</button>
+      </form>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-ghost" id="login-btn">Log in</button>
+        <a class="btn btn-primary" href="#pricing" id="cta-header">Start free</a>
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+          <span class="visually-hidden">Menu</span>
+          <span class="burger" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="hero-backdrop" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="brand-mark">Nimbus Labs</p>
+      <h1 id="hero-title">Ship experiments with confidence</h1>
+      <p class="hero-lead">Measure, automate, and optimize every funnel — including CSP and Web Worker edge cases your analyzer cares about.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="#pricing" id="cta-hero">View pricing</a>
+        <button type="button" class="btn btn-secondary btn-lg" id="cta-demo">Book a demo</button>
+      </div>
+    </div>
+  </section>
+
+  <main id="main-content">
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 id="about-title">Built for product &amp; growth teams</h2>
+        <p class="section-lead">Nimbus connects analytics, feature flags, and experiment delivery in one surface — so QA can validate page analyzers against a dense, realistic DOM.</p>
+        <div class="feature-grid" id="feature-grid">
+          <article class="feature">
+            <h3>Realtime insights</h3>
+            <p>Stream session metrics without blocking the main thread.</p>
+          </article>
+          <article class="feature">
+            <h3>Worker pipelines</h3>
+            <p>Offload parsing and hash work to dedicated workers when CSP allows.</p>
+          </article>
+          <article class="feature">
+            <h3>Policy-aware</h3>
+            <p>Test allow, block, and report-only CSP modes from one codebase.</p>
+          </article>
+          <article class="feature">
+            <h3>VWO ready</h3>
+            <p>SmartCode installed for account switching via <code>?id=</code>.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section products" id="products" aria-labelledby="products-title">
+      <div class="container">
+        <h2 id="products-title">Products</h2>
+        <p class="section-lead">Six modules that plug into your existing stack.</p>
+        <div class="product-grid" id="product-grid">
+          <article class="product-card" data-product="orbit">
+            <img class="lazy" data-src="/assets/product-1.svg" alt="" width="320" height="180" loading="lazy">
+            <h3>Orbit Analytics</h3>
+            <p>Funnel and retention charts with cohort slicing.</p>
+            <span class="price">$49/mo</span>
+            <button type="button" class="btn btn-secondary product-cta" data-sku="orbit">Add to cart</button>
+          </article>
+          <article class="product-card" data-product="nova">
+            <img class="lazy" data-src="/assets/product-2.svg" alt="" width="320" height="180" loading="lazy">
+            <h3>Nova Automate</h3>
+            <p>Trigger workflows from experiment outcomes.</p>
+            <span class="price">$99/mo</span>
+            <button type="button" class="btn btn-secondary product-cta" data-sku="nova">Add to cart</button>
+          </article>
+          <article class="product-card" data-product="pulse">
+            <img class="lazy" data-src="/assets/product-3.svg" alt="" width="320" height="180" loading="lazy">
+            <h3>Pulse Insights</h3>
+            <p>Heatmaps and rage-click detection.</p>
+            <span class="price">$79/mo</span>
+            <button type="button" class="btn btn-secondary product-cta" data-sku="pulse">Add to cart</button>
+          </article>
+          <article class="product-card" data-product="aether">
+            <img class="lazy" data-src="/assets/product-4.svg" alt="" width="320" height="180" loading="lazy">
+            <h3>Aether CDN</h3>
+            <p>Edge delivery for experiment assets.</p>
+            <span class="price">$129/mo</span>
+            <button type="button" class="btn btn-secondary product-cta" data-sku="aether">Add to cart</button>
+          </article>
+          <article class="product-card" data-product="forge">
+            <img class="lazy" data-src="/assets/product-5.svg" alt="" width="320" height="180" loading="lazy">
+            <h3>Forge Pipeline</h3>
+            <p>CI hooks for flag rollouts and rollbacks.</p>
+            <span class="price">$149/mo</span>
+            <button type="button" class="btn btn-secondary product-cta" data-sku="forge">Add to cart</button>
+          </article>
+          <article class="product-card" data-product="lumen">
+            <img class="lazy" data-src="/assets/product-6.svg" alt="" width="320" height="180" loading="lazy">
+            <h3>Lumen Monitor</h3>
+            <p>Uptime and CSP violation dashboards.</p>
+            <span class="price">$59/mo</span>
+            <button type="button" class="btn btn-secondary product-cta" data-sku="lumen">Add to cart</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <h2 id="pricing-title">Pricing</h2>
+        <p class="section-lead">Simple plans. No seat surprises.</p>
+        <div class="pricing-grid">
+          <article class="plan" id="plan-starter">
+            <h3>Starter</h3>
+            <p class="plan-price"><span class="amount">$29</span><span class="period">/mo</span></p>
+            <ul class="plan-features">
+              <li>Up to 10k sessions</li>
+              <li>3 active experiments</li>
+              <li>Email support</li>
+            </ul>
+            <button type="button" class="btn btn-ghost plan-cta" data-plan="starter">Choose Starter</button>
+          </article>
+          <article class="plan plan-featured" id="plan-growth">
+            <h3>Growth</h3>
+            <p class="plan-price"><span class="amount">$99</span><span class="period">/mo</span></p>
+            <ul class="plan-features">
+              <li>Up to 250k sessions</li>
+              <li>Unlimited experiments</li>
+              <li>Worker diagnostics</li>
+              <li>Priority support</li>
+            </ul>
+            <button type="button" class="btn btn-primary plan-cta" data-plan="growth">Choose Growth</button>
+          </article>
+          <article class="plan" id="plan-enterprise">
+            <h3>Enterprise</h3>
+            <p class="plan-price"><span class="amount">Custom</span></p>
+            <ul class="plan-features">
+              <li>SSO &amp; audit logs</li>
+              <li>Dedicated CSP sandbox</li>
+              <li>SLA &amp; CSM</li>
+            </ul>
+            <a class="btn btn-ghost plan-cta" href="#contact" data-plan="enterprise">Talk to sales</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 id="faq-title">FAQ</h2>
+        <div class="faq-list" id="faq-list">
+          <details class="faq-item" open>
+            <summary>How do I switch CSP modes?</summary>
+            <p>Visit <code>/block-worker</code>, <code>/allow-worker</code>, <code>/report-only</code>, <code>/no-csp</code>, or <code>/strict/*</code>. CSP shapes differ per route, but <code>worker-src 'none'</code> is applied on <strong>every</strong> page.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does this page include VWO?</summary>
+            <p>Yes. Async SmartCode is in <code>&lt;head&gt;</code>. VWO can load on VWO-allowing routes; Workers are always blocked. Pass <code>?id=ACCOUNT</code> to override the account, or <code>?wingify</code> for the edge CDN path.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Will workers run on every route?</summary>
+            <p>No. Workers are blocked site-wide via <code>worker-src 'none'</code> on all HTML routes. Check the console and QA panel for the CSP error.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Are assets local-only?</summary>
+            <p>Yes — CSS, JS, worker, logo, favicon, and product SVGs are served from this origin. VWO loads from its CDN when CSP permits.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I expose this publicly?</summary>
+            <p>Run <code>ngrok http 3000</code> and point VWO / your analyzer at the HTTPS tunnel URL.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-layout">
+        <div class="contact-copy">
+          <h2 id="contact-title">Contact</h2>
+          <p class="section-lead">Questions about CSP testing or Nimbus? Send a note — submissions hit <code>POST /api/contact</code>.</p>
+          <ul class="contact-meta">
+            <li><a href="mailto:hello@nimbus.example">hello@nimbus.example</a></li>
+            <li><a href="tel:+15550100">+1 (555) 0100</a></li>
+            <li><span>120 Market Street, Suite 400</span></li>
+          </ul>
+        </div>
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="field">
+            <label for="contact-name">Name</label>
+            <input type="text" id="contact-name" name="name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="contact-email">Email</label>
+            <input type="email" id="contact-email" name="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="contact-company">Company</label>
+            <input type="text" id="contact-company" name="company" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="4" required></textarea>
+          </div>
+          <div class="field field-inline">
+            <input type="checkbox" id="contact-consent" name="consent" required>
+            <label for="contact-consent">I agree to be contacted about this request.</label>
+          </div>
+          <button type="submit" class="btn btn-primary" id="contact-submit">Send message</button>
+          <p class="form-status" id="contact-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section newsletter" id="newsletter" aria-labelledby="newsletter-title">
+      <div class="container newsletter-inner">
+        <h2 id="newsletter-title">Stay in the loop</h2>
+        <p>Product updates, CSP tips, and release notes — monthly.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <label class="visually-hidden" for="newsletter-email">Email</label>
+          <input type="email" id="newsletter-email" name="email" placeholder="you@company.com" required>
+          <button type="submit" class="btn btn-primary" id="newsletter-submit">Subscribe</button>
+        </form>
+        <p class="form-status" id="newsletter-status" role="status"></p>
+      </div>
+    </section>
+
+    <aside class="qa-panel" id="qa-panel" aria-labelledby="qa-panel-title">
+      <h2 id="qa-panel-title">QA status</h2>
+      <ul class="qa-list">
+        <li>Worker: <span id="worker-status">pending</span></li>
+        <li>API: <span id="api-status">pending</span></li>
+        <li>Mutations: <span id="mutation-count">0</span></li>
+        <li>Idle ticks: <span id="idle-count">0</span></li>
+        <li>Scroll Y: <span id="scroll-y">0</span></li>
+        <li>Viewport: <span id="viewport-size">—</span></li>
+      </ul>
+      <div id="dynamic-slot" class="dynamic-slot" aria-live="polite"></div>
+    </aside>
+  </main>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="/logo.svg" alt="" width="100" height="28" class="footer-logo">
+        <p>Nimbus Labs builds instrumentation for teams that need trustworthy experiment delivery.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Product</h3>
+        <ul>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="/api/products">API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>CSP routes</h3>
+        <ul>
+          <li><a href="/block-worker">/block-worker</a></li>
+          <li><a href="/allow-worker">/allow-worker</a></li>
+          <li><a href="/report-only">/report-only</a></li>
+          <li><a href="/no-csp">/no-csp</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#newsletter">Newsletter</a></li>
+          <li><button type="button" class="linkish" id="privacy-btn">Privacy</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2026</span> Nimbus Labs. All rights reserved.</p>
+      <div class="social">
+        <a href="#twitter" class="social-link" data-network="twitter">Twitter</a>
+        <a href="#github" class="social-link" data-network="github">GitHub</a>
+        <a href="#linkedin" class="social-link" data-network="linkedin">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookie-banner" role="dialog" aria-labelledby="cookie-title" hidden>
+    <div class="cookie-inner">
+      <h2 id="cookie-title">Cookies</h2>
+      <p>We use cookies for analytics, VWO experiments, and remembering your consent preference.</p>
+      <div class="cookie-actions">
+        <button type="button" class="btn btn-primary" id="cookie-accept">Accept</button>
+        <button type="button" class="btn btn-ghost" id="cookie-reject">Reject non-essential</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="login-modal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel" role="dialog" aria-labelledby="login-title">
+      <h2 id="login-title">Log in</h2>
+      <form id="login-form">
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Continue</button>
+        <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/main.js" defer></script>
+</body>
+</html>

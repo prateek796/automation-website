@@ -245,14 +245,14 @@
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
             <div style="display: flex; gap: 15px; margin-left: auto;">
-                <a href="automation-website/index.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Home</a>
-                <a href="automation-website/cars_page.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Cars</a>
-                <a href="automation-website/products.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Products</a>
-                <a href="automation-website/services.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Services</a>
-                <a href="automation-website/adopted-style-sheets-static.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Adopted StyleSheets</a>
-                <a href="automation-website/adopted-style-sheets-document-shadow.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Doc &amp; Shadow</a>
-                <a href="automation-website/adopted-style-sheets-edge-cases.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Edge Cases</a>
-                <a href="automation-website/mutation-observer-attributes.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Mutation Observer</a>
+                <a href="index.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Home</a>
+                <a href="cars_page.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Cars</a>
+                <a href="products.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Products</a>
+                <a href="services.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Services</a>
+                <a href="adopted-style-sheets-static.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Adopted StyleSheets</a>
+                <a href="adopted-style-sheets-document-shadow.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Doc &amp; Shadow</a>
+                <a href="adopted-style-sheets-edge-cases.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Edge Cases</a>
+                <a href="mutation-observer-attributes.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Mutation Observer</a>
             </div>
         </div>
     </nav>
@@ -1209,27 +1209,27 @@ button1.addEventListener('click', () => {
   </script>
   <script>
 function preserveQueryParams(link) {
-    // Get all current URL parameters
     const currentParams = new URLSearchParams(window.location.search);
     const id = currentParams.get('id');
     const isSync = window.location.href.includes('sync');
-    
-    if (id || isSync) {
-        // Get the href from the link
+    const hasWingify = currentParams.has('wingify');
+    const hasProd = currentParams.has('prod');
+
+    if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
         let href = link.getAttribute('href');
-        let newUrl = new URL(href, window.location.origin);
-        
-        // Preserve the ID if it exists
-        if (id) {
-            newUrl.searchParams.set('id', id);
-        }
-        
-        // Preserve sync parameter if it exists
-        if (isSync) {
-            newUrl.searchParams.set('sync', '');
-        }
-        
-        // Update the link's href and navigate
+        // Resolve relative to current page directory (not origin) so paths stay correct
+        let newUrl = new URL(href, window.location.href);
+
+        if (id) newUrl.searchParams.set('id', id);
+        if (isSync) newUrl.searchParams.set('sync', '');
+        if (hasWingify) newUrl.searchParams.set('wingify', currentParams.get('wingify') || '');
+        if (hasProd) newUrl.searchParams.set('prod', currentParams.get('prod') || '');
+
+        // Carry any other current params too
+        currentParams.forEach((value, key) => {
+          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+        });
+
         window.location.href = newUrl.toString();
         return false;
     }
