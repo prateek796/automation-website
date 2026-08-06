@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPA - Atlas</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <!-- Start VWO Async SmartCode -->
+  <script type="text/javascript" id="vwoCode">
+    function getVWOAccountId() {
+      const params = new URLSearchParams(window.location.search);
+      const urlId = params.get("id");
+      if (urlId) return urlId;
+      return "814397";
+    }
+
+    function shouldUseWingifyEdgeSmartCode() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("wingify")) return true;
+      for (const value of params.values()) {
+        if (value && value.indexOf("wingify.net") !== -1) return true;
+      }
+      return false;
+    }
+
+    function hasQueryFlag(name) {
+      return new URLSearchParams(window.location.search).has(name);
+    }
+
+    function getWingifyEdgeScriptUrl() {
+      var accountId = getVWOAccountId();
+      if (hasQueryFlag("wingify") && hasQueryFlag("prod")) {
+        return "https://edge.wingify.net/tags/" + accountId + ".js";
+      }
+      return "https://edge.wingify.net/cloud-run-test/final/" + accountId + ".js";
+    }
+
+    function loadWingifyEdgeSmartCode() {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = getWingifyEdgeScriptUrl();
+      script.id = "vwoCode";
+      script.referrerPolicy = "no-referrer-when-downgrade";
+      document.head.appendChild(script);
+    }
+
+    if (shouldUseWingifyEdgeSmartCode()) {
+      loadWingifyEdgeSmartCode();
+    } else if (window.location.href.includes("sync")) {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src =
+        "https://dev.visualwebsiteoptimizer.com/lib/" + getVWOAccountId() + ".js";
+      script.id = "vwoCode";
+      script.referrerPolicy = "no-referrer-when-downgrade";
+      document.head.appendChild(script);
+    } else {
+      window._vwo_code =
+        window._vwo_code ||
+        (function () {
+          var account_id = getVWOAccountId(),
+            version = 1.5,
+            settings_tolerance = 2000,
+            library_tolerance = 2500,
+            use_existing_jquery = false,
+            is_spa = 1,
+            hide_element = "body",
+            hide_element_style =
+              "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+          var f = false,
+            d = document,
+            vwoCodeEl = d.querySelector("#vwoCode"),
+            code = {
+              use_existing_jquery: function () {
+                return use_existing_jquery;
+              },
+              library_tolerance: function () {
+                return library_tolerance;
+              },
+              hide_element_style: function () {
+                return "{" + hide_element_style + "}";
+              },
+              finish: function () {
+                if (!f) {
+                  f = true;
+                  var e = d.getElementById("_vis_opt_path_hides");
+                  if (e) e.parentNode.removeChild(e);
+                }
+              },
+              finished: function () {
+                return f;
+              },
+              load: function (e) {
+                var t = d.createElement("script");
+                t.fetchPriority = "high";
+                t.src = e;
+                t.type = "text/javascript";
+                t.onerror = function () {
+                  _vwo_code.finish();
+                };
+                d.getElementsByTagName("head")[0].appendChild(t);
+              },
+              getVersion: function () {
+                return version;
+              },
+              getMatchedCookies: function (e) {
+                var t = [];
+                if (document.cookie) {
+                  t = document.cookie.match(e) || [];
+                }
+                return t;
+              },
+              getCombinationCookie: function () {
+                var e = code.getMatchedCookies(
+                  /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
+                );
+                e = e.map(function (e) {
+                  try {
+                    var t = decodeURIComponent(e);
+                    if (!/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)) {
+                      return "";
+                    }
+                    return t;
+                  } catch (err) {
+                    return "";
+                  }
+                });
+                var i = [];
+                e.forEach(function (e) {
+                  var t = e.match(/([\d,]+)/g);
+                  t && i.push(t.join("-"));
+                });
+                return i.join("|");
+              },
+              init: function () {
+                if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                window.settings_timer = setTimeout(function () {
+                  _vwo_code.finish();
+                }, settings_tolerance);
+                var e = d.createElement("style"),
+                  t = hide_element
+                    ? hide_element + "{" + hide_element_style + "}"
+                    : "",
+                  i = d.getElementsByTagName("head")[0];
+                e.setAttribute("id", "_vis_opt_path_hides");
+                vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                e.setAttribute("type", "text/css");
+                if (e.styleSheet) e.styleSheet.cssText = t;
+                else e.appendChild(d.createTextNode(t));
+                i.appendChild(e);
+                var n = this.getCombinationCookie();
+                this.load(
+                  "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                    account_id +
+                    "&u=" +
+                    encodeURIComponent(d.URL) +
+                    "&f=" +
+                    +is_spa +
+                    "&vn=" +
+                    version +
+                    (n ? "&c=" + n : "")
+                );
+                return settings_timer;
+              },
+            };
+          window._vwo_settings_timer = code.init();
+          return code;
+        })();
+      _vwo_pc_custom = { a: 100, t: 100 };
+    }
+  </script>
+  <!-- End VWO Async SmartCode -->
+  <style>
+    .spa-nav-dropdown { position: relative; display: inline-block; }
+    .spa-nav-dropdown .spa-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 140px;
+      background: #111;
+      border: 1px solid #444;
+      z-index: 1000;
+      padding: 6px 0;
+    }
+    .spa-nav-dropdown.open .spa-menu { display: block; }
+    .spa-nav-dropdown .spa-menu a {
+      display: block;
+      color: #fff;
+      padding: 8px 14px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .spa-nav-dropdown .spa-menu a:hover,
+    .spa-nav-dropdown .spa-menu a.active { background: #333; }
+    .spa-view { display: none; padding: 40px 0; min-height: 60vh; }
+    .spa-view.active { display: block; }
+    .spa-meta {
+      font-size: 14px;
+      color: #666;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;" onclick="return preserveQueryParams(this)">Atlas</a>
+      <div style="display: flex; gap: 15px; margin-left: auto; align-items: center;">
+        <a href="index.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Home</a>
+        <a href="cars_page.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Cars</a>
+        <a href="products.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Products</a>
+        <a href="services.html" class="btn btn-outline-light" onclick="return preserveQueryParams(this)">Services</a>
+        <div class="spa-nav-dropdown" id="spaNavDropdown">
+          <button type="button" class="btn btn-outline-light" id="spaNavToggle">SPA ▾</button>
+          <div class="spa-menu">
+            <a href="#/spa-1" data-spa-route="spa-1">SPA 1</a>
+            <a href="#/spa-2" data-spa-route="spa-2">SPA 2</a>
+            <a href="#/spa-3" data-spa-route="spa-3">SPA 3</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div style="margin-top: 72px;" class="container">
+    <div id="view-spa-1" class="spa-view" data-route="spa-1">
+      <h1>SPA 1</h1>
+      <p>First SPA route. Content swaps without a full page reload.</p>
+      <button class="btn btn-primary" type="button" onclick="navigateSpa('spa-2')">Go to SPA 2</button>
+      <p class="spa-meta">Route: <code>#/spa-1</code></p>
+    </div>
+
+    <div id="view-spa-2" class="spa-view" data-route="spa-2">
+      <h1>SPA 2</h1>
+      <p>Second SPA route. Same document, different view.</p>
+      <button class="btn btn-primary" type="button" onclick="navigateSpa('spa-3')">Go to SPA 3</button>
+      <p class="spa-meta">Route: <code>#/spa-2</code></p>
+    </div>
+
+    <div id="view-spa-3" class="spa-view" data-route="spa-3">
+      <h1>SPA 3</h1>
+      <p>Third SPA route. Use the dropdown or in-page buttons to navigate.</p>
+      <button class="btn btn-primary" type="button" onclick="navigateSpa('spa-1')">Go to SPA 1</button>
+      <p class="spa-meta">Route: <code>#/spa-3</code></p>
+    </div>
+  </div>
+
+  <script>
+    function preserveQueryParams(link) {
+      const currentParams = new URLSearchParams(window.location.search);
+      const id = currentParams.get("id");
+      const isSync = window.location.href.includes("sync");
+      const hasWingify = currentParams.has("wingify");
+      const hasProd = currentParams.has("prod");
+
+      if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
+        let href = link.getAttribute("href");
+        let newUrl = new URL(href, window.location.href);
+        if (id) newUrl.searchParams.set("id", id);
+        if (isSync) newUrl.searchParams.set("sync", "");
+        if (hasWingify) newUrl.searchParams.set("wingify", currentParams.get("wingify") || "");
+        if (hasProd) newUrl.searchParams.set("prod", currentParams.get("prod") || "");
+        currentParams.forEach((value, key) => {
+          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+        });
+        window.location.href = newUrl.toString();
+        return false;
+      }
+      return true;
+    }
+
+    function notifyVwoSpaNavigation() {
+      window.VWO = window.VWO || [];
+      try {
+        window.VWO.push(["activate"]);
+      } catch (e) {}
+    }
+
+    function getSpaRouteFromHash() {
+      var hash = (window.location.hash || "").replace(/^#\/?/, "");
+      if (hash === "spa-1" || hash === "spa-2" || hash === "spa-3") return hash;
+      return "spa-1";
+    }
+
+    function renderSpaRoute(route) {
+      var views = document.querySelectorAll(".spa-view");
+      for (var i = 0; i < views.length; i++) {
+        views[i].classList.toggle("active", views[i].getAttribute("data-route") === route);
+      }
+
+      var links = document.querySelectorAll("[data-spa-route]");
+      for (var j = 0; j < links.length; j++) {
+        links[j].classList.toggle("active", links[j].getAttribute("data-spa-route") === route);
+      }
+
+      document.title = "SPA " + route.replace("spa-", "") + " - Atlas";
+      notifyVwoSpaNavigation();
+    }
+
+    function navigateSpa(route) {
+      var url = new URL(window.location.href);
+      url.hash = "#/" + route;
+      window.history.pushState({ spa: route }, "", url.pathname + url.search + url.hash);
+      renderSpaRoute(route);
+    }
+
+    document.getElementById("spaNavToggle").addEventListener("click", function (e) {
+      e.stopPropagation();
+      document.getElementById("spaNavDropdown").classList.toggle("open");
+    });
+
+    document.addEventListener("click", function () {
+      document.getElementById("spaNavDropdown").classList.remove("open");
+    });
+
+    document.querySelectorAll("[data-spa-route]").forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        navigateSpa(link.getAttribute("data-spa-route"));
+        document.getElementById("spaNavDropdown").classList.remove("open");
+      });
+    });
+
+    window.addEventListener("popstate", function () {
+      renderSpaRoute(getSpaRouteFromHash());
+    });
+
+    window.addEventListener("hashchange", function () {
+      renderSpaRoute(getSpaRouteFromHash());
+    });
+
+    // Initial route
+    if (!window.location.hash || window.location.hash === "#") {
+      navigateSpa("spa-1");
+    } else {
+      renderSpaRoute(getSpaRouteFromHash());
+    }
+  </script>
+</body>
+</html>

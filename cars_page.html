@@ -183,11 +183,19 @@
     <nav class="navbar fixed-top" style="background-color: #000000; padding: 10px 20px;">
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <a class="navbar-brand" href="index.html" style="color: #ffffff; font-size: 24px;">Atlas</a>
-            <div style="display: flex; gap: 15px; margin-left: auto;">
+            <div style="display: flex; gap: 15px; margin-left: auto; align-items: center;">
                 <a href="index.html" class="btn btn-outline-light">Home</a>
                 <a href="cars_page.html" class="btn btn-outline-light">Cars</a>
                 <a href="products.html" class="btn btn-outline-light">Products</a>
                 <a href="services.html" class="btn btn-outline-light">Services</a>
+                <div class="spa-nav-dropdown" id="spaNavDropdown" style="position:relative;display:inline-block;">
+                  <button type="button" class="btn btn-outline-light" id="spaNavToggle">SPA ▾</button>
+                  <div class="spa-menu" style="display:none;position:absolute;top:100%;left:0;min-width:140px;background:#111;border:1px solid #444;z-index:1000;padding:6px 0;">
+                    <a href="spa.html#/spa-1" onclick="return preserveQueryParams(this)" style="display:block;color:#fff;padding:8px 14px;text-decoration:none;">SPA 1</a>
+                    <a href="spa.html#/spa-2" onclick="return preserveQueryParams(this)" style="display:block;color:#fff;padding:8px 14px;text-decoration:none;">SPA 2</a>
+                    <a href="spa.html#/spa-3" onclick="return preserveQueryParams(this)" style="display:block;color:#fff;padding:8px 14px;text-decoration:none;">SPA 3</a>
+                  </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -365,6 +373,18 @@
                     preserveQueryParams(this);
                 });
             });
+
+            var spaToggle = document.getElementById('spaNavToggle');
+            var spaMenu = document.querySelector('#spaNavDropdown .spa-menu');
+            if (spaToggle && spaMenu) {
+                spaToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    spaMenu.style.display = spaMenu.style.display === 'block' ? 'none' : 'block';
+                });
+                document.addEventListener('click', function() {
+                    spaMenu.style.display = 'none';
+                });
+            }
         });
         </script>
 </body>
