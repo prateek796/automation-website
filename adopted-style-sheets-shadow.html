@@ -3,30 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adopted StyleSheets - Shadow DOM</title>
+    <title>Adopted StyleSheets - Shadow DOM (Interactive)</title>
 
     <!-- Start VWO Async SmartCode -->
     <script type="text/javascript" id="vwoCode">
-      // Function to get ID from URL
       function getVWOAccountId() {
         const params = new URLSearchParams(window.location.search);
         const urlId = params.get("id");
-        const isSync = window.location.href.includes("sync");
-
-        // If URL has an ID parameter, use that
-        if (urlId) {
-          return urlId;
-        }
-        // Default ID if none specified
+        if (urlId) return urlId;
         return "814397";
       }
-
-      
       function shouldUseWingifyEdgeSmartCode() {
         const params = new URLSearchParams(window.location.search);
-        if (params.has('wingify')) return true;
+        if (params.has("wingify")) return true;
         for (const value of params.values()) {
-          if (value && value.indexOf('wingify.net') !== -1) return true;
+          if (value && value.indexOf("wingify.net") !== -1) return true;
         }
         return false;
       }
@@ -35,240 +26,129 @@
       }
       function getWingifyEdgeScriptUrl() {
         var accountId = getVWOAccountId();
-        if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
-          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        if (hasQueryFlag("wingify") && hasQueryFlag("prod")) {
+          return "https://edge.wingify.net/tags/" + accountId + ".js";
         }
-        return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+        return "https://edge.wingify.net/cloud-run-test/final/" + accountId + ".js";
       }
       function loadWingifyEdgeSmartCode() {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = getWingifyEdgeScriptUrl();
-        script.id = 'vwoCode';
-        script.referrerPolicy = 'no-referrer-when-downgrade';
-        document.head.appendChild(script);
-      }
-
-      if (shouldUseWingifyEdgeSmartCode()) {
-        loadWingifyEdgeSmartCode();
-      } else if (window.location.href.includes('sync')) {
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src =
-          "https://dev.visualwebsiteoptimizer.com/lib/" +
-          getVWOAccountId() +
-          ".js";
+        script.src = getWingifyEdgeScriptUrl();
         script.id = "vwoCode";
         script.referrerPolicy = "no-referrer-when-downgrade";
         document.head.appendChild(script);
-
-        var anotherScript = document.createElement("script");
-        anotherScript.type = "text/javascript";
-        anotherScript.src = "path/to/your/other/script.js";
-        document.head.appendChild(anotherScript);
+      }
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes("sync")) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://dev.visualwebsiteoptimizer.com/lib/" + getVWOAccountId() + ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
       } else {
-        window._vwo_code =
-          window._vwo_code ||
-          (function () {
-            var account_id = getVWOAccountId(),
-              version = 1.5,
-              settings_tolerance = 2000,
-              library_tolerance = 2500,
-              use_existing_jquery = false,
-              is_spa = 1,
-              hide_element = "body",
-              hide_element_style =
-                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
-
-            var f = false,
-              d = document,
-              vwoCodeEl = d.querySelector("#vwoCode"),
-              code = {
-                use_existing_jquery: function () {
-                  return use_existing_jquery;
-                },
-                library_tolerance: function () {
-                  return library_tolerance;
-                },
-                hide_element_style: function () {
-                  return "{" + hide_element_style + "}";
-                },
-                finish: function () {
-                  if (!f) {
-                    f = true;
-                    var e = d.getElementById("_vis_opt_path_hides");
-                    if (e) e.parentNode.removeChild(e);
-                  }
-                },
-                finished: function () {
-                  return f;
-                },
-                load: function (e) {
-                  var t = d.createElement("script");
-                  t.fetchPriority = "high";
-                  t.src = e;
-                  t.type = "text/javascript";
-                  t.onerror = function () {
-                    _vwo_code.finish();
-                  };
-                  d.getElementsByTagName("head")[0].appendChild(t);
-                },
-                getVersion: function () {
-                  return version;
-                },
-                getMatchedCookies: function (e) {
-                  var t = [];
-                  if (document.cookie) {
-                    t = document.cookie.match(e) || [];
-                  }
-                  return t;
-                },
-                getCombinationCookie: function () {
-                  var e = code.getMatchedCookies(
-                    /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
-                  );
-                  e = e.map(function (e) {
-                    try {
-                      var t = decodeURIComponent(e);
-                      if (
-                        !/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)
-                      ) {
-                        return "";
-                      }
-                      return t;
-                    } catch (e) {
-                      return "";
-                    }
-                  });
-                  var i = [];
-                  e.forEach(function (e) {
-                    var t = e.match(/([\d,]+)/g);
-                    t && i.push(t.join("-"));
-                  });
-                  return i.join("|");
-                },
-                init: function () {
-                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
-                  window.settings_timer = setTimeout(function () {
-                    _vwo_code.finish();
-                  }, settings_tolerance);
-                  var e = d.createElement("style"),
-                    t = hide_element
-                      ? hide_element + "{" + hide_element_style + "}"
-                      : "",
-                    i = d.getElementsByTagName("head")[0];
-                  e.setAttribute("id", "_vis_opt_path_hides");
-                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
-                  e.setAttribute("type", "text/css");
-                  if (e.styleSheet) e.styleSheet.cssText = t;
-                  else e.appendChild(d.createTextNode(t));
-                  i.appendChild(e);
-                  var n = this.getCombinationCookie();
-                  this.load(
-                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
-                      account_id +
-                      "&u=" +
-                      encodeURIComponent(d.URL) +
-                      "&f=" +
-                      +is_spa +
-                      "&vn=" +
-                      version +
-                      (n ? "&c=" + n : "")
-                  );
-                  return settings_timer;
-                },
-              };
-            window._vwo_settings_timer = code.init();
-            return code;
-          })();
-        _vwo_pc_custom = { a: 100, t: 100 };
-        var jsVar = 1;
-        var jaVar = "false";
-        document.cookie = "firstName=abc";
+        window._vwo_code = window._vwo_code || (function () {
+          var account_id = getVWOAccountId(), version = 1.5, settings_tolerance = 2000,
+            library_tolerance = 2500, use_existing_jquery = false, is_spa = 1,
+            hide_element = "body",
+            hide_element_style = "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+          var f = false, d = document, vwoCodeEl = d.querySelector("#vwoCode"), code = {
+            use_existing_jquery: function () { return use_existing_jquery; },
+            library_tolerance: function () { return library_tolerance; },
+            hide_element_style: function () { return "{" + hide_element_style + "}"; },
+            finish: function () {
+              if (!f) { f = true; var e = d.getElementById("_vis_opt_path_hides"); if (e) e.parentNode.removeChild(e); }
+            },
+            finished: function () { return f; },
+            load: function (e) {
+              var t = d.createElement("script"); t.fetchPriority = "high"; t.src = e; t.type = "text/javascript";
+              t.onerror = function () { _vwo_code.finish(); };
+              d.getElementsByTagName("head")[0].appendChild(t);
+            },
+            getVersion: function () { return version; },
+            init: function () {
+              if (d.URL.indexOf("__vwo_disable__") > -1) return;
+              window.settings_timer = setTimeout(function () { _vwo_code.finish(); }, settings_tolerance);
+              var e = d.createElement("style"), t = hide_element ? hide_element + "{" + hide_element_style + "}" : "",
+                i = d.getElementsByTagName("head")[0];
+              e.setAttribute("id", "_vis_opt_path_hides");
+              vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+              e.setAttribute("type", "text/css");
+              if (e.styleSheet) e.styleSheet.cssText = t; else e.appendChild(d.createTextNode(t));
+              i.appendChild(e);
+              this.load("https://dev.visualwebsiteoptimizer.com/j.php?a=" + account_id + "&u=" + encodeURIComponent(d.URL) + "&f=" + +is_spa + "&vn=" + version);
+              return settings_timer;
+            }
+          };
+          window._vwo_settings_timer = code.init();
+          return code;
+        })();
       }
     </script>
     <!-- End VWO Async SmartCode -->
 
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #fafafa;
-      }
-      .container {
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: 16px;
-      }
+      body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f5; }
+      .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
       .navbar {
-        position: sticky;
-        top: 0;
-        background: #000;
-        color: #fff;
-        padding: 10px 16px;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-items: center;
-        z-index: 10;
+        position: sticky; top: 0; background: #000; color: #fff; padding: 10px 16px;
+        display: flex; gap: 10px; flex-wrap: wrap; align-items: center; z-index: 10;
       }
       .navbar a {
-        color: #fff;
-        text-decoration: none;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-size: 13px;
+        color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.35);
+        padding: 6px 10px; border-radius: 6px; font-size: 13px;
       }
-      .navbar a:hover {
-        background: rgba(255, 255, 255, 0.12);
-      }
+      .navbar a:hover { background: rgba(255,255,255,0.12); }
       .card {
-        border: 1px solid #e5e5e5;
-        border-radius: 10px;
-        padding: 14px;
-        margin: 12px 0;
-        background: #fff;
+        border: 1px solid #e5e5e5; border-radius: 10px; padding: 14px;
+        margin: 12px 0; background: #fff;
       }
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-      @media (max-width: 800px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-      }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
       .demo-box {
-        padding: 12px;
-        border-radius: 10px;
-        border: 1px dashed #bbb;
-        min-height: 88px;
+        padding: 12px; border-radius: 10px; border: 1px dashed #ccc;
+        min-height: 110px; background: #fafafa;
+      }
+      .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+      button {
+        padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc;
+        background: #f8f8f8; cursor: pointer; font-size: 13px;
+      }
+      button:hover { background: #eee; }
+      button.primary { background: #111; color: #fff; border-color: #111; }
+      button.primary:hover { background: #333; }
+      .pill {
+        display: inline-block; font-size: 11px; padding: 3px 10px;
+        border-radius: 999px; background: #e5e7eb; color: #374151; font-weight: 600;
+      }
+      .pill.ok { background: #dcfce7; color: #166534; }
+      .pill.warn { background: #fef3c7; color: #92400e; }
+      .pill.hot { background: #fce7f3; color: #9d174d; }
+      .mini-log {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 11px; white-space: pre-wrap; background: #0b1020; color: #c7d2fe;
+        padding: 8px; border-radius: 8px; margin-top: 10px; min-height: 44px;
       }
       .log {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", "Courier New", monospace;
-        font-size: 12px;
-        white-space: pre-wrap;
-        background: #0b1020;
-        color: #e6e9ff;
-        padding: 10px;
-        border-radius: 10px;
-        min-height: 80px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px; white-space: pre-wrap; background: #0b1020; color: #e6e9ff;
+        padding: 10px; border-radius: 10px; min-height: 80px;
       }
-      .muted {
-        color: #666;
-      }
-      .light-host {
-        display: block;
-        padding: 4px;
-      }
+      .muted { color: #666; font-size: 14px; }
+      .light-host { display: block; }
+      .case-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
       #light-control {
-        padding: 10px;
-        border: 2px dashed #bbb;
-        border-radius: 8px;
-        background: #fff;
+        padding: 12px; border: 2px dashed #bbb; border-radius: 8px; background: #fff;
+      }
+      .legend {
+        display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 0;
+        font-size: 12px; color: #555;
+      }
+      .swatch {
+        display: inline-block; width: 14px; height: 14px; border-radius: 4px;
+        vertical-align: middle; border: 1px solid rgba(0,0,0,0.15);
       }
     </style>
   </head>
@@ -276,410 +156,591 @@
     <div class="navbar">
       <strong style="margin-right: 6px">Adopted StyleSheets</strong>
       <a href="index.html" onclick="return preserveQueryParams(this)">Home</a>
-      <a
-        href="adopted-style-sheets-static.html"
-        onclick="return preserveQueryParams(this)"
-        >Static</a
-      >
-      <a
-        href="adopted-style-sheets-dynamic-add.html"
-        onclick="return preserveQueryParams(this)"
-        >Dynamic Add</a
-      >
-      <a
-        href="adopted-style-sheets-dynamic-remove.html"
-        onclick="return preserveQueryParams(this)"
-        >Dynamic Remove</a
-      >
-      <a
-        href="adopted-style-sheets-document-shadow.html"
-        onclick="return preserveQueryParams(this)"
-        >Document &amp; Shadow</a
-      >
-      <a
-        href="adopted-style-sheets-shadow.html"
-        onclick="return preserveQueryParams(this)"
-        >Shadow DOM</a
-      >
-      <a
-        href="adopted-style-sheets-edge-cases.html"
-        onclick="return preserveQueryParams(this)"
-        >Edge Cases</a
-      >
+      <a href="adopted-style-sheets-static.html" onclick="return preserveQueryParams(this)">Static</a>
+      <a href="adopted-style-sheets-dynamic-add.html" onclick="return preserveQueryParams(this)">Dynamic Add</a>
+      <a href="adopted-style-sheets-dynamic-remove.html" onclick="return preserveQueryParams(this)">Dynamic Remove</a>
+      <a href="adopted-style-sheets-document-shadow.html" onclick="return preserveQueryParams(this)">Document &amp; Shadow</a>
+      <a href="adopted-style-sheets-shadow.html" onclick="return preserveQueryParams(this)">Shadow DOM</a>
+      <a href="adopted-style-sheets-edge-cases.html" onclick="return preserveQueryParams(this)">Edge Cases</a>
     </div>
 
     <div class="container">
-      <h1>adoptedStyleSheets present inside Shadow DOM</h1>
+      <h1>Interactive adoptedStyleSheets inside Shadow DOM</h1>
       <p class="muted">
-        Sheets are assigned to <code>shadowRoot.adoptedStyleSheets</code>
-        <b>on load</b>. There are no <code>&lt;style&gt;</code> tags inside the
-        shadows — all styling comes from constructed CSSStyleSheets.
-        Document-level <code>adoptedStyleSheets</code> is left empty so only
-        shadow styles apply.
+        Each demo starts <b>unstyled inside the shadow</b>. Click the buttons to add, patch,
+        replace, or clear <code>shadowRoot.adoptedStyleSheets</code> — watch the card flip
+        theme instantly. No <code>&lt;style&gt;</code> tags inside shadows.
       </p>
 
+      <div class="legend">
+        <span><span class="swatch" style="background:#ecfdf5;border-color:#059669"></span> Forest (add sheet)</span>
+        <span><span class="swatch" style="background:#eff6ff;border-color:#2563eb"></span> Ocean (replaceSync)</span>
+        <span><span class="swatch" style="background:#fdf2f8;border-color:#db2777"></span> Rose (replace async)</span>
+        <span><span class="swatch" style="background:#fef9c3;border-color:#ca8a04"></span> Gold accent (insertRule / 2nd sheet)</span>
+      </div>
+
       <div class="grid">
+        <!-- 1. Open shadow: add / patch / clear -->
         <div class="card">
-          <h2>1. Open shadow — sheets present</h2>
-          <p class="muted">
-            Open shadow root with two adopted sheets assigned immediately.
-          </p>
-          <div class="demo-box">
-            <div id="open-shadow-host" class="light-host"></div>
+          <div class="case-head">
+            <h2 style="margin:0">1. Open shadow — add &amp; patch</h2>
+            <span id="pill-open" class="pill warn">0 sheets · unstyled</span>
           </div>
+          <p class="muted">Assign a base sheet, then patch in a second accent sheet.</p>
+          <div class="demo-box"><div id="open-shadow-host"></div></div>
+          <div class="row">
+            <button class="primary" id="btn-open-base">Add forest base sheet</button>
+            <button id="btn-open-accent">Patch gold accent sheet</button>
+            <button id="btn-open-clear">Clear all</button>
+          </div>
+          <div id="log-open" class="mini-log">Waiting for interaction…</div>
         </div>
 
+        <!-- 2. Nested: independent outer/inner -->
         <div class="card">
-          <h2>2. Nested shadow — inner sheets present</h2>
-          <p class="muted">
-            Outer and inner open shadows each have their own adopted sheets.
-          </p>
-          <div class="demo-box">
-            <div id="nested-shadow-host" class="light-host"></div>
+          <div class="case-head">
+            <h2 style="margin:0">2. Nested shadow — independent roots</h2>
+            <span id="pill-nested" class="pill warn">outer 0 · inner 0</span>
           </div>
+          <p class="muted">Outer and inner shadows adopt sheets separately — only one layer changes at a time.</p>
+          <div class="demo-box"><div id="nested-shadow-host"></div></div>
+          <div class="row">
+            <button class="primary" id="btn-outer-theme">Style outer (blue)</button>
+            <button id="btn-inner-theme">Style inner (purple)</button>
+            <button id="btn-nested-clear">Clear both</button>
+          </div>
+          <div id="log-nested" class="mini-log">Waiting for interaction…</div>
         </div>
 
+        <!-- 3. Closed shadow: replaceSync swap -->
         <div class="card">
-          <h2>3. Closed shadow — sheets present</h2>
-          <p class="muted">
-            Closed shadow root with adopted sheets. Host is
-            <code>#closed-shadow-host</code>.
-          </p>
-          <div class="demo-box">
-            <div id="closed-shadow-host" class="light-host"></div>
+          <div class="case-head">
+            <h2 style="margin:0">3. Closed shadow — replaceSync swap</h2>
+            <span id="pill-closed" class="pill warn">no sheet</span>
           </div>
+          <p class="muted">One adopted sheet; <code>replaceSync()</code> hot-swaps the entire theme.</p>
+          <div class="demo-box"><div id="closed-shadow-host"></div></div>
+          <div class="row">
+            <button class="primary" id="btn-closed-rose">Apply rose theme</button>
+            <button id="btn-closed-ocean">Swap to ocean (replaceSync)</button>
+            <button id="btn-closed-clear">Clear</button>
+          </div>
+          <div id="log-closed" class="mini-log">Waiting for interaction…</div>
         </div>
 
+        <!-- 4. Custom element: sale / premium toggle -->
         <div class="card">
-          <h2>4. Custom element — sheets present</h2>
-          <p class="muted">
-            <code>&lt;atlas-product-card&gt;</code> adopts a constructed sheet
-            in its constructor.
-          </p>
-          <div class="demo-box">
-            <atlas-product-card id="custom-element-host"></atlas-product-card>
+          <div class="case-head">
+            <h2 style="margin:0">4. Custom element — theme toggle</h2>
+            <span id="pill-custom" class="pill warn">unstyled</span>
           </div>
+          <p class="muted"><code>&lt;atlas-product-card&gt;</code> swaps adopted sheets from light DOM buttons.</p>
+          <div class="demo-box"><atlas-product-card id="custom-element-host"></atlas-product-card></div>
+          <div class="row">
+            <button class="primary" id="btn-custom-sale">Sale mode (red)</button>
+            <button id="btn-custom-premium">Premium mode (indigo)</button>
+            <button id="btn-custom-clear">Clear</button>
+          </div>
+          <div id="log-custom" class="mini-log">Waiting for interaction…</div>
+        </div>
+
+        <!-- 5. insertRule on live sheet -->
+        <div class="card">
+          <div class="case-head">
+            <h2 style="margin:0">5. insertRule on adopted sheet</h2>
+            <span id="pill-insert" class="pill warn">0 rules</span>
+          </div>
+          <p class="muted">Base sheet exists; each click inserts another rule (border glow, uppercase, pulse).</p>
+          <div class="demo-box"><div id="insert-shadow-host"></div></div>
+          <div class="row">
+            <button class="primary" id="btn-insert-init">Create base sheet</button>
+            <button id="btn-insert-rule">insertRule() next effect</button>
+            <button id="btn-insert-clear">Clear</button>
+          </div>
+          <div id="log-insert" class="mini-log">Waiting for interaction…</div>
+        </div>
+
+        <!-- 6. replace() async -->
+        <div class="card">
+          <div class="case-head">
+            <h2 style="margin:0">6. replace() async theme load</h2>
+            <span id="pill-async" class="pill warn">idle</span>
+          </div>
+          <p class="muted">Simulates async CSS fetch — card flashes “loading…” then theme appears.</p>
+          <div class="demo-box"><div id="async-shadow-host"></div></div>
+          <div class="row">
+            <button class="primary" id="btn-async-load">Load rose theme (800ms)</button>
+            <button id="btn-async-reload">Reload teal theme</button>
+            <button id="btn-async-clear">Clear</button>
+          </div>
+          <div id="log-async" class="mini-log">Waiting for interaction…</div>
+        </div>
+
+        <!-- 7. Shared sheet across two shadows -->
+        <div class="card">
+          <div class="case-head">
+            <h2 style="margin:0">7. Shared sheet — two shadows</h2>
+            <span id="pill-shared" class="pill warn">not linked</span>
+          </div>
+          <p class="muted">Same <code>CSSStyleSheet</code> adopted into two shadow roots — editing it updates both.</p>
+          <div class="demo-box" style="display:flex;gap:12px;flex-wrap:wrap">
+            <div id="shared-shadow-a" style="flex:1;min-width:140px"></div>
+            <div id="shared-shadow-b" style="flex:1;min-width:140px"></div>
+          </div>
+          <div class="row">
+            <button class="primary" id="btn-shared-link">Adopt shared sheet to both</button>
+            <button id="btn-shared-mutate">replaceSync() both → gold</button>
+            <button id="btn-shared-clear">Clear both</button>
+          </div>
+          <div id="log-shared" class="mini-log">Waiting for interaction…</div>
+        </div>
+
+        <!-- 8. Light DOM leak check -->
+        <div class="card">
+          <div class="case-head">
+            <h2 style="margin:0">8. Light DOM control</h2>
+            <span id="pill-light" class="pill ok">isolated</span>
+          </div>
+          <p class="muted">Same class names as shadows — should never pick up shadow adopted styles.</p>
+          <div id="light-control" class="shadow-card">
+            <h3 id="light-heading" class="shadow-heading">Light heading</h3>
+            <p id="light-price" class="shadow-price">$0.00</p>
+            <button id="light-cta" class="shadow-cta" type="button">Light CTA</button>
+          </div>
+          <div class="row">
+            <button id="btn-light-check">Re-check isolation</button>
+          </div>
+          <div id="log-light" class="mini-log">Light DOM stays plain unless you style it here.</div>
         </div>
       </div>
 
       <div class="card">
-        <h2>Light DOM control</h2>
-        <p class="muted">
-          Same class names as inside the shadows. Must <b>not</b> pick up
-          shadow adopted styles.
-        </p>
-        <div id="light-control" class="shadow-card">
-          <h3 id="light-heading" class="shadow-heading">Light heading</h3>
-          <p id="light-price" class="shadow-price">$0.00</p>
-          <button id="light-cta" class="shadow-cta">Light CTA</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Status / checks</h2>
+        <h2>Global activity log</h2>
         <div id="status" class="log"></div>
       </div>
     </div>
 
     <script>
       function preserveQueryParams(link) {
-    const currentParams = new URLSearchParams(window.location.search);
-    const id = currentParams.get('id');
-    const isSync = window.location.href.includes('sync');
-    const hasWingify = currentParams.has('wingify');
-    const hasProd = currentParams.has('prod');
-
-    if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
-        let href = link.getAttribute('href');
-        // Resolve relative to current page directory (not origin) so paths stay correct
-        let newUrl = new URL(href, window.location.href);
-
-        if (id) newUrl.searchParams.set('id', id);
-        if (isSync) newUrl.searchParams.set('sync', '');
-        if (hasWingify) newUrl.searchParams.set('wingify', currentParams.get('wingify') || '');
-        if (hasProd) newUrl.searchParams.set('prod', currentParams.get('prod') || '');
-
-        // Carry any other current params too
-        currentParams.forEach((value, key) => {
-          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
-        });
-
-        window.location.href = newUrl.toString();
-        return false;
-    }
-    return true;
-}
+        const currentParams = new URLSearchParams(window.location.search);
+        const id = currentParams.get("id");
+        const isSync = window.location.href.includes("sync");
+        const hasWingify = currentParams.has("wingify");
+        const hasProd = currentParams.has("prod");
+        if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
+          const newUrl = new URL(link.getAttribute("href"), window.location.href);
+          if (id) newUrl.searchParams.set("id", id);
+          if (isSync) newUrl.searchParams.set("sync", "");
+          if (hasWingify) newUrl.searchParams.set("wingify", currentParams.get("wingify") || "");
+          if (hasProd) newUrl.searchParams.set("prod", currentParams.get("prod") || "");
+          currentParams.forEach((value, key) => {
+            if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+          });
+          window.location.href = newUrl.toString();
+          return false;
+        }
+        return true;
+      }
 
       const $status = document.getElementById("status");
-      function log(line) {
-        $status.textContent += line + "\n";
+      function glog(line) { $status.textContent = line + "\n" + $status.textContent; }
+      function setLog(id, text) { document.getElementById(id).textContent = text; }
+      function setPill(id, text, kind) {
+        const el = document.getElementById(id);
+        el.textContent = text;
+        el.className = "pill" + (kind ? " " + kind : "");
       }
 
-      function supportsShadowAdoptedStyleSheets() {
-        return (
-          typeof CSSStyleSheet === "function" &&
-          typeof CSSStyleSheet.prototype.replaceSync === "function" &&
-          "adoptedStyleSheets" in ShadowRoot.prototype
-        );
+      function supportsShadowAdopted() {
+        return typeof CSSStyleSheet === "function"
+          && typeof CSSStyleSheet.prototype.replaceSync === "function"
+          && "adoptedStyleSheets" in ShadowRoot.prototype;
       }
 
-      function createSheet(rulesText) {
+      function createSheet(css) {
         const sheet = new CSSStyleSheet();
-        sheet.replaceSync(rulesText);
+        sheet.replaceSync(css);
         return sheet;
       }
 
-      function report(label, el) {
-        const st = getComputedStyle(el);
-        log(
-          label +
-            " — color: " +
-            st.color +
-            ", background: " +
-            st.backgroundColor +
-            ", border: " +
-            st.borderTopWidth +
-            " " +
-            st.borderTopStyle +
-            " " +
-            st.borderTopColor
-        );
+      function rgb(el) {
+        const s = getComputedStyle(el);
+        return {
+          color: s.color,
+          bg: s.backgroundColor,
+          border: s.borderTopWidth + " " + s.borderTopStyle + " " + s.borderTopColor,
+          transform: s.transform,
+          textTransform: s.textTransform,
+        };
       }
+
+      function fmtStyle(st) {
+        return "bg=" + st.bg + " · color=" + st.color + " · border=" + st.border
+          + (st.textTransform !== "none" ? " · text=" + st.textTransform : "")
+          + (st.transform !== "none" ? " · transform=" + st.transform : "");
+      }
+
+      const THEMES = {
+        forest: `
+          .card { padding:12px; border-radius:10px; background:#ecfdf5; border:4px solid #059669; transition:all .25s; }
+          .title { margin:0 0 6px; color:#065f46; font-size:18px; font-weight:bold; }
+          .price { margin:0 0 8px; color:#047857; font-size:16px; }
+          .cta { background:#059669; color:#fff; border:0; border-radius:8px; padding:8px 12px; cursor:pointer; }
+          .note { margin-top:8px; font-size:12px; color:#064e3b; }
+        `,
+        goldAccent: `
+          .price { color:#ca8a04 !important; font-size:20px !important; text-shadow:0 1px 0 #fef08a; }
+          .card { box-shadow:0 8px 24px rgba(202,138,4,.35); }
+          .cta { background:#ca8a04 !important; }
+        `,
+        outerBlue: `
+          .wrap { padding:10px; border-radius:10px; background:#eff6ff; border:3px solid #2563eb; }
+          .label { margin:0 0 8px; color:#1e40af; font-weight:bold; }
+        `,
+        innerPurple: `
+          .inner { padding:10px; border-radius:8px; background:#f5f3ff; border:3px solid #7c3aed; }
+          .label { margin:0 0 8px; color:#5b21b6; font-weight:bold; }
+          .cta { background:#7c3aed; color:#fff; border:0; border-radius:8px; padding:6px 10px; cursor:pointer; }
+        `,
+        rose: `
+          .card { padding:12px; border-radius:10px; background:#fdf2f8; border:4px solid #db2777; }
+          .label { margin:0 0 8px; color:#9d174d; font-weight:bold; font-size:16px; }
+          .cta { background:#db2777; color:#fff; border:0; border-radius:8px; padding:8px 12px; cursor:pointer; }
+        `,
+        ocean: `
+          .card { padding:12px; border-radius:10px; background:#eff6ff; border:4px solid #0284c7; }
+          .label { margin:0 0 8px; color:#0369a1; font-weight:bold; font-size:16px; text-transform:uppercase; letter-spacing:1px; }
+          .cta { background:#0284c7; color:#fff; border:0; border-radius:8px; padding:8px 12px; cursor:pointer; }
+        `,
+        sale: `
+          .wrap { padding:12px; border-radius:10px; background:#fef2f2; border:4px solid #dc2626; }
+          .title { margin:0 0 6px; color:#991b1b; font-size:18px; }
+          .price { margin:0 0 8px; color:#dc2626; font-weight:bold; font-size:20px; text-decoration:line-through; }
+          .price::after { content:" → $149"; text-decoration:none; color:#16a34a; margin-left:6px; }
+          .cta { background:#dc2626; color:#fff; border:0; border-radius:8px; padding:8px 12px; cursor:pointer; }
+        `,
+        premium: `
+          .wrap { padding:12px; border-radius:10px; background:#eef2ff; border:4px solid #4f46e5; box-shadow:0 10px 30px rgba(79,70,229,.25); }
+          .title { margin:0 0 6px; color:#312e81; font-size:18px; letter-spacing:.5px; }
+          .price { margin:0 0 8px; color:#4338ca; font-weight:bold; font-size:18px; }
+          .cta { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; }
+        `,
+        insertBase: `
+          .card { padding:12px; border-radius:10px; background:#fff; border:2px solid #d4d4d8; transition:all .2s; }
+          .title { margin:0; color:#52525b; }
+        `,
+        asyncRose: `
+          .card { padding:12px; border-radius:10px; background:#fdf2f8; border:4px solid #db2777; animation:pop .4s ease; }
+          .title { margin:0 0 6px; color:#9d174d; font-weight:bold; }
+          .note { font-size:12px; color:#be185d; }
+          @keyframes pop { from { transform:scale(.95); opacity:.5; } to { transform:scale(1); opacity:1; } }
+        `,
+        asyncTeal: `
+          .card { padding:12px; border-radius:10px; background:#ccfbf1; border:4px solid #0d9488; animation:pop .4s ease; }
+          .title { margin:0 0 6px; color:#115e59; font-weight:bold; }
+          .note { font-size:12px; color:#0f766e; }
+          @keyframes pop { from { transform:scale(.95); opacity:.5; } to { transform:scale(1); opacity:1; } }
+        `,
+        sharedGreen: `
+          .box { padding:10px; border-radius:8px; background:#ecfdf5; border:3px solid #059669; text-align:center; }
+          .label { margin:0; color:#065f46; font-weight:bold; }
+        `,
+        sharedGold: `
+          .box { padding:10px; border-radius:8px; background:#fef9c3; border:3px solid #ca8a04; text-align:center; }
+          .label { margin:0; color:#854d0e; font-weight:bold; text-transform:uppercase; }
+        `,
+        loading: `
+          .card { padding:12px; border-radius:10px; background:#f4f4f5; border:2px dashed #a1a1aa; }
+          .title { margin:0; color:#71717a; font-style:italic; animation:pulse 1s infinite; }
+          @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+        `,
+      };
 
       class AtlasProductCard extends HTMLElement {
         constructor() {
           super();
-          const shadow = this.attachShadow({ mode: "open" });
-          shadow.innerHTML =
-            '<div class="product-wrap">' +
-            '<h3 id="product-title" class="product-title">Atlas Watch</h3>' +
-            '<p id="product-price" class="product-price">$249.00</p>' +
-            '<button id="product-cta" class="product-cta" type="button">Add to cart</button>' +
+          this._sheet = null;
+          const sr = this.attachShadow({ mode: "open" });
+          sr.innerHTML =
+            '<div class="wrap">' +
+            '<h3 class="title">Atlas Watch</h3>' +
+            '<p class="price">$249.00</p>' +
+            '<button class="cta" type="button">Add to cart</button>' +
             "</div>";
-
-          if (supportsShadowAdoptedStyleSheets()) {
-            const sheet = createSheet(`
-              .product-wrap {
-                padding: 12px;
-                border-radius: 10px;
-                background: #fff7ed;
-                border: 2px solid #ea580c;
-              }
-              .product-title {
-                margin: 0 0 6px;
-                color: #9a3412;
-                font-size: 18px;
-              }
-              .product-price {
-                margin: 0 0 10px;
-                color: #c2410c;
-                font-weight: bold;
-              }
-              .product-cta {
-                background: #ea580c;
-                color: #fff;
-                border: 0;
-                border-radius: 8px;
-                padding: 8px 12px;
-                cursor: pointer;
-              }
-            `);
-            shadow.adoptedStyleSheets = [sheet];
-          }
+          this._target = sr.querySelector(".title");
         }
+        get adoptedRoot() { return this.shadowRoot; }
+        applyTheme(name) {
+          if (!supportsShadowAdopted()) return false;
+          this._sheet = createSheet(THEMES[name]);
+          this.shadowRoot.adoptedStyleSheets = [this._sheet];
+          return true;
+        }
+        clearStyles() {
+          this._sheet = null;
+          this.shadowRoot.adoptedStyleSheets = [];
+        }
+        getTarget() { return this._target; }
       }
-
       customElements.define("atlas-product-card", AtlasProductCard);
 
-      (function init() {
-        log(
-          "Feature detect shadowRoot.adoptedStyleSheets: " +
-            (supportsShadowAdoptedStyleSheets() ? "SUPPORTED" : "NOT SUPPORTED")
-        );
-        log(
-          "document.adoptedStyleSheets length: " +
-            (document.adoptedStyleSheets
-              ? document.adoptedStyleSheets.length
-              : "n/a")
-        );
+      if (!supportsShadowAdopted()) {
+        glog("NOT SUPPORTED: shadowRoot.adoptedStyleSheets unavailable in this browser.");
+        document.querySelectorAll("button").forEach((b) => { b.disabled = true; });
+      } else {
+        glog("Ready — shadowRoot.adoptedStyleSheets supported. document.adoptedStyleSheets length: " + document.adoptedStyleSheets.length);
 
-        if (!supportsShadowAdoptedStyleSheets()) {
-          log("This browser does not support adoptedStyleSheets on ShadowRoot.");
-          return;
+        // ── 1. Open shadow ──
+        const openHost = document.getElementById("open-shadow-host");
+        const openSR = openHost.attachShadow({ mode: "open" });
+        openSR.innerHTML =
+          '<div class="card">' +
+          '<h3 class="title">Open shadow card</h3>' +
+          '<p class="price">$129.00</p>' +
+          '<button class="cta" type="button">Shop now</button>' +
+          '<div class="note">Theme driven by adoptedStyleSheets</div></div>';
+        const openTarget = openSR.querySelector(".title");
+        let openBase = null, openAccent = null;
+
+        document.getElementById("btn-open-base").onclick = () => {
+          openBase = createSheet(THEMES.forest);
+          openSR.adoptedStyleSheets = [openBase];
+          setPill("pill-open", "1 sheet · forest", "ok");
+          const st = fmtStyle(rgb(openTarget));
+          setLog("log-open", "Added base sheet.\n" + st);
+          glog("[open] base sheet → forest green");
+        };
+        document.getElementById("btn-open-accent").onclick = () => {
+          if (!openBase) { setLog("log-open", "Add base sheet first."); return; }
+          openAccent = createSheet(THEMES.goldAccent);
+          openSR.adoptedStyleSheets = [openBase, openAccent];
+          setPill("pill-open", "2 sheets · forest + gold", "hot");
+          setLog("log-open", "Patched 2nd sheet (gold accent).\n" + fmtStyle(rgb(openSR.querySelector(".price"))));
+          glog("[open] patched accent sheet → gold glow");
+        };
+        document.getElementById("btn-open-clear").onclick = () => {
+          openBase = openAccent = null;
+          openSR.adoptedStyleSheets = [];
+          setPill("pill-open", "0 sheets · unstyled", "warn");
+          setLog("log-open", "Cleared. Card back to plain.\n" + fmtStyle(rgb(openTarget)));
+          glog("[open] cleared adoptedStyleSheets");
+        };
+
+        // ── 2. Nested shadow ──
+        const nestedHost = document.getElementById("nested-shadow-host");
+        const outerSR = nestedHost.attachShadow({ mode: "open" });
+        outerSR.innerHTML = '<div class="wrap"><p class="label">Outer layer</p><div id="inner-host"></div></div>';
+        const innerHost = outerSR.getElementById("inner-host");
+        const innerSR = innerHost.attachShadow({ mode: "open" });
+        innerSR.innerHTML = '<div class="inner"><p class="label">Inner layer</p><button class="cta" type="button">Nested btn</button></div>';
+        let outerSheet = null, innerSheet = null;
+
+        function updateNestedPill() {
+          setPill("pill-nested", "outer " + outerSR.adoptedStyleSheets.length + " · inner " + innerSR.adoptedStyleSheets.length,
+            outerSR.adoptedStyleSheets.length || innerSR.adoptedStyleSheets.length ? "ok" : "warn");
+        }
+        document.getElementById("btn-outer-theme").onclick = () => {
+          outerSheet = createSheet(THEMES.outerBlue);
+          outerSR.adoptedStyleSheets = [outerSheet];
+          updateNestedPill();
+          setLog("log-nested", "Outer → blue frame only.\nouter: " + fmtStyle(rgb(outerSR.querySelector(".label"))));
+          glog("[nested] outer adopted → blue");
+        };
+        document.getElementById("btn-inner-theme").onclick = () => {
+          innerSheet = createSheet(THEMES.innerPurple);
+          innerSR.adoptedStyleSheets = [innerSheet];
+          updateNestedPill();
+          setLog("log-nested", "Inner → purple (outer unchanged).\ninner: " + fmtStyle(rgb(innerSR.querySelector(".cta"))));
+          glog("[nested] inner adopted → purple");
+        };
+        document.getElementById("btn-nested-clear").onclick = () => {
+          outerSheet = innerSheet = null;
+          outerSR.adoptedStyleSheets = [];
+          innerSR.adoptedStyleSheets = [];
+          updateNestedPill();
+          setLog("log-nested", "Both layers cleared.");
+          glog("[nested] cleared both roots");
+        };
+
+        // ── 3. Closed shadow ──
+        const closedHost = document.getElementById("closed-shadow-host");
+        const closedSR = closedHost.attachShadow({ mode: "closed" });
+        closedHost._sr = closedSR;
+        closedSR.innerHTML = '<div class="card"><p class="label">Closed shadow target</p><button class="cta" type="button">Action</button></div>';
+        let closedSheet = null;
+
+        document.getElementById("btn-closed-rose").onclick = () => {
+          closedSheet = createSheet(THEMES.rose);
+          closedSR.adoptedStyleSheets = [closedSheet];
+          setPill("pill-closed", "rose theme", "hot");
+          setLog("log-closed", "Applied rose.\n" + fmtStyle(rgb(closedSR.querySelector(".label"))));
+          glog("[closed] adopted rose theme");
+        };
+        document.getElementById("btn-closed-ocean").onclick = () => {
+          if (!closedSheet) {
+            closedSheet = createSheet(THEMES.rose);
+            closedSR.adoptedStyleSheets = [closedSheet];
+          }
+          closedSheet.replaceSync(THEMES.ocean);
+          setPill("pill-closed", "ocean (replaceSync)", "ok");
+          setLog("log-closed", "replaceSync() on same sheet → ocean blue + uppercase.\n" + fmtStyle(rgb(closedSR.querySelector(".label"))));
+          glog("[closed] replaceSync → ocean (same sheet ref)");
+        };
+        document.getElementById("btn-closed-clear").onclick = () => {
+          closedSheet = null;
+          closedSR.adoptedStyleSheets = [];
+          setPill("pill-closed", "no sheet", "warn");
+          setLog("log-closed", "Cleared closed shadow styles.");
+          glog("[closed] cleared");
+        };
+
+        // ── 4. Custom element ──
+        const customEl = document.getElementById("custom-element-host");
+        document.getElementById("btn-custom-sale").onclick = () => {
+          customEl.applyTheme("sale");
+          setPill("pill-custom", "sale · strikethrough", "hot");
+          setLog("log-custom", "Sale sheet adopted.\n" + fmtStyle(rgb(customEl.getTarget())));
+          glog("[custom] sale mode");
+        };
+        document.getElementById("btn-custom-premium").onclick = () => {
+          customEl.applyTheme("premium");
+          setPill("pill-custom", "premium · gradient", "ok");
+          setLog("log-custom", "Premium sheet adopted.\n" + fmtStyle(rgb(customEl.getTarget())));
+          glog("[custom] premium mode");
+        };
+        document.getElementById("btn-custom-clear").onclick = () => {
+          customEl.clearStyles();
+          setPill("pill-custom", "unstyled", "warn");
+          setLog("log-custom", "Cleared custom element adopted sheets.");
+          glog("[custom] cleared");
+        };
+
+        // ── 5. insertRule ──
+        const insertHost = document.getElementById("insert-shadow-host");
+        const insertSR = insertHost.attachShadow({ mode: "open" });
+        insertSR.innerHTML = '<div class="card"><h3 class="title">insertRule demo</h3></div>';
+        const insertTarget = insertSR.querySelector(".card");
+        let insertSheet = null;
+        const insertEffects = [
+          ".card { border-color:#f97316 !important; border-width:4px !important; }",
+          ".title { color:#ea580c !important; text-transform:uppercase !important; letter-spacing:2px !important; }",
+          ".card { box-shadow:0 0 0 4px rgba(249,115,22,.3) !important; transform:scale(1.03) !important; }",
+        ];
+        let insertIdx = 0;
+
+        document.getElementById("btn-insert-init").onclick = () => {
+          insertSheet = createSheet(THEMES.insertBase);
+          insertSR.adoptedStyleSheets = [insertSheet];
+          insertIdx = 0;
+          setPill("pill-insert", insertSheet.cssRules.length + " rules", "ok");
+          setLog("log-insert", "Base sheet created (1 rule).\n" + fmtStyle(rgb(insertTarget)));
+          glog("[insertRule] base sheet");
+        };
+        document.getElementById("btn-insert-rule").onclick = () => {
+          if (!insertSheet) { setLog("log-insert", "Create base sheet first."); return; }
+          if (insertIdx >= insertEffects.length) { setLog("log-insert", "All 3 effects applied."); return; }
+          insertSheet.insertRule(insertEffects[insertIdx], insertSheet.cssRules.length);
+          insertIdx++;
+          setPill("pill-insert", insertSheet.cssRules.length + " rules", insertIdx >= insertEffects.length ? "hot" : "ok");
+          setLog("log-insert", "insertRule #" + insertIdx + " applied.\n" + fmtStyle(rgb(insertTarget)));
+          glog("[insertRule] effect " + insertIdx + " of " + insertEffects.length);
+        };
+        document.getElementById("btn-insert-clear").onclick = () => {
+          insertSheet = null; insertIdx = 0;
+          insertSR.adoptedStyleSheets = [];
+          setPill("pill-insert", "0 rules", "warn");
+          setLog("log-insert", "Reset.");
+          glog("[insertRule] cleared");
+        };
+
+        // ── 6. replace() async ──
+        const asyncHost = document.getElementById("async-shadow-host");
+        const asyncSR = asyncHost.attachShadow({ mode: "open" });
+        asyncSR.innerHTML = '<div class="card"><h3 class="title">Async theme loader</h3><p class="note"></p></div>';
+        const asyncTitle = asyncSR.querySelector(".title");
+        const asyncNote = asyncSR.querySelector(".note");
+        let asyncSheet = null;
+        let asyncToken = 0;
+
+        function showAsyncLoading() {
+          asyncSheet = createSheet(THEMES.loading);
+          asyncSR.adoptedStyleSheets = [asyncSheet];
+          asyncTitle.textContent = "Loading theme…";
+          asyncNote.textContent = "";
         }
 
-        // 1. Open shadow with two adopted sheets present on load
-        const openHost = document.getElementById("open-shadow-host");
-        const openShadow = openHost.attachShadow({ mode: "open" });
-        openShadow.innerHTML =
-          '<div class="shadow-card">' +
-          '<h3 id="shadow-heading" class="shadow-heading">Open shadow heading</h3>' +
-          '<p id="shadow-price" class="shadow-price">$129.00</p>' +
-          '<button id="shadow-cta" class="shadow-cta" type="button">Shop now</button>' +
-          '<div id="shadow-note" class="shadow-note">Styled only via adoptedStyleSheets</div>' +
-          "</div>";
+        async function loadAsyncTheme(themeKey, label, delay) {
+          const token = ++asyncToken;
+          showAsyncLoading();
+          setPill("pill-async", "loading…", "warn");
+          setLog("log-async", "replace() pending (" + delay + "ms)…");
+          glog("[async] loading " + label);
+          await new Promise((r) => setTimeout(r, delay));
+          if (token !== asyncToken) return;
+          await asyncSheet.replace(THEMES[themeKey]);
+          asyncTitle.textContent = label + " loaded";
+          asyncNote.textContent = "Applied via sheet.replace() async";
+          setPill("pill-async", label + " · async", "ok");
+          setLog("log-async", "replace() resolved → " + label + ".\n" + fmtStyle(rgb(asyncTitle)));
+          glog("[async] " + label + " applied");
+        }
 
-        const openBaseSheet = createSheet(`
-          .shadow-card {
-            padding: 12px;
-            border-radius: 10px;
-            background: #ecfdf5;
-            border: 3px solid #059669;
-          }
-          .shadow-heading {
-            margin: 0 0 6px;
-            color: #065f46;
-            font-size: 18px;
-          }
-          .shadow-cta {
-            background: #059669;
-            color: #fff;
-            border: 0;
-            border-radius: 8px;
-            padding: 8px 12px;
-            cursor: pointer;
-          }
-        `);
-        const openSecondSheet = createSheet(`
-          .shadow-price {
-            margin: 0 0 10px;
-            color: #047857;
-            font-weight: bold;
-            font-size: 16px;
-          }
-          .shadow-note {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #064e3b;
-          }
-        `);
-        openShadow.adoptedStyleSheets = [openBaseSheet, openSecondSheet];
-
-        log("Open shadow adoptedStyleSheets length: " + openShadow.adoptedStyleSheets.length);
-        report("Open #shadow-heading", openShadow.getElementById("shadow-heading"));
-        report("Open #shadow-cta", openShadow.getElementById("shadow-cta"));
-
-        // 2. Nested shadows, each with adopted sheets present
-        const nestedHost = document.getElementById("nested-shadow-host");
-        const outerShadow = nestedHost.attachShadow({ mode: "open" });
-        outerShadow.innerHTML =
-          '<div id="outer-wrap" class="outer-wrap">' +
-          '<p id="outer-label" class="outer-label">Outer shadow</p>' +
-          '<div id="inner-shadow-host"></div>' +
-          "</div>";
-        outerShadow.adoptedStyleSheets = [
-          createSheet(`
-            .outer-wrap {
-              padding: 10px;
-              border-radius: 10px;
-              background: #eff6ff;
-              border: 2px solid #2563eb;
-            }
-            .outer-label {
-              margin: 0 0 8px;
-              color: #1e40af;
-              font-weight: bold;
-            }
-          `),
-        ];
-
-        const innerHost = outerShadow.getElementById("inner-shadow-host");
-        const innerShadow = innerHost.attachShadow({ mode: "open" });
-        innerShadow.innerHTML =
-          '<div id="inner-wrap" class="inner-wrap">' +
-          '<p id="inner-label" class="inner-label">Inner nested shadow</p>' +
-          '<button id="inner-cta" class="inner-cta" type="button">Nested CTA</button>' +
-          "</div>";
-        innerShadow.adoptedStyleSheets = [
-          createSheet(`
-            .inner-wrap {
-              padding: 10px;
-              border-radius: 8px;
-              background: #f5f3ff;
-              border: 2px solid #7c3aed;
-            }
-            .inner-label {
-              margin: 0 0 8px;
-              color: #5b21b6;
-            }
-            .inner-cta {
-              background: #7c3aed;
-              color: #fff;
-              border: 0;
-              border-radius: 8px;
-              padding: 6px 10px;
-              cursor: pointer;
-            }
-          `),
-        ];
-
-        log("Outer shadow adoptedStyleSheets length: " + outerShadow.adoptedStyleSheets.length);
-        log("Inner shadow adoptedStyleSheets length: " + innerShadow.adoptedStyleSheets.length);
-        report("Nested #outer-label", outerShadow.getElementById("outer-label"));
-        report("Nested #inner-cta", innerShadow.getElementById("inner-cta"));
-
-        // 3. Closed shadow with adopted sheets present
-        const closedHost = document.getElementById("closed-shadow-host");
-        const closedShadow = closedHost.attachShadow({ mode: "closed" });
-        closedShadow.innerHTML =
-          '<div id="closed-card" class="closed-card">' +
-          '<p id="closed-label" class="closed-label">Closed shadow target</p>' +
-          '<button id="closed-cta" class="closed-cta" type="button">Closed CTA</button>' +
-          "</div>";
-        closedShadow.adoptedStyleSheets = [
-          createSheet(`
-            .closed-card {
-              padding: 12px;
-              border-radius: 10px;
-              background: #fdf2f8;
-              border: 3px solid #db2777;
-            }
-            .closed-label {
-              margin: 0 0 8px;
-              color: #9d174d;
-              font-weight: bold;
-            }
-            .closed-cta {
-              background: #db2777;
-              color: #fff;
-              border: 0;
-              border-radius: 8px;
-              padding: 8px 12px;
-              cursor: pointer;
-            }
-          `),
-        ];
-        closedHost.__closedShadow = closedShadow;
-
-        log("Closed shadow adoptedStyleSheets length: " + closedShadow.adoptedStyleSheets.length);
-        report("Closed #closed-label", closedShadow.getElementById("closed-label"));
-
-        // 4. Custom element (constructed in class above)
-        const customHost = document.getElementById("custom-element-host");
-        log(
-          "Custom element adoptedStyleSheets length: " +
-            customHost.shadowRoot.adoptedStyleSheets.length
-        );
-        report(
-          "Custom #product-title",
-          customHost.shadowRoot.getElementById("product-title")
-        );
-
-        // Light DOM must not inherit shadow adopted styles
-        report("Light #light-heading (should stay unstyled)", document.getElementById("light-heading"));
-        report("Light #light-cta (should stay unstyled)", document.getElementById("light-cta"));
-        log(
-          "document.adoptedStyleSheets still empty: " +
-            (document.adoptedStyleSheets.length === 0)
-        );
-
-        window.__shadowHosts = {
-          open: openHost,
-          nested: nestedHost,
-          closed: closedHost,
-          custom: customHost,
+        document.getElementById("btn-async-load").onclick = () => loadAsyncTheme("asyncRose", "Rose", 800);
+        document.getElementById("btn-async-reload").onclick = () => loadAsyncTheme("asyncTeal", "Teal", 600);
+        document.getElementById("btn-async-clear").onclick = () => {
+          asyncToken++;
+          asyncSheet = null;
+          asyncSR.adoptedStyleSheets = [];
+          asyncTitle.textContent = "Async theme loader";
+          asyncNote.textContent = "";
+          setPill("pill-async", "idle", "warn");
+          setLog("log-async", "Cleared.");
+          glog("[async] cleared");
         };
-      })();
+
+        // ── 7. Shared sheet ──
+        const sharedA = document.getElementById("shared-shadow-a");
+        const sharedB = document.getElementById("shared-shadow-b");
+        const srA = sharedA.attachShadow({ mode: "open" });
+        const srB = sharedB.attachShadow({ mode: "open" });
+        srA.innerHTML = '<div class="box"><p class="label">Shadow A</p></div>';
+        srB.innerHTML = '<div class="box"><p class="label">Shadow B</p></div>';
+        let sharedSheet = null;
+
+        document.getElementById("btn-shared-link").onclick = () => {
+          sharedSheet = createSheet(THEMES.sharedGreen);
+          srA.adoptedStyleSheets = [sharedSheet];
+          srB.adoptedStyleSheets = [sharedSheet];
+          setPill("pill-shared", "linked · green", "ok");
+          setLog("log-shared", "Same sheet ref adopted to A & B.\nA: " + fmtStyle(rgb(srA.querySelector(".box"))) + "\nB: " + fmtStyle(rgb(srB.querySelector(".box"))));
+          glog("[shared] linked green sheet to both shadows");
+        };
+        document.getElementById("btn-shared-mutate").onclick = () => {
+          if (!sharedSheet) { setLog("log-shared", "Link shared sheet first."); return; }
+          sharedSheet.replaceSync(THEMES.sharedGold);
+          setPill("pill-shared", "linked · gold (mutated)", "hot");
+          setLog("log-shared", "replaceSync on shared sheet → BOTH update.\nA: " + fmtStyle(rgb(srA.querySelector(".label"))) + "\nB: " + fmtStyle(rgb(srB.querySelector(".label"))));
+          glog("[shared] replaceSync mutated both shadows at once");
+        };
+        document.getElementById("btn-shared-clear").onclick = () => {
+          sharedSheet = null;
+          srA.adoptedStyleSheets = [];
+          srB.adoptedStyleSheets = [];
+          setPill("pill-shared", "not linked", "warn");
+          setLog("log-shared", "Unlinked & cleared.");
+          glog("[shared] cleared");
+        };
+
+        // ── 8. Light DOM isolation ──
+        document.getElementById("btn-light-check").onclick = () => {
+          const h = document.getElementById("light-heading");
+          const st = rgb(h);
+          const isolated = st.bg === "rgba(0, 0, 0, 0)" || st.bg === "rgb(255, 255, 255)" || st.bg.includes("255, 255, 255");
+          setPill("pill-light", isolated ? "isolated ✓" : "LEAK?", isolated ? "ok" : "hot");
+          setLog("log-light", "Light #light-heading: " + fmtStyle(st) + "\nShadow styles should NOT appear here.");
+          glog("[light] isolation check — bg=" + st.bg);
+        };
+      }
     </script>
   </body>
 </html>
