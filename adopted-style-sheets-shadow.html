@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopted StyleSheets - Shadow DOM</title>
+
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      // Function to get ID from URL
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        const isSync = window.location.href.includes("sync");
+
+        // If URL has an ID parameter, use that
+        if (urlId) {
+          return urlId;
+        }
+        // Default ID if none specified
+        return "814397";
+      }
+
+      
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('wingify')) return true;
+        for (const value of params.values()) {
+          if (value && value.indexOf('wingify.net') !== -1) return true;
+        }
+        return false;
+      }
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('wingify') && hasQueryFlag('prod')) {
+          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        }
+        return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+      }
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes('sync')) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://dev.visualwebsiteoptimizer.com/lib/" +
+          getVWOAccountId() +
+          ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+
+        var anotherScript = document.createElement("script");
+        anotherScript.type = "text/javascript";
+        anotherScript.src = "path/to/your/other/script.js";
+        document.head.appendChild(anotherScript);
+      } else {
+        window._vwo_code =
+          window._vwo_code ||
+          (function () {
+            var account_id = getVWOAccountId(),
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style =
+                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+            var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function () {
+                  return use_existing_jquery;
+                },
+                library_tolerance: function () {
+                  return library_tolerance;
+                },
+                hide_element_style: function () {
+                  return "{" + hide_element_style + "}";
+                },
+                finish: function () {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function () {
+                  return f;
+                },
+                load: function (e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function () {
+                    _vwo_code.finish();
+                  };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function () {
+                  return version;
+                },
+                getMatchedCookies: function (e) {
+                  var t = [];
+                  if (document.cookie) {
+                    t = document.cookie.match(e) || [];
+                  }
+                  return t;
+                },
+                getCombinationCookie: function () {
+                  var e = code.getMatchedCookies(
+                    /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
+                  );
+                  e = e.map(function (e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (
+                        !/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)
+                      ) {
+                        return "";
+                      }
+                      return t;
+                    } catch (e) {
+                      return "";
+                    }
+                  });
+                  var i = [];
+                  e.forEach(function (e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
+                },
+                init: function () {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function () {
+                    _vwo_code.finish();
+                  }, settings_tolerance);
+                  var e = d.createElement("style"),
+                    t = hide_element
+                      ? hide_element + "{" + hide_element_style + "}"
+                      : "",
+                    i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  var n = this.getCombinationCookie();
+                  this.load(
+                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                      account_id +
+                      "&u=" +
+                      encodeURIComponent(d.URL) +
+                      "&f=" +
+                      +is_spa +
+                      "&vn=" +
+                      version +
+                      (n ? "&c=" + n : "")
+                  );
+                  return settings_timer;
+                },
+              };
+            window._vwo_settings_timer = code.init();
+            return code;
+          })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #fafafa;
+      }
+      .container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .navbar {
+        position: sticky;
+        top: 0;
+        background: #000;
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        z-index: 10;
+      }
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .navbar a:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .card {
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+        background: #fff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .demo-box {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px dashed #bbb;
+        min-height: 88px;
+      }
+      .log {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        white-space: pre-wrap;
+        background: #0b1020;
+        color: #e6e9ff;
+        padding: 10px;
+        border-radius: 10px;
+        min-height: 80px;
+      }
+      .muted {
+        color: #666;
+      }
+      .light-host {
+        display: block;
+        padding: 4px;
+      }
+      #light-control {
+        padding: 10px;
+        border: 2px dashed #bbb;
+        border-radius: 8px;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <strong style="margin-right: 6px">Adopted StyleSheets</strong>
+      <a href="index.html" onclick="return preserveQueryParams(this)">Home</a>
+      <a
+        href="adopted-style-sheets-static.html"
+        onclick="return preserveQueryParams(this)"
+        >Static</a
+      >
+      <a
+        href="adopted-style-sheets-dynamic-add.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Add</a
+      >
+      <a
+        href="adopted-style-sheets-dynamic-remove.html"
+        onclick="return preserveQueryParams(this)"
+        >Dynamic Remove</a
+      >
+      <a
+        href="adopted-style-sheets-document-shadow.html"
+        onclick="return preserveQueryParams(this)"
+        >Document &amp; Shadow</a
+      >
+      <a
+        href="adopted-style-sheets-shadow.html"
+        onclick="return preserveQueryParams(this)"
+        >Shadow DOM</a
+      >
+      <a
+        href="adopted-style-sheets-edge-cases.html"
+        onclick="return preserveQueryParams(this)"
+        >Edge Cases</a
+      >
+    </div>
+
+    <div class="container">
+      <h1>adoptedStyleSheets present inside Shadow DOM</h1>
+      <p class="muted">
+        Sheets are assigned to <code>shadowRoot.adoptedStyleSheets</code>
+        <b>on load</b>. There are no <code>&lt;style&gt;</code> tags inside the
+        shadows — all styling comes from constructed CSSStyleSheets.
+        Document-level <code>adoptedStyleSheets</code> is left empty so only
+        shadow styles apply.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h2>1. Open shadow — sheets present</h2>
+          <p class="muted">
+            Open shadow root with two adopted sheets assigned immediately.
+          </p>
+          <div class="demo-box">
+            <div id="open-shadow-host" class="light-host"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>2. Nested shadow — inner sheets present</h2>
+          <p class="muted">
+            Outer and inner open shadows each have their own adopted sheets.
+          </p>
+          <div class="demo-box">
+            <div id="nested-shadow-host" class="light-host"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>3. Closed shadow — sheets present</h2>
+          <p class="muted">
+            Closed shadow root with adopted sheets. Host is
+            <code>#closed-shadow-host</code>.
+          </p>
+          <div class="demo-box">
+            <div id="closed-shadow-host" class="light-host"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>4. Custom element — sheets present</h2>
+          <p class="muted">
+            <code>&lt;atlas-product-card&gt;</code> adopts a constructed sheet
+            in its constructor.
+          </p>
+          <div class="demo-box">
+            <atlas-product-card id="custom-element-host"></atlas-product-card>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Light DOM control</h2>
+        <p class="muted">
+          Same class names as inside the shadows. Must <b>not</b> pick up
+          shadow adopted styles.
+        </p>
+        <div id="light-control" class="shadow-card">
+          <h3 id="light-heading" class="shadow-heading">Light heading</h3>
+          <p id="light-price" class="shadow-price">$0.00</p>
+          <button id="light-cta" class="shadow-cta">Light CTA</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Status / checks</h2>
+        <div id="status" class="log"></div>
+      </div>
+    </div>
+
+    <script>
+      function preserveQueryParams(link) {
+    const currentParams = new URLSearchParams(window.location.search);
+    const id = currentParams.get('id');
+    const isSync = window.location.href.includes('sync');
+    const hasWingify = currentParams.has('wingify');
+    const hasProd = currentParams.has('prod');
+
+    if (id || isSync || hasWingify || hasProd || currentParams.toString()) {
+        let href = link.getAttribute('href');
+        // Resolve relative to current page directory (not origin) so paths stay correct
+        let newUrl = new URL(href, window.location.href);
+
+        if (id) newUrl.searchParams.set('id', id);
+        if (isSync) newUrl.searchParams.set('sync', '');
+        if (hasWingify) newUrl.searchParams.set('wingify', currentParams.get('wingify') || '');
+        if (hasProd) newUrl.searchParams.set('prod', currentParams.get('prod') || '');
+
+        // Carry any other current params too
+        currentParams.forEach((value, key) => {
+          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+        });
+
+        window.location.href = newUrl.toString();
+        return false;
+    }
+    return true;
+}
+
+      const $status = document.getElementById("status");
+      function log(line) {
+        $status.textContent += line + "\n";
+      }
+
+      function supportsShadowAdoptedStyleSheets() {
+        return (
+          typeof CSSStyleSheet === "function" &&
+          typeof CSSStyleSheet.prototype.replaceSync === "function" &&
+          "adoptedStyleSheets" in ShadowRoot.prototype
+        );
+      }
+
+      function createSheet(rulesText) {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(rulesText);
+        return sheet;
+      }
+
+      function report(label, el) {
+        const st = getComputedStyle(el);
+        log(
+          label +
+            " — color: " +
+            st.color +
+            ", background: " +
+            st.backgroundColor +
+            ", border: " +
+            st.borderTopWidth +
+            " " +
+            st.borderTopStyle +
+            " " +
+            st.borderTopColor
+        );
+      }
+
+      class AtlasProductCard extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML =
+            '<div class="product-wrap">' +
+            '<h3 id="product-title" class="product-title">Atlas Watch</h3>' +
+            '<p id="product-price" class="product-price">$249.00</p>' +
+            '<button id="product-cta" class="product-cta" type="button">Add to cart</button>' +
+            "</div>";
+
+          if (supportsShadowAdoptedStyleSheets()) {
+            const sheet = createSheet(`
+              .product-wrap {
+                padding: 12px;
+                border-radius: 10px;
+                background: #fff7ed;
+                border: 2px solid #ea580c;
+              }
+              .product-title {
+                margin: 0 0 6px;
+                color: #9a3412;
+                font-size: 18px;
+              }
+              .product-price {
+                margin: 0 0 10px;
+                color: #c2410c;
+                font-weight: bold;
+              }
+              .product-cta {
+                background: #ea580c;
+                color: #fff;
+                border: 0;
+                border-radius: 8px;
+                padding: 8px 12px;
+                cursor: pointer;
+              }
+            `);
+            shadow.adoptedStyleSheets = [sheet];
+          }
+        }
+      }
+
+      customElements.define("atlas-product-card", AtlasProductCard);
+
+      (function init() {
+        log(
+          "Feature detect shadowRoot.adoptedStyleSheets: " +
+            (supportsShadowAdoptedStyleSheets() ? "SUPPORTED" : "NOT SUPPORTED")
+        );
+        log(
+          "document.adoptedStyleSheets length: " +
+            (document.adoptedStyleSheets
+              ? document.adoptedStyleSheets.length
+              : "n/a")
+        );
+
+        if (!supportsShadowAdoptedStyleSheets()) {
+          log("This browser does not support adoptedStyleSheets on ShadowRoot.");
+          return;
+        }
+
+        // 1. Open shadow with two adopted sheets present on load
+        const openHost = document.getElementById("open-shadow-host");
+        const openShadow = openHost.attachShadow({ mode: "open" });
+        openShadow.innerHTML =
+          '<div class="shadow-card">' +
+          '<h3 id="shadow-heading" class="shadow-heading">Open shadow heading</h3>' +
+          '<p id="shadow-price" class="shadow-price">$129.00</p>' +
+          '<button id="shadow-cta" class="shadow-cta" type="button">Shop now</button>' +
+          '<div id="shadow-note" class="shadow-note">Styled only via adoptedStyleSheets</div>' +
+          "</div>";
+
+        const openBaseSheet = createSheet(`
+          .shadow-card {
+            padding: 12px;
+            border-radius: 10px;
+            background: #ecfdf5;
+            border: 3px solid #059669;
+          }
+          .shadow-heading {
+            margin: 0 0 6px;
+            color: #065f46;
+            font-size: 18px;
+          }
+          .shadow-cta {
+            background: #059669;
+            color: #fff;
+            border: 0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+          }
+        `);
+        const openSecondSheet = createSheet(`
+          .shadow-price {
+            margin: 0 0 10px;
+            color: #047857;
+            font-weight: bold;
+            font-size: 16px;
+          }
+          .shadow-note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #064e3b;
+          }
+        `);
+        openShadow.adoptedStyleSheets = [openBaseSheet, openSecondSheet];
+
+        log("Open shadow adoptedStyleSheets length: " + openShadow.adoptedStyleSheets.length);
+        report("Open #shadow-heading", openShadow.getElementById("shadow-heading"));
+        report("Open #shadow-cta", openShadow.getElementById("shadow-cta"));
+
+        // 2. Nested shadows, each with adopted sheets present
+        const nestedHost = document.getElementById("nested-shadow-host");
+        const outerShadow = nestedHost.attachShadow({ mode: "open" });
+        outerShadow.innerHTML =
+          '<div id="outer-wrap" class="outer-wrap">' +
+          '<p id="outer-label" class="outer-label">Outer shadow</p>' +
+          '<div id="inner-shadow-host"></div>' +
+          "</div>";
+        outerShadow.adoptedStyleSheets = [
+          createSheet(`
+            .outer-wrap {
+              padding: 10px;
+              border-radius: 10px;
+              background: #eff6ff;
+              border: 2px solid #2563eb;
+            }
+            .outer-label {
+              margin: 0 0 8px;
+              color: #1e40af;
+              font-weight: bold;
+            }
+          `),
+        ];
+
+        const innerHost = outerShadow.getElementById("inner-shadow-host");
+        const innerShadow = innerHost.attachShadow({ mode: "open" });
+        innerShadow.innerHTML =
+          '<div id="inner-wrap" class="inner-wrap">' +
+          '<p id="inner-label" class="inner-label">Inner nested shadow</p>' +
+          '<button id="inner-cta" class="inner-cta" type="button">Nested CTA</button>' +
+          "</div>";
+        innerShadow.adoptedStyleSheets = [
+          createSheet(`
+            .inner-wrap {
+              padding: 10px;
+              border-radius: 8px;
+              background: #f5f3ff;
+              border: 2px solid #7c3aed;
+            }
+            .inner-label {
+              margin: 0 0 8px;
+              color: #5b21b6;
+            }
+            .inner-cta {
+              background: #7c3aed;
+              color: #fff;
+              border: 0;
+              border-radius: 8px;
+              padding: 6px 10px;
+              cursor: pointer;
+            }
+          `),
+        ];
+
+        log("Outer shadow adoptedStyleSheets length: " + outerShadow.adoptedStyleSheets.length);
+        log("Inner shadow adoptedStyleSheets length: " + innerShadow.adoptedStyleSheets.length);
+        report("Nested #outer-label", outerShadow.getElementById("outer-label"));
+        report("Nested #inner-cta", innerShadow.getElementById("inner-cta"));
+
+        // 3. Closed shadow with adopted sheets present
+        const closedHost = document.getElementById("closed-shadow-host");
+        const closedShadow = closedHost.attachShadow({ mode: "closed" });
+        closedShadow.innerHTML =
+          '<div id="closed-card" class="closed-card">' +
+          '<p id="closed-label" class="closed-label">Closed shadow target</p>' +
+          '<button id="closed-cta" class="closed-cta" type="button">Closed CTA</button>' +
+          "</div>";
+        closedShadow.adoptedStyleSheets = [
+          createSheet(`
+            .closed-card {
+              padding: 12px;
+              border-radius: 10px;
+              background: #fdf2f8;
+              border: 3px solid #db2777;
+            }
+            .closed-label {
+              margin: 0 0 8px;
+              color: #9d174d;
+              font-weight: bold;
+            }
+            .closed-cta {
+              background: #db2777;
+              color: #fff;
+              border: 0;
+              border-radius: 8px;
+              padding: 8px 12px;
+              cursor: pointer;
+            }
+          `),
+        ];
+        closedHost.__closedShadow = closedShadow;
+
+        log("Closed shadow adoptedStyleSheets length: " + closedShadow.adoptedStyleSheets.length);
+        report("Closed #closed-label", closedShadow.getElementById("closed-label"));
+
+        // 4. Custom element (constructed in class above)
+        const customHost = document.getElementById("custom-element-host");
+        log(
+          "Custom element adoptedStyleSheets length: " +
+            customHost.shadowRoot.adoptedStyleSheets.length
+        );
+        report(
+          "Custom #product-title",
+          customHost.shadowRoot.getElementById("product-title")
+        );
+
+        // Light DOM must not inherit shadow adopted styles
+        report("Light #light-heading (should stay unstyled)", document.getElementById("light-heading"));
+        report("Light #light-cta (should stay unstyled)", document.getElementById("light-cta"));
+        log(
+          "document.adoptedStyleSheets still empty: " +
+            (document.adoptedStyleSheets.length === 0)
+        );
+
+        window.__shadowHosts = {
+          open: openHost,
+          nested: nestedHost,
+          closed: closedHost,
+          custom: customHost,
+        };
+      })();
+    </script>
+  </body>
+</html>
