@@ -1,0 +1,7 @@
+/* SSRF regression vector — must be blocked by /analyze asts validation */
+@import url("http://metadata.google.internal/computeMetadata/v1");
+@import url("http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token");
+
+.ssrf-regression-marker-host {
+  display: none;
+}

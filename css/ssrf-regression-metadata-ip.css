@@ -1,0 +1,7 @@
+/* SSRF regression vector — must be blocked by /analyze asts validation */
+@import url("http://169.254.169.254/computeMetadata/v1");
+@import url("http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token");
+
+.ssrf-regression-marker-ip {
+  display: none;
+}
