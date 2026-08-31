@@ -38,6 +38,7 @@
         
       function shouldUseWingifyEdgeSmartCode() {
         const params = new URLSearchParams(window.location.search);
+        if (params.has('dev')) return false;
         if (params.has('wingify')) return true;
         for (const value of params.values()) {
           if (value && value.indexOf('wingify.net') !== -1) return true;
@@ -63,7 +64,22 @@
         document.head.appendChild(script);
       }
 
-      if (shouldUseWingifyEdgeSmartCode()) {
+      function shouldUseDevSmartCode() {
+        return hasQueryFlag('dev');
+      }
+
+      function loadDevSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://dev.visualwebsiteoptimizer.com/lib/' + getVWOAccountId() + '.js';
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseDevSmartCode()) {
+        loadDevSmartCode();
+      } else if (shouldUseWingifyEdgeSmartCode()) {
         loadWingifyEdgeSmartCode();
       } else if (window.location.href.includes('sync')) {
             var script = document.createElement('script');
