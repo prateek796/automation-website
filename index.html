@@ -1206,6 +1206,27 @@
     </div>
       
     <div contenteditable="true" style="border: 1px solid rgb(204, 204, 204); padding: 0.5em; min-height: 1.5em;"> </div>
+
+    <div
+      id="dom-mutation-trigger"
+      style="
+        margin: 24px auto;
+        max-width: 480px;
+        padding: 16px 20px;
+        border: 2px dashed #333;
+        border-radius: 8px;
+        background: #f8f8f8;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+      "
+    >
+      Click me — DOM mutation test
+    </div>
+    <p
+      id="dom-mutation-output"
+      style="max-width: 480px; margin: 8px auto 24px; text-align: center; color: #444; min-height: 1.2em;"
+    ></p>
   </body>
 
   <div class="box" id="box"></div>
@@ -1223,6 +1244,26 @@ button1.addEventListener('click', () => {
     box.classList.toggle('animate');
 });
 
+  </script>
+  <script>
+    document.getElementById('dom-mutation-trigger').addEventListener('click', function () {
+      var started = performance.now();
+      var output = document.getElementById('dom-mutation-output');
+      var clicks = Number(this.dataset.clicks || 0) + 1;
+
+      this.dataset.clicks = String(clicks);
+      this.textContent = 'Clicked ' + clicks + ' time' + (clicks === 1 ? '' : 's');
+      this.style.backgroundColor = clicks % 2 ? '#dfffe0' : '#ffe8e8';
+      this.style.borderColor = clicks % 2 ? '#059669' : '#dc2626';
+
+      output.textContent = '';
+      var note = document.createElement('span');
+      note.id = 'dom-mutation-note';
+      note.textContent = 'Mutation #' + clicks + ' at ' + Date.now();
+      output.appendChild(note);
+
+      console.log('DOM mutation completed in', (performance.now() - started).toFixed(2), 'ms');
+    });
   </script>
   <script>
 function preserveQueryParams(link) {
