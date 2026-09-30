@@ -28,7 +28,10 @@
       }
       function getWingifyEdgeScriptUrl() {
         var accountId = getVWOAccountId();
-        if (hasQueryFlag("prod") || hasQueryFlag("la5")) {
+        if (hasQueryFlag("prod")) {
+          return "https://edge.wingify.net/tag/" + accountId + ".js";
+        }
+        if (hasQueryFlag("la5")) {
           return "https://edge.wingify.net/tags/" + accountId + ".js";
         }
         return "https://edge.wingify.net/cloud-run-test/final/" + accountId + ".js";
@@ -45,7 +48,10 @@
 
       function getDevSmartCodeScriptUrl() {
         var accountId = getVWOAccountId();
-        if (hasQueryFlag('prod') || hasQueryFlag('la5')) {
+        if (hasQueryFlag('prod')) {
+          return 'https://dev.visualwebsiteoptimizer.com/tag/' + accountId + '.js';
+        }
+        if (hasQueryFlag('la5')) {
           return 'https://dev.visualwebsiteoptimizer.com/tags/' + accountId + '.js';
         }
         return 'https://dev.visualwebsiteoptimizer.com/cloud-run-test/final/' + accountId + '.js';
