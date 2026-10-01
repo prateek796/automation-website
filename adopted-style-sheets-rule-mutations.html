@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stylesheet rule mutations</title>
+    <style id="main-style">
+      .a { color: red; }
+      .b { color: green; }
+      .c { color: blue; }
+      @media (min-width: 1px) {
+        .m1 { color: orange; }
+        .m2 { color: purple; }
+      }
+    </style>
+    <style>
+      body { margin: 16px; font-family: sans-serif; }
+      nav { margin-bottom: 16px; font-size: 18px; }
+      nav a { margin-right: 12px; }
+      button {
+        display: block;
+        max-width: 760px;
+        margin: 0 0 10px;
+        padding: 14px 18px;
+        font-size: 20px;
+        text-align: left;
+      }
+      button:disabled { opacity: 0.45; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 20px; margin: 22px 0 8px; }
+      #support, #status { font-size: 20px; white-space: pre-wrap; }
+      pre {
+        font-size: 16px;
+        line-height: 1.45;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <strong>Adopted StyleSheets</strong>
+      <a href="index.html" onclick="return preserveQueryParams(this)">Home</a>
+      <a href="adopted-style-sheets-static.html" onclick="return preserveQueryParams(this)">Static</a>
+      <a href="adopted-style-sheets-dynamic-add.html" onclick="return preserveQueryParams(this)">Dynamic Add</a>
+      <a href="adopted-style-sheets-dynamic-remove.html" onclick="return preserveQueryParams(this)">Dynamic Remove</a>
+      <a href="adopted-style-sheets-document-shadow.html" onclick="return preserveQueryParams(this)">Document &amp; Shadow</a>
+      <a href="adopted-style-sheets-shadow.html" onclick="return preserveQueryParams(this)">Shadow DOM</a>
+      <a href="adopted-style-sheets-edge-cases.html" onclick="return preserveQueryParams(this)">Edge Cases</a>
+      <a href="adopted-style-sheets-rule-mutations.html" onclick="return preserveQueryParams(this)">Rule Mutations</a>
+    </nav>
+
+    <h1>Stylesheet rule mutations</h1>
+    <p id="support"></p>
+    <p id="status"></p>
+
+    <h2>Main &lt;style&gt; sheet</h2>
+    <button type="button" id="btn-main-delete-0">Delete index 0</button>
+    <button type="button" id="btn-main-delete-middle">Delete the current middle rule</button>
+    <button type="button" id="btn-main-delete-last">Delete the last rule</button>
+    <button type="button" id="btn-main-dup-1">Insert dup first time</button>
+    <button type="button" id="btn-main-dup-2">Insert dup second time</button>
+    <button type="button" id="btn-main-delete-dup">Delete whatever index currently holds .dup</button>
+    <button type="button" id="btn-main-restore-dup">Insert that same .dup rule back at the same index</button>
+    <button type="button" id="btn-main-delete-99">deleteRule(99)</button>
+
+    <h2>@media rule</h2>
+    <button type="button" id="btn-media-delete-0">Delete index 0 inside the media rule</button>
+    <button type="button" id="btn-media-insert-m3">insertRule(".m3 { color: navy; }", 0)</button>
+
+    <h2>Constructed sheet</h2>
+    <button type="button" id="btn-constructed-delete-0" data-constructed="1">Delete index 0</button>
+    <button type="button" id="btn-constructed-insert-k3" data-constructed="1">insertRule(".k3 { color: yellow; }", 0)</button>
+
+    <h2>Iframe sheet</h2>
+    <button type="button" id="btn-iframe-delete-0">Delete index 0</button>
+    <iframe id="rec-iframe" title="same-origin iframe"></iframe>
+
+    <h2>Shadow style sheet</h2>
+    <button type="button" id="btn-shadow-delete-0">Delete index 0</button>
+    <div id="shadow-host">shadow host</div>
+
+    <h2>Negative controls</h2>
+    <button type="button" id="btn-keyframes-delete-from">keyframesRule.deleteRule("from")</button>
+    <button type="button" id="btn-remove-rule">removeRule(0)</button>
+
+    <h2>Log</h2>
+    <button type="button" id="btn-reset">Reset rules</button>
+    <button type="button" id="btn-dump">Dump all rules</button>
+    <pre id="log"></pre>
+
+    <script>
+      function preserveQueryParams(link) {
+        var currentParams = new URLSearchParams(window.location.search);
+        var href = link.getAttribute("href");
+        var newUrl = new URL(href, window.location.href);
+        currentParams.forEach(function (value, key) {
+          if (!newUrl.searchParams.has(key)) newUrl.searchParams.set(key, value);
+        });
+        if (currentParams.toString()) {
+          window.location.href = newUrl.toString();
+          return false;
+        }
+        return true;
+      }
+
+      (function () {
+        var DUP_RULE = ".dup { color: gray; }";
+        var MAIN_CSS = [
+          ".a { color: red; }",
+          ".b { color: green; }",
+          ".c { color: blue; }",
+          "@media (min-width: 1px) {",
+          "  .m1 { color: orange; }",
+          "  .m2 { color: purple; }",
+          "}"
+        ].join("\n");
+        var IFRAME_CSS = ".iframe-rule { color: teal; }";
+        var SHADOW_CSS = ".shadow-rule { color: pink; }";
+        var KEYFRAMES_CSS = "@keyframes spin { from { opacity: 1; } to { opacity: 0; } }";
+        var K1_RULE = ".k1 { color: black; }";
+        var K2_RULE = ".k2 { color: white; }";
+        var K3_RULE = ".k3 { color: yellow; }";
+        var M3_RULE = ".m3 { color: navy; }";
+        var REMOVE_ME_RULE = ".remove-me { color: brown; }";
+
+        var mainStyle = document.getElementById("main-style");
+        var mainSheet = mainStyle.sheet;
+        var mediaRule = null;
+        var constructedSheet = null;
+        var constructedError = "";
+        var iframe = document.getElementById("rec-iframe");
+        var iframeSheet = null;
+        var shadowStyle = null;
+        var shadowSheet = null;
+        var shadowError = "";
+        var keyframesStyle = null;
+        var removeRuleStyle = null;
+        var savedDupIndex = null;
+        var lastAction = "initial setup — did not throw";
+
+        function findMediaRule(sheet) {
+          if (!sheet) return null;
+          var rules = sheet.cssRules;
+          for (var i = 0; i < rules.length; i++) {
+            if (rules[i].type === CSSRule.MEDIA_RULE) return rules[i];
+          }
+          return null;
+        }
+
+        function findSelectorIndex(ruleList, selector) {
+          if (!ruleList) return -1;
+          for (var i = 0; i < ruleList.length; i++) {
+            if (ruleList[i].selectorText === selector) return i;
+          }
+          return -1;
+        }
+
+        function supportText() {
+          var grouping = typeof CSSGroupingRule !== "undefined";
+          var adopted = "adoptedStyleSheets" in document;
+          var shadow = !!Element.prototype.attachShadow;
+          return (
+            "CSSGroupingRule: " + (grouping ? "available" : "not available") +
+            "\nadoptedStyleSheets: " + (adopted ? "available" : "not available") +
+            "\nshadow DOM: " + (shadow ? "available" : "not available")
+          );
+        }
+
+        function formatRules(rules, indent) {
+          var pad = indent || "";
+          if (!rules) return pad + "(no cssRules)\n";
+          if (rules.length === 0) return pad + "(empty)\n";
+          var out = "";
+          for (var i = 0; i < rules.length; i++) {
+            var rule = rules[i];
+            var text;
+            try {
+              text = rule.cssText;
+            } catch (e) {
+              text = "(cssText threw " + e + ")";
+            }
+            out += pad + i + ": " + text + "\n";
+            if (rule.cssRules) out += formatRules(rule.cssRules, pad + "  ");
+          }
+          return out;
+        }
+
+        function section(name, sheet) {
+          var body;
+          try {
+            if (!sheet) body = "  (not available)\n";
+            else body = formatRules(sheet.cssRules, "  ");
+          } catch (e) {
+            body = "  (cssRules threw " + e + ")\n";
+          }
+          return "[" + name + "]\n" + body;
+        }
+
+        function renderLog() {
+          var parts = [lastAction, "", supportText(), ""];
+          parts.push(section("main", mainSheet));
+          parts.push(section("media", mediaRule));
+          if (constructedError) parts.push("[constructed]\n  " + constructedError + "\n");
+          else parts.push(section("constructed", constructedSheet));
+          parts.push(section("iframe", iframeSheet));
+          if (shadowError) parts.push("[shadow]\n  " + shadowError + "\n");
+          else parts.push(section("shadow", shadowSheet));
+          parts.push(section("keyframes", keyframesStyle ? keyframesStyle.sheet : null));
+          parts.push(section("removeRule", removeRuleStyle ? removeRuleStyle.sheet : null));
+          document.getElementById("log").textContent = parts.join("\n");
+          document.getElementById("status").textContent = lastAction;
+          document.getElementById("support").textContent = supportText();
+        }
+
+        function describeError(error) {
+          if (!error) return "did not throw";
+          return "threw " + (error.name || "Error") + ": " + (error.message || String(error));
+        }
+
+        function note(text) {
+          lastAction = text;
+          renderLog();
+        }
+
+        function callApi(label, identity, ruleParent, api, arg, ruleText) {
+          var shown = api === "insertRule" ? JSON.stringify(ruleText) + ", " + arg : String(arg);
+          var error = null;
+          try {
+            if (!ruleParent) throw new Error(identity + " sheet is not available");
+            if (api === "deleteRule") ruleParent.deleteRule(arg);
+            else if (api === "insertRule") ruleParent.insertRule(ruleText, arg);
+            else if (api === "removeRule") ruleParent.removeRule(arg);
+            else throw new Error("unknown api " + api);
+          } catch (e) {
+            error = e;
+          }
+          lastAction = label + " — " + identity + " " + api + "(" + shown + ") — " + describeError(error);
+          renderLog();
+        }
+
+        function setupConstructed() {
+          var buttons = document.querySelectorAll("[data-constructed]");
+          try {
+            if (!("adoptedStyleSheets" in document) || typeof CSSStyleSheet !== "function") {
+              throw new Error("adoptedStyleSheets is not supported");
+            }
+            constructedSheet = new CSSStyleSheet();
+            constructedSheet.insertRule(K1_RULE, 0);
+            constructedSheet.insertRule(K2_RULE, 1);
+            document.adoptedStyleSheets = [constructedSheet];
+          } catch (e) {
+            constructedSheet = null;
+            constructedError = String(e.message || e);
+            for (var i = 0; i < buttons.length; i++) buttons[i].disabled = true;
+          }
+        }
+
+        function setupShadow() {
+          var host = document.getElementById("shadow-host");
+          try {
+            if (!Element.prototype.attachShadow) throw new Error("shadow DOM is not supported");
+            var root = host.attachShadow({ mode: "open" });
+            shadowStyle = document.createElement("style");
+            shadowStyle.textContent = SHADOW_CSS;
+            root.appendChild(shadowStyle);
+            shadowSheet = shadowStyle.sheet;
+          } catch (e) {
+            shadowError = String(e.message || e);
+          }
+        }
+
+        function setupKeyframes() {
+          keyframesStyle = document.createElement("style");
+          keyframesStyle.id = "keyframes-style";
+          document.head.appendChild(keyframesStyle);
+          keyframesStyle.sheet.insertRule(KEYFRAMES_CSS, 0);
+        }
+
+        function currentKeyframesRule() {
+          if (!keyframesStyle || !keyframesStyle.sheet) return null;
+          var rules = keyframesStyle.sheet.cssRules;
+          for (var i = 0; i < rules.length; i++) {
+            if (rules[i].type === CSSRule.KEYFRAMES_RULE) return rules[i];
+          }
+          return null;
+        }
+
+        function deleteMiddle() {
+          var index = findSelectorIndex(mainSheet && mainSheet.cssRules, ".b");
+          if (index < 0) {
+            note("Delete the current middle rule — main deleteRule — .b is already gone — did not throw");
+            return;
+          }
+          callApi("Delete the current middle rule", "main", mainSheet, "deleteRule", index);
+        }
+
+        function deleteLast() {
+          var length = mainSheet && mainSheet.cssRules ? mainSheet.cssRules.length : 0;
+          if (!length) {
+            note("Delete the last rule — main deleteRule — last rule is already gone — did not throw");
+            return;
+          }
+          callApi("Delete the last rule", "main", mainSheet, "deleteRule", length - 1);
+        }
+
+        function deleteDup() {
+          var index = findSelectorIndex(mainSheet && mainSheet.cssRules, ".dup");
+          if (index < 0) {
+            note("Delete whatever index currently holds .dup — main deleteRule — .dup is already gone — did not throw");
+            return;
+          }
+          savedDupIndex = index;
+          callApi("Delete whatever index currently holds .dup", "main", mainSheet, "deleteRule", index);
+        }
+
+        function restoreDup() {
+          if (savedDupIndex === null) {
+            note('Insert that same .dup rule back at the same index — main insertRule — no saved .dup index — did not throw');
+            return;
+          }
+          callApi(
+            "Insert that same .dup rule back at the same index",
+            "main",
+            mainSheet,
+            "insertRule",
+            savedDupIndex,
+            DUP_RULE
+          );
+        }
+
+        function deleteKeyframesFrom() {
+          var keyframesRule = currentKeyframesRule();
+          var error = null;
+          try {
+            if (!keyframesRule) throw new Error("CSSKeyframesRule is not available");
+            keyframesRule.deleteRule("from");
+          } catch (e) {
+            error = e;
+          }
+          lastAction = 'keyframesRule.deleteRule("from") — keyframes deleteRule("from") — ' + describeError(error);
+          renderLog();
+        }
+
+        function callRemoveRule() {
+          if (removeRuleStyle && removeRuleStyle.parentNode) {
+            removeRuleStyle.parentNode.removeChild(removeRuleStyle);
+          }
+          removeRuleStyle = document.createElement("style");
+          removeRuleStyle.id = "remove-rule-style";
+          document.head.appendChild(removeRuleStyle);
+          var sheet = removeRuleStyle.sheet;
+          if (!sheet || typeof sheet.removeRule !== "function") {
+            note("removeRule(0) — removeRule removeRule(0) — removeRule does not exist — did not throw");
+            return;
+          }
+          try {
+            sheet.insertRule(REMOVE_ME_RULE, 0);
+          } catch (e) {
+            lastAction = "removeRule(0) — removeRule insertRule(" + JSON.stringify(REMOVE_ME_RULE) + ", 0) — " + describeError(e);
+            renderLog();
+            return;
+          }
+          var error = null;
+          try {
+            sheet.removeRule(0);
+          } catch (e) {
+            error = e;
+          }
+          lastAction = "removeRule(0) — removeRule removeRule(0) — " + describeError(error);
+          renderLog();
+        }
+
+        function resetRules() {
+          savedDupIndex = null;
+          mainStyle.textContent = MAIN_CSS;
+          mainSheet = mainStyle.sheet;
+          mediaRule = findMediaRule(mainSheet);
+
+          if (constructedSheet) {
+            while (constructedSheet.cssRules.length) constructedSheet.deleteRule(0);
+            constructedSheet.insertRule(K1_RULE, 0);
+            constructedSheet.insertRule(K2_RULE, 1);
+          }
+
+          if (iframe.contentDocument) {
+            var iframeStyle = iframe.contentDocument.querySelector("style");
+            if (iframeStyle) {
+              iframeStyle.textContent = IFRAME_CSS;
+              iframeSheet = iframeStyle.sheet;
+            }
+          }
+
+          if (shadowStyle) {
+            shadowStyle.textContent = SHADOW_CSS;
+            shadowSheet = shadowStyle.sheet;
+          }
+
+          if (keyframesStyle) keyframesStyle.textContent = KEYFRAMES_CSS;
+
+          if (removeRuleStyle && removeRuleStyle.parentNode) {
+            removeRuleStyle.parentNode.removeChild(removeRuleStyle);
+          }
+          removeRuleStyle = null;
+          note("Reset rules — did not throw");
+        }
+
+        mediaRule = findMediaRule(mainSheet);
+        setupConstructed();
+        setupShadow();
+        setupKeyframes();
+
+        iframe.addEventListener("load", function () {
+          try {
+            iframeSheet = iframe.contentDocument.querySelector("style").sheet;
+          } catch (e) {
+            iframeSheet = null;
+          }
+          renderLog();
+        });
+        iframe.srcdoc = "<!DOCTYPE html><html><head><style>" + IFRAME_CSS + "</style></head><body>iframe</body></html>";
+
+        document.getElementById("btn-main-delete-0").addEventListener("click", function () {
+          callApi("Delete index 0", "main", mainSheet, "deleteRule", 0);
+        });
+        document.getElementById("btn-main-delete-middle").addEventListener("click", deleteMiddle);
+        document.getElementById("btn-main-delete-last").addEventListener("click", deleteLast);
+        document.getElementById("btn-main-dup-1").addEventListener("click", function () {
+          callApi("Insert dup first time", "main", mainSheet, "insertRule", 0, DUP_RULE);
+        });
+        document.getElementById("btn-main-dup-2").addEventListener("click", function () {
+          callApi("Insert dup second time", "main", mainSheet, "insertRule", 0, DUP_RULE);
+        });
+        document.getElementById("btn-main-delete-dup").addEventListener("click", deleteDup);
+        document.getElementById("btn-main-restore-dup").addEventListener("click", restoreDup);
+        document.getElementById("btn-main-delete-99").addEventListener("click", function () {
+          callApi("deleteRule(99)", "main", mainSheet, "deleteRule", 99);
+        });
+        document.getElementById("btn-media-delete-0").addEventListener("click", function () {
+          callApi("Delete index 0 inside the media rule", "media", mediaRule, "deleteRule", 0);
+        });
+        document.getElementById("btn-media-insert-m3").addEventListener("click", function () {
+          callApi('insertRule(".m3 { color: navy; }", 0)', "media", mediaRule, "insertRule", 0, M3_RULE);
+        });
+        document.getElementById("btn-constructed-delete-0").addEventListener("click", function () {
+          callApi("Delete index 0", "constructed", constructedSheet, "deleteRule", 0);
+        });
+        document.getElementById("btn-constructed-insert-k3").addEventListener("click", function () {
+          callApi('insertRule(".k3 { color: yellow; }", 0)', "constructed", constructedSheet, "insertRule", 0, K3_RULE);
+        });
+        document.getElementById("btn-iframe-delete-0").addEventListener("click", function () {
+          callApi("Delete index 0", "iframe", iframeSheet, "deleteRule", 0);
+        });
+        document.getElementById("btn-shadow-delete-0").addEventListener("click", function () {
+          callApi("Delete index 0", "shadow", shadowSheet, "deleteRule", 0);
+        });
+        document.getElementById("btn-keyframes-delete-from").addEventListener("click", deleteKeyframesFrom);
+        document.getElementById("btn-remove-rule").addEventListener("click", callRemoveRule);
+        document.getElementById("btn-reset").addEventListener("click", resetRules);
+        document.getElementById("btn-dump").addEventListener("click", function () {
+          note("Dump all rules — did not throw");
+        });
+
+        renderLog();
+      })();
+    </script>
+  </body>
+</html>
