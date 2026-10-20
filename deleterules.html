@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSS deleteRule test</title>
+    <!-- Start VWO Async SmartCode -->
+    <script type="text/javascript" id="vwoCode">
+      // Function to get ID from URL
+      function getVWOAccountId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        const isSync = window.location.href.includes("sync");
+
+        // If URL has an ID parameter, use that
+        if (urlId) {
+          return urlId;
+        }
+        // Default ID if none specified
+        return "814397";
+      }
+
+      
+      function shouldUseWingifyEdgeSmartCode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('dev')) return false;
+        if (params.has('prod') || params.has('la5')) return true;
+        if (params.has('wingify')) return true;
+        for (const value of params.values()) {
+          if (value && value.indexOf('wingify.net') !== -1) return true;
+        }
+        return false;
+      }
+      function hasQueryFlag(name) {
+        return new URLSearchParams(window.location.search).has(name);
+      }
+      function getWingifyEdgeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('prod')) {
+          return 'https://edge.wingify.net/tag/' + accountId + '.js';
+        }
+        if (hasQueryFlag('la5')) {
+          return 'https://edge.wingify.net/tags/' + accountId + '.js';
+        }
+        return 'https://edge.wingify.net/cloud-run-test/final/' + accountId + '.js';
+      }
+      function loadWingifyEdgeSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getWingifyEdgeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+
+      function getDevSmartCodeScriptUrl() {
+        var accountId = getVWOAccountId();
+        if (hasQueryFlag('prod')) {
+          return 'https://dev.visualwebsiteoptimizer.com/tag/' + accountId + '.js';
+        }
+        if (hasQueryFlag('la5')) {
+          return 'https://dev.visualwebsiteoptimizer.com/tags/' + accountId + '.js';
+        }
+        return 'https://dev.visualwebsiteoptimizer.com/cloud-run-test/final/' + accountId + '.js';
+      }
+
+      function shouldUseDevSmartCode() {
+        return hasQueryFlag('dev');
+      }
+
+      function loadDevSmartCode() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = getDevSmartCodeScriptUrl();
+        script.id = 'vwoCode';
+        script.referrerPolicy = 'no-referrer-when-downgrade';
+        document.head.appendChild(script);
+      }
+
+      if (shouldUseDevSmartCode()) {
+        loadDevSmartCode();
+      } else if (shouldUseWingifyEdgeSmartCode()) {
+        loadWingifyEdgeSmartCode();
+      } else if (window.location.href.includes('sync')) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://dev.visualwebsiteoptimizer.com/lib/" +
+          getVWOAccountId() +
+          ".js";
+        script.id = "vwoCode";
+        script.referrerPolicy = "no-referrer-when-downgrade";
+        document.head.appendChild(script);
+
+        var anotherScript = document.createElement("script");
+        anotherScript.type = "text/javascript";
+        anotherScript.src = "path/to/your/other/script.js";
+        document.head.appendChild(anotherScript);
+      } else {
+        window._vwo_code =
+          window._vwo_code ||
+          (function () {
+            var account_id = getVWOAccountId(),
+              version = 1.5,
+              settings_tolerance = 2000,
+              library_tolerance = 2500,
+              use_existing_jquery = false,
+              is_spa = 1,
+              hide_element = "body",
+              hide_element_style =
+                "opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important";
+
+            var f = false,
+              d = document,
+              vwoCodeEl = d.querySelector("#vwoCode"),
+              code = {
+                use_existing_jquery: function () {
+                  return use_existing_jquery;
+                },
+                library_tolerance: function () {
+                  return library_tolerance;
+                },
+                hide_element_style: function () {
+                  return "{" + hide_element_style + "}";
+                },
+                finish: function () {
+                  if (!f) {
+                    f = true;
+                    var e = d.getElementById("_vis_opt_path_hides");
+                    if (e) e.parentNode.removeChild(e);
+                  }
+                },
+                finished: function () {
+                  return f;
+                },
+                load: function (e) {
+                  var t = d.createElement("script");
+                  t.fetchPriority = "high";
+                  t.src = e;
+                  t.type = "text/javascript";
+                  t.onerror = function () {
+                    _vwo_code.finish();
+                  };
+                  d.getElementsByTagName("head")[0].appendChild(t);
+                },
+                getVersion: function () {
+                  return version;
+                },
+                getMatchedCookies: function (e) {
+                  var t = [];
+                  if (document.cookie) {
+                    t = document.cookie.match(e) || [];
+                  }
+                  return t;
+                },
+                getCombinationCookie: function () {
+                  var e = code.getMatchedCookies(
+                    /(?:^|;)\s?(_vis_opt_exp_\d+_combi=[^;$]*)/gi
+                  );
+                  e = e.map(function (e) {
+                    try {
+                      var t = decodeURIComponent(e);
+                      if (
+                        !/_vis_opt_exp_\d+_combi=(?:\d+,?)+\s*$/.test(t)
+                      ) {
+                        return "";
+                      }
+                      return t;
+                    } catch (e) {
+                      return "";
+                    }
+                  });
+                  var i = [];
+                  e.forEach(function (e) {
+                    var t = e.match(/([\d,]+)/g);
+                    t && i.push(t.join("-"));
+                  });
+                  return i.join("|");
+                },
+                init: function () {
+                  if (d.URL.indexOf("__vwo_disable__") > -1) return;
+                  window.settings_timer = setTimeout(function () {
+                    _vwo_code.finish();
+                  }, settings_tolerance);
+                  var e = d.createElement("style"),
+                    t = hide_element
+                      ? hide_element + "{" + hide_element_style + "}"
+                      : "",
+                    i = d.getElementsByTagName("head")[0];
+                  e.setAttribute("id", "_vis_opt_path_hides");
+                  vwoCodeEl && e.setAttribute("nonce", vwoCodeEl.nonce);
+                  e.setAttribute("type", "text/css");
+                  if (e.styleSheet) e.styleSheet.cssText = t;
+                  else e.appendChild(d.createTextNode(t));
+                  i.appendChild(e);
+                  var n = this.getCombinationCookie();
+                  this.load(
+                    "https://dev.visualwebsiteoptimizer.com/j.php?a=" +
+                      account_id +
+                      "&u=" +
+                      encodeURIComponent(d.URL) +
+                      "&f=" +
+                      +is_spa +
+                      "&vn=" +
+                      version +
+                      (n ? "&c=" + n : "")
+                  );
+                  return settings_timer;
+                },
+              };
+            window._vwo_settings_timer = code.init();
+            return code;
+          })();
+        _vwo_pc_custom = { a: 100, t: 100 };
+        var jsVar = 1;
+        var jaVar = "false";
+        document.cookie = "firstName=abc";
+      }
+    </script>
+    <!-- End VWO Async SmartCode -->
+    <style id="chrome">
+      * { box-sizing: border-box; }
+      body { margin: 0; font: 16px/1.4 sans-serif; color: #222; background: #fff; }
+      header, main { padding: 16px 20px; }
+      header { background: #111; color: #fff; }
+      header p { margin: 8px 0 0; max-width: 760px; color: #ddd; }
+      #support, #status { margin-top: 10px; font-family: ui-monospace, monospace; font-size: 13px; }
+      section { margin: 16px 20px; padding: 12px; border: 1px solid #ddd; }
+      h2 { margin: 0 0 8px; font-size: 18px; }
+      .row { display: flex; flex-wrap: wrap; align-items: stretch; }
+      .swatch {
+        min-width: 150px;
+        min-height: 84px;
+        margin: 6px;
+        padding: 10px;
+        display: inline-flex;
+        align-items: flex-end;
+        border: 3px dashed #bdbdbd;
+        background: #f5f5f5;
+        color: #616161;
+        font-weight: 700;
+      }
+      .pulse { min-width: 150px; min-height: 84px; margin: 6px; padding: 10px; display: inline-flex; align-items: flex-end; border: 3px dashed #bdbdbd; font-weight: 700; }
+      button { font-size: 15px; margin: 4px; padding: 10px 12px; cursor: pointer; }
+      iframe { width: 100%; height: 130px; border: 1px solid #ccc; background: #fff; }
+      #shadow-host { min-height: 90px; padding: 8px; border: 1px dashed #ccc; }
+      #log { margin: 16px 20px 40px; padding: 12px; background: #fafafa; border: 1px solid #ddd; white-space: pre-wrap; font: 12px/1.45 ui-monospace, monospace; }
+      .bad { color: #b71c1c; }
+      .ok { color: #1b5e20; }
+    </style>
+    <style id="main-style">
+      .swatch.a { background: #e53935; color: #fff; border-style: solid; border-color: #b71c1c; }
+      .swatch.b { background: #43a047; color: #fff; border-style: solid; border-color: #1b5e20; }
+      .swatch.c { background: #1e88e5; color: #fff; border-style: solid; border-color: #0d47a1; }
+      @media (min-width: 1px) {
+        .swatch.m1 { background: #fb8c00; color: #fff; border-style: solid; border-color: #e65100; }
+        .swatch.m2 { background: #8e24aa; color: #fff; border-style: solid; border-color: #4a148c; }
+      }
+      @supports (color: red) {
+        .swatch.s1 { background: #6a1b9a; color: #fff; border-style: solid; border-color: #4a148c; }
+      }
+    </style>
+    <style id="keyframes-style">
+      @keyframes pulse {
+        from { background: #212121; color: #fff; transform: translateY(0); }
+        to { background: #ff9800; color: #111; transform: translateY(-10px); }
+      }
+      .pulse { animation: pulse 0.7s infinite alternate; border-style: solid; }
+    </style>
+    <style id="remove-style">
+      .swatch.remove-me { background: #6d4c41; color: #fff; border-style: solid; border-color: #3e2723; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>CSS insertRule / deleteRule test</strong>
+      <p>Load the page first, then start the recording. Solid color means the rule is in the sheet. Dashed gray means it was removed. Click Reset before a sequence if you want the original indexes back.</p>
+      <div id="support"></div>
+      <div id="status">Ready.</div>
+    </header>
+  
+    <section>
+      <h2>Main style sheet</h2>
+      <div class="row">
+        <div class="swatch a">.a</div>
+        <div class="swatch b">.b</div>
+        <div class="swatch c">.c</div>
+        <div class="swatch dup">.dup</div>
+      </div>
+      <button type="button" id="del-0">Delete index 0 (.a after Reset)</button>
+      <button type="button" id="del-b">Delete .b</button>
+      <button type="button" id="del-last">Delete last rule (.s1 after Reset)</button>
+      <button type="button" id="ins-dup">Insert .dup</button>
+      <button type="button" id="ins-dup-2">Insert .dup again (same rule)</button>
+      <button type="button" id="del-dup">Delete .dup</button>
+      <button type="button" id="restore-dup">Insert .dup back at the deleted index</button>
+      <button type="button" id="del-bad">deleteRule(99)</button>
+    </section>
+  
+    <section>
+      <h2>@media inside the main sheet</h2>
+      <div class="row">
+        <div class="swatch m1">.m1</div>
+        <div class="swatch m2">.m2</div>
+        <div class="swatch m3">.m3</div>
+      </div>
+      <button type="button" id="del-media">Delete index 0 inside @media (.m1)</button>
+      <button type="button" id="ins-media">Insert .m3 inside @media</button>
+    </section>
+  
+    <section>
+      <h2>@supports inside the main sheet</h2>
+      <div class="row"><div class="swatch s1">.s1</div></div>
+      <button type="button" id="del-supports">Delete index 0 inside @supports</button>
+    </section>
+  
+    <section>
+      <h2>Constructed stylesheet (document.adoptedStyleSheets)</h2>
+      <div class="row">
+        <div class="swatch k1">.k1</div>
+        <div class="swatch k2">.k2</div>
+        <div class="swatch k3">.k3</div>
+      </div>
+      <button type="button" id="del-constructed">Delete index 0 on constructed sheet (.k1)</button>
+      <button type="button" id="ins-constructed">Insert .k3 on constructed sheet</button>
+    </section>
+  
+    <section>
+      <h2>Iframe style sheet</h2>
+      <iframe id="frame" title="iframe target"></iframe>
+      <button type="button" id="del-iframe">Delete index 0 in the iframe</button>
+    </section>
+  
+    <section>
+      <h2>Shadow root style sheet</h2>
+      <div id="shadow-host"></div>
+      <button type="button" id="del-shadow">Delete index 0 in the shadow style</button>
+    </section>
+  
+    <section>
+      <h2>Not hooked on purpose</h2>
+      <div class="row">
+        <div class="pulse">keyframes</div>
+        <div class="swatch remove-me">.remove-me</div>
+      </div>
+      <button type="button" id="del-keyframe">CSSKeyframesRule.deleteRule("from")</button>
+      <button type="button" id="remove-rule">sheet.removeRule(0)</button>
+    </section>
+  
+    <section>
+      <button type="button" id="reset">Reset rules</button>
+      <button type="button" id="dump">Dump rules</button>
+    </section>
+    <pre id="log"></pre>
+  
+    <script>
+      var DUP_RULE = '.swatch.dup { background: #757575; color: #fff; border-style: solid; border-color: #424242; }';
+      var M3_RULE = '.swatch.m3 { background: #0d47a1; color: #fff; border-style: solid; border-color: #01579b; }';
+      var K3_RULE = '.swatch.k3 { background: #fdd835; color: #111; border-style: solid; border-color: #f9a825; }';
+      var MAIN_CSS = document.getElementById('main-style').textContent;
+      var KEYFRAMES_CSS = document.getElementById('keyframes-style').textContent;
+      var REMOVE_CSS = document.getElementById('remove-style').textContent;
+      var IFRAME_COLOR = '.iframe-rule { background: #00897b; color: #fff; border: 4px solid #004d40; }';
+      var SHADOW_COLOR = '.shadow-rule { background: #ec407a; color: #fff; border: 4px solid #ad1457; }';
+      var savedDupIndex = 0;
+      var constructed = null;
+      var shadowRootRef = null;
+  
+      function mainSheet() {
+        return document.getElementById('main-style').sheet;
+      }
+  
+      function findRule(sheet, test) {
+        if (!sheet || !sheet.cssRules) return -1;
+        for (var i = 0; i < sheet.cssRules.length; i++) {
+          if (test(sheet.cssRules[i])) return i;
+        }
+        return -1;
+      }
+  
+      function mediaRule() {
+        var index = findRule(mainSheet(), function (rule) { return rule.type === CSSRule.MEDIA_RULE; });
+        if (index < 0) throw new Error('@media rule is gone');
+        return mainSheet().cssRules[index];
+      }
+  
+      function supportsRule() {
+        var index = findRule(mainSheet(), function (rule) { return rule.type === CSSRule.SUPPORTS_RULE; });
+        if (index < 0) throw new Error('@supports rule is gone');
+        return mainSheet().cssRules[index];
+      }
+  
+      function keyframesRule() {
+        var sheet = document.getElementById('keyframes-style').sheet;
+        var index = findRule(sheet, function (rule) { return rule.type === CSSRule.KEYFRAMES_RULE; });
+        if (index < 0) throw new Error('keyframes rule is gone');
+        return sheet.cssRules[index];
+      }
+  
+      function iframeSheet() {
+        var doc = document.getElementById('frame').contentDocument;
+        var node = doc && doc.getElementById('iframe-style');
+        if (!node || !node.sheet) throw new Error('iframe sheet is not ready');
+        return node.sheet;
+      }
+  
+      function shadowSheet() {
+        var node = shadowRootRef && shadowRootRef.getElementById('shadow-style');
+        if (!node || !node.sheet) throw new Error('shadow sheet is not ready');
+        return node.sheet;
+      }
+  
+      function setStatus(text, ok) {
+        var node = document.getElementById('status');
+        node.textContent = text;
+        node.className = ok ? 'ok' : 'bad';
+      }
+  
+      function listSheet(sheet, label) {
+        var out = label + '\n';
+        if (!sheet || !sheet.cssRules) return out + '  (unavailable)\n';
+        if (!sheet.cssRules.length) return out + '  (empty)\n';
+        for (var i = 0; i < sheet.cssRules.length; i++) {
+          out += '  ' + i + ': ' + sheet.cssRules[i].cssText + '\n';
+        }
+        return out;
+      }
+  
+      function dump() {
+        var chunks = [
+          listSheet(mainSheet(), 'main-style'),
+          listSheet(constructed, 'constructed'),
+          listSheet(document.getElementById('keyframes-style').sheet, 'keyframes-style'),
+          listSheet(document.getElementById('remove-style').sheet, 'remove-style')
+        ];
+        try { chunks.push(listSheet(iframeSheet(), 'iframe-style')); } catch (e) { chunks.push('iframe-style\n  ' + e.message + '\n'); }
+        try { chunks.push(listSheet(shadowSheet(), 'shadow-style')); } catch (e) { chunks.push('shadow-style\n  ' + e.message + '\n'); }
+        document.getElementById('log').textContent = chunks.join('\n');
+      }
+  
+      function run(name, fn) {
+        try {
+          var detail = fn();
+          setStatus(name + (detail ? ' — ' + detail : ''), true);
+        } catch (e) {
+          setStatus(name + ' — threw: ' + (e && e.message ? e.message : e), false);
+        }
+        try { dump(); } catch (e) {}
+      }
+  
+      function deleteAt(sheet, index) {
+        var rule = sheet.cssRules[index];
+        var text = rule ? rule.cssText : '(no rule)';
+        sheet.deleteRule(index);
+        return 'index ' + index + ' removed: ' + text;
+      }
+  
+      function setupConstructed() {
+        if (typeof CSSStyleSheet !== 'function' || !('adoptedStyleSheets' in document)) {
+          constructed = null;
+          return;
+        }
+        var sheet = new CSSStyleSheet();
+        sheet.insertRule('.swatch.k1 { background: #212121; color: #fff; border-style: solid; border-color: #000; }', 0);
+        sheet.insertRule('.swatch.k2 { background: #fff59d; color: #111; border-style: solid; border-color: #fbc02d; }', 1);
+        document.adoptedStyleSheets = [sheet];
+        constructed = sheet;
+      }
+  
+      function setupFrame() {
+        var frame = document.getElementById('frame');
+        frame.srcdoc = '<!DOCTYPE html><html><body style="margin:12px;font-family:sans-serif">'
+          + '<style id="iframe-base">.iframe-rule{display:inline-block;min-width:180px;min-height:72px;padding:12px;border:3px dashed #bdbdbd;background:#f5f5f5;color:#616161;font-weight:700}</style>'
+          + '<style id="iframe-style">' + IFRAME_COLOR + '</style>'
+          + '<div class="iframe-rule">iframe box</div></body></html>';
+      }
+  
+      function setupShadow() {
+        var host = document.getElementById('shadow-host');
+        shadowRootRef = host.attachShadow({ mode: 'open' });
+        shadowRootRef.innerHTML = '<style id="shadow-base">.shadow-rule{display:inline-block;min-width:180px;min-height:72px;padding:12px;border:3px dashed #bdbdbd;background:#f5f5f5;color:#616161;font-weight:700}</style>'
+          + '<style id="shadow-style">' + SHADOW_COLOR + '</style>'
+          + '<div class="shadow-rule">shadow box</div>';
+      }
+  
+      function resetAll() {
+        document.getElementById('main-style').textContent = MAIN_CSS;
+        document.getElementById('keyframes-style').textContent = KEYFRAMES_CSS;
+        document.getElementById('remove-style').textContent = REMOVE_CSS;
+        savedDupIndex = 0;
+        setupConstructed();
+        var frameDoc = document.getElementById('frame').contentDocument;
+        if (frameDoc && frameDoc.getElementById('iframe-style')) {
+          frameDoc.getElementById('iframe-style').textContent = IFRAME_COLOR;
+        }
+        if (shadowRootRef && shadowRootRef.getElementById('shadow-style')) {
+          shadowRootRef.getElementById('shadow-style').textContent = SHADOW_COLOR;
+        }
+        return 'sheets restored';
+      }
+  
+      document.getElementById('support').textContent =
+        'CSSGroupingRule: ' + (typeof CSSGroupingRule !== 'undefined')
+        + ' | adoptedStyleSheets: ' + ('adoptedStyleSheets' in document)
+        + ' | shadow DOM: ' + ('attachShadow' in Element.prototype)
+        + ' | removeRule: ' + (typeof document.getElementById('remove-style').sheet.removeRule === 'function');
+  
+      setupConstructed();
+      setupShadow();
+      setupFrame();
+      document.getElementById('frame').addEventListener('load', dump);
+  
+      document.getElementById('del-0').onclick = function () {
+        run('Delete index 0', function () { return deleteAt(mainSheet(), 0); });
+      };
+      document.getElementById('del-b').onclick = function () {
+        run('Delete .b', function () {
+          var index = findRule(mainSheet(), function (rule) { return rule.selectorText === '.swatch.b'; });
+          if (index < 0) throw new Error('.b is already gone');
+          return deleteAt(mainSheet(), index);
+        });
+      };
+      document.getElementById('del-last').onclick = function () {
+        run('Delete last rule', function () {
+          var sheet = mainSheet();
+          if (!sheet.cssRules.length) throw new Error('sheet is empty');
+          return deleteAt(sheet, sheet.cssRules.length - 1);
+        });
+      };
+      document.getElementById('ins-dup').onclick = function () {
+        run('Insert .dup', function () {
+          var index = mainSheet().insertRule(DUP_RULE, 0);
+          return 'inserted at ' + index;
+        });
+      };
+      document.getElementById('ins-dup-2').onclick = function () {
+        run('Insert .dup again', function () {
+          var index = mainSheet().insertRule(DUP_RULE, 0);
+          return 'inserted at ' + index + ' (same text, color will not change)';
+        });
+      };
+      document.getElementById('del-dup').onclick = function () {
+        run('Delete .dup', function () {
+          var index = findRule(mainSheet(), function (rule) { return rule.selectorText === '.swatch.dup'; });
+          if (index < 0) throw new Error('.dup is already gone');
+          savedDupIndex = index;
+          return deleteAt(mainSheet(), index);
+        });
+      };
+      document.getElementById('restore-dup').onclick = function () {
+        run('Restore .dup', function () {
+          var sheet = mainSheet();
+          var index = Math.min(savedDupIndex, sheet.cssRules.length);
+          sheet.insertRule(DUP_RULE, index);
+          return 'inserted at ' + index;
+        });
+      };
+      document.getElementById('del-bad').onclick = function () {
+        run('deleteRule(99)', function () { mainSheet().deleteRule(99); });
+      };
+      document.getElementById('del-media').onclick = function () {
+        run('Delete inside @media', function () { return deleteAt(mediaRule(), 0); });
+      };
+      document.getElementById('ins-media').onclick = function () {
+        run('Insert .m3', function () {
+          var index = mediaRule().insertRule(M3_RULE, 0);
+          return 'inserted at ' + index;
+        });
+      };
+      document.getElementById('del-supports').onclick = function () {
+        run('Delete inside @supports', function () { return deleteAt(supportsRule(), 0); });
+      };
+      document.getElementById('del-constructed').onclick = function () {
+        run('Delete constructed rule', function () {
+          if (!constructed) throw new Error('adoptedStyleSheets is not supported');
+          return deleteAt(constructed, 0);
+        });
+      };
+      document.getElementById('ins-constructed').onclick = function () {
+        run('Insert .k3', function () {
+          if (!constructed) throw new Error('adoptedStyleSheets is not supported');
+          var index = constructed.insertRule(K3_RULE, constructed.cssRules.length);
+          return 'inserted at ' + index;
+        });
+      };
+      document.getElementById('del-iframe').onclick = function () {
+        run('Delete iframe rule', function () { return deleteAt(iframeSheet(), 0); });
+      };
+      document.getElementById('del-shadow').onclick = function () {
+        run('Delete shadow rule', function () { return deleteAt(shadowSheet(), 0); });
+      };
+      document.getElementById('del-keyframe').onclick = function () {
+        run('Delete keyframe from', function () {
+          keyframesRule().deleteRule('from');
+          return 'removed the from keyframe';
+        });
+      };
+      document.getElementById('remove-rule').onclick = function () {
+        run('removeRule(0)', function () {
+          var sheet = document.getElementById('remove-style').sheet;
+          if (typeof sheet.removeRule !== 'function') throw new Error('removeRule is not supported');
+          sheet.removeRule(0);
+          return 'called removeRule(0)';
+        });
+      };
+      document.getElementById('reset').onclick = function () { run('Reset', resetAll); };
+      document.getElementById('dump').onclick = function () { dump(); setStatus('Dumped current rules', true); };
+  
+      dump();
+    </script>
+  </body>
+</html>
